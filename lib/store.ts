@@ -121,6 +121,8 @@ interface AppState {
 
   // Interested Candidates & Registration Leads
   interestedCandidates: InterestedCandidate[];
+  googleFormUrl: string;
+  setGoogleFormUrl: (url: string) => void;
   addInterestedCandidate: (candidate: Omit<InterestedCandidate, 'id' | 'createdAt' | 'status'>) => void;
   updateCandidateStatus: (id: string, status: 'NEW_LEAD' | 'CONTACTED' | 'ENROLLED') => void;
   enrollCandidateAsUser: (candidateId: string) => void;
@@ -363,6 +365,8 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // Interested Candidates & Registration Leads
   interestedCandidates: SAMPLE_INTERESTED_CANDIDATES,
+  googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe_EduTenRegistration2026/viewform',
+  setGoogleFormUrl: (url: string) => set({ googleFormUrl: url }),
   addInterestedCandidate: (candData) =>
     set((state) => {
       const newCand: InterestedCandidate = {

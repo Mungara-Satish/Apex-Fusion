@@ -27,6 +27,11 @@ import {
   Target,
   BarChart3,
   Flame,
+  Settings,
+  Link2,
+  Globe,
+  RefreshCw,
+  Edit3,
 } from 'lucide-react';
 
 const THREE_D_CONCEPTS = [
@@ -83,13 +88,20 @@ const THREE_D_CONCEPTS = [
 import { useAppStore } from '@/lib/store';
 
 export default function PlatformOverviewPage() {
-  const { interestedCandidates, addInterestedCandidate, currentRole } = useAppStore();
+  const { interestedCandidates, addInterestedCandidate, currentRole, googleFormUrl, setGoogleFormUrl } = useAppStore();
   const [activeRoleTab, setActiveRoleTab] = useState<'STUDENT' | 'PARENT' | 'TUTOR' | 'SCHOOL'>('STUDENT');
 
   // --- Registration / Google Form State ---
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [regId, setRegId] = useState('');
   const [copiedToken, setCopiedToken] = useState(false);
+
+  // Google Form Link & Mode State
+  const [activeFormMode, setActiveFormMode] = useState<'SMART' | 'EMBED'>('SMART');
+  const [isEditingFormUrl, setIsEditingFormUrl] = useState(false);
+  const [customUrlInput, setCustomUrlInput] = useState(googleFormUrl || 'https://forms.gle/EduTen2026BoardPrep');
+  const [copiedFormUrl, setCopiedFormUrl] = useState(false);
+  const [urlSaveMsg, setUrlSaveMsg] = useState(false);
 
   // Form Fields
   const [applicantName, setApplicantName] = useState('');
@@ -110,6 +122,21 @@ export default function PlatformOverviewPage() {
     } else {
       setSelectedInterests([...selectedInterests, interest]);
     }
+  };
+
+  const handleSaveGoogleFormUrl = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customUrlInput.trim()) return;
+    setGoogleFormUrl(customUrlInput.trim());
+    setIsEditingFormUrl(false);
+    setUrlSaveMsg(true);
+    setTimeout(() => setUrlSaveMsg(false), 3000);
+  };
+
+  const handleCopyFormLink = () => {
+    navigator.clipboard.writeText(googleFormUrl || customUrlInput);
+    setCopiedFormUrl(true);
+    setTimeout(() => setCopiedFormUrl(false), 2000);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -576,18 +603,198 @@ export default function PlatformOverviewPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Action Buttons & Google Form Controls */}
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            {/* Direct Open in Google Forms Button */}
             <a
-              href="https://docs.google.com/forms"
+              href={googleFormUrl || 'https://forms.gle/EduTen2026BoardPrep'}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-muted hover:bg-muted/80 text-foreground text-xs font-semibold border border-border flex items-center gap-1.5 transition-all"
+              className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold shadow-md flex items-center gap-2 transition-all hover:scale-105"
+              title="Open the live Google Form in a new tab"
             >
+              <Globe className="w-4 h-4 text-amber-300" />
               <span>Open in Google Forms</span>
-              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
+
+            {/* Edit / Paste Google Form URL Button */}
+            <button
+              type="button"
+              onClick={() => setIsEditingFormUrl(!isEditingFormUrl)}
+              className="px-3.5 py-2.5 rounded-xl bg-muted hover:bg-muted/80 text-foreground text-xs font-semibold border border-border flex items-center gap-1.5 transition-all"
+              title="Change or paste your custom Google Form link"
+            >
+              <Settings className="w-3.5 h-3.5 text-muted-foreground" />
+              <span>{isEditingFormUrl ? 'Close URL Settings' : 'Set Form Link'}</span>
+            </button>
+
+            {/* Copy Form Link */}
+            <button
+              type="button"
+              onClick={handleCopyFormLink}
+              className="p-2.5 rounded-xl bg-muted hover:bg-muted/80 text-foreground text-xs font-semibold border border-border transition-all"
+              title="Copy Google Form Link"
+            >
+              {copiedFormUrl ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
           </div>
         </div>
+
+        {/* Inline Google Form URL Customizer */}
+        {isEditingFormUrl && (
+          <div className="p-5 rounded-2xl bg-muted/60 border border-primary/30 space-y-3 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-extrabold text-foreground flex items-center gap-2">
+                <Link2 className="w-4 h-4 text-primary" />
+                <span>Configure Your Google Form URL</span>
+              </div>
+              <span className="text-[11px] text-muted-foreground">
+                Paste your custom Google Forms link (forms.gle or docs.google.com/forms/...)
+              </span>
+            </div>
+
+            <form onSubmit={handleSaveGoogleFormUrl} className="flex flex-col sm:flex-row items-center gap-2">
+              <input
+                type="url"
+                required
+                placeholder="https://docs.google.com/forms/d/e/.../viewform or https://forms.gle/..."
+                value={customUrlInput}
+                onChange={(e) => setCustomUrlInput(e.target.value)}
+                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl bg-card border border-border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 font-mono"
+              />
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:bg-primary/90 transition-all shadow"
+                >
+                  Save URL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomUrlInput('https://forms.gle/EduTen2026BoardPrep');
+                    setGoogleFormUrl('https://forms.gle/EduTen2026BoardPrep');
+                    setIsEditingFormUrl(false);
+                    setUrlSaveMsg(true);
+                    setTimeout(() => setUrlSaveMsg(false), 3000);
+                  }}
+                  className="px-3 py-2.5 rounded-xl bg-card hover:bg-muted text-foreground text-xs font-medium border border-border transition-all whitespace-nowrap"
+                >
+                  Reset Default
+                </button>
+              </div>
+            </form>
+
+            <div className="text-[11px] text-muted-foreground flex items-center gap-1.5 pt-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <span>
+                Tip: If using Google Forms embed, use the share link from Google Forms: <strong>Send &rarr; Link (🔗) or Embed (&lt;&gt;)</strong>.
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Success Toast for URL save */}
+        {urlSaveMsg && (
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-2 animate-in fade-in duration-200">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <span>Google Form URL successfully updated and linked across the website!</span>
+          </div>
+        )}
+
+        {/* Mode Switcher: Smart Native Form vs Google Form Embed */}
+        <div className="flex items-center justify-between flex-wrap gap-3 p-1.5 rounded-2xl bg-muted/70 border border-border">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveFormMode('SMART')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                activeFormMode === 'SMART'
+                  ? 'bg-card text-foreground shadow-md font-extrabold ring-1 ring-border'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span>EduTen Instant Smart Form (Auto-Records Leads)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveFormMode('EMBED')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                activeFormMode === 'EMBED'
+                  ? 'bg-card text-foreground shadow-md font-extrabold ring-1 ring-border'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5 text-blue-500" />
+              <span>Live Google Form Embed & Direct View</span>
+            </button>
+          </div>
+
+          <div className="text-[11px] text-muted-foreground px-3">
+            {activeFormMode === 'SMART'
+              ? '✨ Submissions instantly appear in Directory & Admin Leads Hub'
+              : `🔗 Connected URL: ${googleFormUrl.substring(0, 45)}...`}
+          </div>
+        </div>
+
+        {/* GOOGLE FORM EMBED VIEW */}
+        {activeFormMode === 'EMBED' && (
+          <div className="space-y-4 rounded-3xl bg-muted/20 border border-border p-6 animate-in fade-in duration-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-card border border-border">
+              <div className="space-y-1">
+                <div className="text-sm font-extrabold text-foreground flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-blue-500" />
+                  <span>Google Forms Live Session</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  You are connected to <strong>{googleFormUrl}</strong>. Click below to open directly in Google Forms or fill via the frame.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={googleFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold shadow flex items-center gap-1.5 transition-all"
+                >
+                  <span>Open Full Form in New Tab</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Embedded Google Form Frame Container */}
+            <div className="relative w-full rounded-2xl overflow-hidden border border-border bg-card shadow-inner min-h-[500px]">
+              <iframe
+                src={
+                  googleFormUrl.includes('viewform')
+                    ? googleFormUrl.includes('embedded=true')
+                      ? googleFormUrl
+                      : `${googleFormUrl}${googleFormUrl.includes('?') ? '&' : '?'}embedded=true`
+                    : googleFormUrl
+                }
+                width="100%"
+                height="650"
+                frameBorder="0"
+                marginHeight={0}
+                marginWidth={0}
+                className="w-full min-h-[600px] border-0"
+                title="EduTen Google Form Registration"
+              >
+                Loading Google Form...
+              </iframe>
+            </div>
+          </div>
+        )}
+
+        {/* SMART FORM VIEW (Native Interactive Form) */}
+        {activeFormMode === 'SMART' && (
+          <div>
 
         {/* Submission State or Form */}
         {formSubmitted ? (
@@ -830,6 +1037,8 @@ export default function PlatformOverviewPage() {
               </button>
             </div>
           </form>
+        )}
+          </div>
         )}
       </div>
     </div>
