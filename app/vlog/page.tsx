@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   Play,
@@ -31,11 +31,32 @@ import {
   Check,
   Copy,
   ChevronRight,
+  ChevronLeft,
   MessageSquare,
   HelpCircle,
   Tv,
   Film,
+  Compass,
+  ArrowRight,
+  MonitorPlay,
+  Radio,
+  Zap,
 } from 'lucide-react';
+
+interface VlogSlide {
+  id: string;
+  timestamp: string;
+  seconds: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  featureTag: string;
+  badgeColor: string;
+  image: string;
+  ctaText: string;
+  ctaHref: string;
+  keyPoints: string[];
+}
 
 interface VlogEpisode {
   id: string;
@@ -48,118 +69,283 @@ interface VlogEpisode {
   speakerRole: string;
   speakerAvatar: string;
   thumbnail: string;
-  youtubeId: string;
-  html5VideoUrl: string;
   badge: string;
   topics: string[];
-  timestamps: { time: string; label: string; seconds: number }[];
+  slides: VlogSlide[];
+  youtubeId?: string;
 }
 
 const VLOG_EPISODES: VlogEpisode[] = [
   {
     id: 'vlog-1',
-    title: 'Inside EduTen 2026: How 10th-Graders Score 95%+ in Board Exams',
+    title: 'Inside EduTen: Complete Platform Tour & 10th Board Exam Mastery',
     description:
-      'A complete guided tour of the EduTen ecosystem — from Google Gemini Multimodal AI doubt resolution to 3D Pixar concept visualizations and live multi-slot classrooms.',
+      'A comprehensive video tour of EduTen — discover how we combine Google Gemini Multimodal AI, authentic multi-board syllabi (CBSE, ICSE, State), 3D concept models, live classrooms, and parent oversight.',
     duration: '8:45',
-    views: '24.5K views',
+    views: '24.8K views',
     date: 'Sep 2, 2026',
     speaker: 'Dr. Priya Raman & Aarav Sharma',
     speakerRole: 'Ex-IIT Delhi Faculty & Class 10 Topper',
     speakerAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/physics_optics_3d.jpg',
+    badge: '⭐ Platform Walkthrough',
+    topics: ['Full Platform Tour', 'CBSE/ICSE/State', 'Gemini AI', 'Live Classrooms', 'Parent Portal'],
     youtubeId: 'PkZNo7MFNFg',
-    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    badge: '⭐ Featured Overview',
-    topics: ['Full Platform Tour', 'CBSE/ICSE/State', 'Gemini AI', 'Live Classrooms'],
-    timestamps: [
-      { time: '0:45', label: 'Why 3 Distinct Boards Matter (CBSE, ICSE, State)', seconds: 45 },
-      { time: '2:15', label: 'Google Gemini Multimodal AI Doubt Solver Live Demo', seconds: 135 },
-      { time: '4:10', label: '3D Pixar Concept Illustrations & Formulas', seconds: 250 },
-      { time: '5:50', label: 'Live Whiteboard Classrooms across 4 Timings', seconds: 350 },
-      { time: '7:20', label: 'Parent Oversight & WhatsApp CCE Reports', seconds: 440 },
+    slides: [
+      {
+        id: 's1',
+        timestamp: '0:00',
+        seconds: 0,
+        title: '1. Multi-Board Curriculum Hub (CBSE, ICSE & State)',
+        subtitle: 'Authentic 10th-Grade Syllabi with Minimum 5 Chapters per Subject',
+        description:
+          'EduTen never mixes up curricula. Switch seamlessly between CBSE (NCERT core), ICSE (GST, Banking & Matrices), and State Board (Metallurgy & SCERT) with dedicated chapter notes, formulas, and worked examples.',
+        featureTag: 'Multi-Board Architecture',
+        badgeColor: 'bg-blue-600',
+        image: '/concepts/math_algebra_3d.jpg',
+        ctaText: 'Explore Subject Catalog',
+        ctaHref: '/subjects',
+        keyPoints: [
+          '21 full subjects populated across CBSE, ICSE, and State Board',
+          'Step-by-step worked board solutions for every chapter',
+          'Downloadable formula cheatcards & PYQ question banks',
+        ],
+      },
+      {
+        id: 's2',
+        timestamp: '1:45',
+        seconds: 105,
+        title: '2. Google Gemini Multimodal AI Doubt Solver',
+        subtitle: '24/7 Instant KaTeX Mathematical & Scientific Solutions',
+        description:
+          'Upload textbook snapshots, hand-drawn ray diagrams, or quadratic proofs. Gemini AI breaks down the concept step-by-step with LaTeX equations, exam tips, and marking scheme insights.',
+        featureTag: 'Multimodal AI Engine',
+        badgeColor: 'bg-indigo-600',
+        image: '/concepts/physics_elec_3d.jpg',
+        ctaText: 'Try Gemini AI Solver Live',
+        ctaHref: '/ai-doubt-solver',
+        keyPoints: [
+          'Instant OCR & mathematical formula rendering with KaTeX',
+          'Exam marking scheme tips to secure maximum step marks',
+          'Automatic triage to live IIT mentors for deep doubts',
+        ],
+      },
+      {
+        id: 's3',
+        timestamp: '3:30',
+        seconds: 210,
+        title: '3. 3D Pixar-Style Visual Concept Models',
+        subtitle: 'Turning Abstract Science into Intuitive 3D Graphics',
+        description:
+          'Explore custom 3D cartoonish illustrations across Optics (concave/convex mirror rays), Electricity (circuits & solenoids), Acids & Metallurgy (blast furnace smelting), and Biology (DNA & double circulation).',
+        featureTag: '3D Visual Learning',
+        badgeColor: 'bg-emerald-600',
+        image: '/concepts/chem_acids_metal_3d.jpg',
+        ctaText: 'View 3D Concepts in Physics',
+        ctaHref: '/subjects/physics',
+        keyPoints: [
+          '10 dedicated 3D visual concept models tailored to each topic',
+          'Proven visual memory retention over rote memorization',
+          'Interactive zoom, hover badges, and chapter breakdown',
+        ],
+      },
+      {
+        id: 's4',
+        timestamp: '5:15',
+        seconds: 315,
+        title: '4. Live Interactive Classrooms across 4 Timings',
+        subtitle: 'Morning, Afternoon, Evening & Night Live Sessions',
+        description:
+          'Attend live sessions at 6:30 AM (Morning), 2:30 PM (Afternoon), 6:00 PM (Evening), and 8:30 PM (Night). Features real-time whiteboard canvas, audio hand-raising, and free pass access.',
+        featureTag: 'Live Classrooms',
+        badgeColor: 'bg-amber-600',
+        image: '/concepts/sst_history_geo_3d.jpg',
+        ctaText: 'Meet Verified Live Mentors',
+        ctaHref: '/tutors',
+        keyPoints: [
+          '100% Free Live Class Access for Super Pass holders',
+          'Real-time interactive digital whiteboard & math equations',
+          'Session recordings available for 24/7 revision',
+        ],
+      },
+      {
+        id: 's5',
+        timestamp: '7:00',
+        seconds: 420,
+        title: '5. Parent Oversight & Automated WhatsApp Alerts',
+        subtitle: 'Real-Time Attendance Audits & CCE Weakness Heatmaps',
+        description:
+          'Parents strictly view their linked child’s performance, Red/Amber/Green chapter weakness heatmaps, live class attendance logs, and receive automated WhatsApp score updates.',
+        featureTag: 'Parent Control Portal',
+        badgeColor: 'bg-rose-600',
+        image: '/concepts/bio_heart_3d.jpg',
+        ctaText: 'Open Parent Oversight Portal',
+        ctaHref: '/dashboard/parent',
+        keyPoints: [
+          'Strict student data isolation in parent view',
+          'Red/Amber/Green chapter weakness diagnostic heatmaps',
+          'Printable official CBSE/ICSE CCE performance report cards',
+        ],
+      },
+      {
+        id: 's6',
+        timestamp: '8:00',
+        seconds: 480,
+        title: '6. Master Admin Credential & Access Control',
+        subtitle: 'Centralized User Provisioning & Password Authority',
+        description:
+          'Academic Master Admin has full control to + add students, parents, and tutors, grant or suspend login access, and change credentials with an instant strong password generator.',
+        featureTag: 'Admin Access Control',
+        badgeColor: 'bg-purple-600',
+        image: '/concepts/eng_lit_3d.jpg',
+        ctaText: 'View Directory & Credentials Hub',
+        ctaHref: '/directory',
+        keyPoints: [
+          'Instant 1-click login access granting & suspension',
+          'Comprehensive credential editor (username & password generator)',
+          'Provisioning options for goals, pass tiers, and alert channels',
+        ],
+      },
     ],
   },
   {
     id: 'vlog-2',
-    title: 'Google Gemini AI Doubt Solver in Action: Step-by-Step KaTeX Math & Science',
+    title: 'Google Gemini Multimodal AI Doubt Solver: Deep-Dive Demo',
     description:
-      'Watch our multimodal AI break down complex quadratic proofs, chemical reaction balancing, and ray optics sign conventions in seconds with formatted LaTeX.',
+      'See how our AI assistant processes 10th-grade Board questions, generates step-by-step LaTeX math proofs, and advises on exam answer phrasing.',
     duration: '6:15',
-    views: '18.2K views',
+    views: '18.4K views',
     date: 'Aug 28, 2026',
     speaker: 'Prof. Rajesh Verma',
-    speakerRole: 'Senior Mathematics Mentor (IIT Madras)',
+    speakerRole: 'Senior Mathematics Faculty (IIT Madras)',
     speakerAvatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/math_trig_3d.jpg',
+    badge: '🤖 AI Feature Focus',
+    topics: ['Gemini 1.5 Flash', 'KaTeX Math', 'Exam Scoring Tips', 'Diagram OCR'],
     youtubeId: 'Z1BCujX3pw8',
-    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    badge: '🤖 AI Technology',
-    topics: ['Gemini 1.5 Flash', 'KaTeX Proofs', 'Multimodal Diagrams', '24/7 Assistance'],
-    timestamps: [
-      { time: '0:30', label: 'Submitting a Doubt via Image & Text', seconds: 30 },
-      { time: '1:45', label: 'KaTeX Mathematical Notation Rendering', seconds: 105 },
-      { time: '3:20', label: 'Exam Marking Scheme Tips by AI', seconds: 200 },
-      { time: '5:00', label: 'Triage to Live IIT Faculty', seconds: 300 },
+    slides: [
+      {
+        id: 's2-1',
+        timestamp: '0:00',
+        seconds: 0,
+        title: 'Step 1: Submitting Any 10th Doubt with Text or Diagram',
+        subtitle: 'Physics Ray Diagrams, Math Trigonometry, or Chemistry Equations',
+        description:
+          'Simply type your query or upload an image from your textbook or handwritten notes. Gemini AI immediately parses formulas and diagrams.',
+        featureTag: 'Multimodal Input',
+        badgeColor: 'bg-indigo-600',
+        image: '/concepts/math_trig_3d.jpg',
+        ctaText: 'Test Doubt Solver',
+        ctaHref: '/ai-doubt-solver',
+        keyPoints: ['Supports image OCR and text input', 'Covers CBSE, ICSE, and State syllabi'],
+      },
+      {
+        id: 's2-2',
+        timestamp: '3:00',
+        seconds: 180,
+        title: 'Step 2: Step-by-Step KaTeX LaTeX Solution Rendering',
+        subtitle: 'Clear Mathematical Formatting with Board Marking Keys',
+        description:
+          'Solutions are formatted with high-clarity KaTeX math notation so students learn the exact layout required for 100/100 board scores.',
+        featureTag: 'LaTeX Rendering',
+        badgeColor: 'bg-indigo-600',
+        image: '/concepts/physics_optics_3d.jpg',
+        ctaText: 'View Sample Doubts',
+        ctaHref: '/doubts',
+        keyPoints: ['Step-by-step formula breakdown', 'Highlighting key scoring keywords'],
+      },
     ],
   },
   {
     id: 'vlog-3',
-    title: 'Visualizing Abstract Science: 3D Pixar/Blender Concept Models',
+    title: '3D Visual Science & Mathematics: Concept Gallery Walkthrough',
     description:
-      'Explore how we turned abstract physics rays, chemical blast furnaces, and biological double circulation into intuitive 3D cartoonish visual infographics.',
+      'A visual tour of how abstract ray optics, chemical metallurgy smelting, and biological double circulation are rendered into memorable 3D models.',
     duration: '7:30',
-    views: '14.9K views',
+    views: '15.1K views',
     date: 'Aug 24, 2026',
     speaker: 'Ananya Sengupta',
-    speakerRole: 'Head of Visual Curriculum & Biology Lead',
+    speakerRole: 'Visual Learning Director & Biology Lead',
     speakerAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/bio_genetics_3d.jpg',
+    badge: '🎨 3D Concept Art',
+    topics: ['Ray Optics 3D', 'Blast Furnace 3D', 'DNA Helix 3D', 'Trigonometry 3D'],
     youtubeId: '2_c_g5qE4Xg',
-    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    badge: '🎨 3D Visual Learning',
-    topics: ['3D Graphics', 'Ray Optics', 'DNA Double Helix', 'pH Scales'],
-    timestamps: [
-      { time: '0:40', label: 'Why Visual Memory Outlasts Rote Memorization', seconds: 40 },
-      { time: '2:10', label: 'Optics Ray Diagrams with Focal Convergence', seconds: 130 },
-      { time: '4:15', label: 'Chemical Smelting & Blast Furnace Models', seconds: 255 },
-      { time: '6:00', label: 'DNA Double Helix & Punnett Square Grids', seconds: 360 },
+    slides: [
+      {
+        id: 's3-1',
+        timestamp: '0:00',
+        seconds: 0,
+        title: 'Physics Optics & Electric Circuits in 3D',
+        subtitle: 'Laser Convergence at Focus F & Solenoid Magnetic Lines',
+        description:
+          'Concave and convex mirrors with focal point convergence and ROYGBIV rainbow dispersion make optical sign conventions unforgettable.',
+        featureTag: 'Physics 3D',
+        badgeColor: 'bg-blue-600',
+        image: '/concepts/physics_optics_3d.jpg',
+        ctaText: 'Explore Physics Chapters',
+        ctaHref: '/subjects/physics',
+        keyPoints: ['Light reflection & refraction in 3D', 'Electric circuit battery cells & resistors'],
+      },
+      {
+        id: 's3-2',
+        timestamp: '3:45',
+        seconds: 225,
+        title: 'Biology Circulation & Genetics in 3D',
+        subtitle: 'Stylized Human Heart & Glowing DNA Double Helix',
+        description:
+          'Friendly heart characters showing pulmonary and systemic circuits alongside 4-box Punnett squares with Mendel pea pods.',
+        featureTag: 'Biology 3D',
+        badgeColor: 'bg-emerald-600',
+        image: '/concepts/bio_genetics_3d.jpg',
+        ctaText: 'Explore Biology Chapters',
+        ctaHref: '/subjects/biology',
+        keyPoints: ['Double circulation pathways', 'Mitosis stages & Punnett 3:1 ratio'],
+      },
     ],
   },
   {
     id: 'vlog-4',
-    title: 'Parent Portal & WhatsApp Alerts: Keeping Parents in the Loop',
+    title: 'Parent Oversight & CCE Report Cards: Ensuring Student Growth',
     description:
-      'A walkthrough for parents showing real-time class attendance logs, chapter weakness heatmaps (Red/Amber/Green), and automated WhatsApp scorecards.',
+      'Learn how parents monitor daily live class attendance, review Red/Amber/Green topic weakness heatmaps, and download printable CCE reports.',
     duration: '5:20',
-    views: '11.4K views',
+    views: '11.9K views',
     date: 'Aug 19, 2026',
     speaker: 'Rajesh Sharma',
     speakerRole: 'Parent Advisory Board Member',
     speakerAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
-    thumbnail: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80',
-    youtubeId: 'XqZsoesa55w',
-    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-    badge: '👨‍👩‍👧 Parent Guide',
+    thumbnail: '/concepts/chem_molecules_3d.jpg',
+    badge: '👨‍👩‍👧 Parent Portal',
     topics: ['CCE Reports', 'WhatsApp Alerts', 'Weakness Heatmaps', 'Attendance Logs'],
-    timestamps: [
-      { time: '0:35', label: 'Student Data Isolation in Parent Portal', seconds: 35 },
-      { time: '1:50', label: 'Configuring WhatsApp Score Alerts', seconds: 110 },
-      { time: '3:10', label: 'Understanding Red/Amber/Green Weakness Heatmap', seconds: 190 },
-      { time: '4:30', label: 'Downloading Official CBSE CCE Report Card', seconds: 270 },
+    youtubeId: 'XqZsoesa55w',
+    slides: [
+      {
+        id: 's4-1',
+        timestamp: '0:00',
+        seconds: 0,
+        title: 'Private Ward Data Isolation & Real-Time Logs',
+        subtitle: 'Parents Only See Their Linked Child’s Academic Records',
+        description:
+          'Every parent account is securely linked to their ward. View exact live class join times, quiz scores, and subject strengths.',
+        featureTag: 'Data Privacy',
+        badgeColor: 'bg-rose-600',
+        image: '/concepts/sst_history_geo_3d.jpg',
+        ctaText: 'Inspect Parent Portal',
+        ctaHref: '/dashboard/parent',
+        keyPoints: ['Strict ward isolation', 'Automatic WhatsApp score notifications'],
+      },
     ],
   },
 ];
 
 export default function VlogPage() {
   const [activeEpisode, setActiveEpisode] = useState<VlogEpisode>(VLOG_EPISODES[0]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [playerMode, setPlayerMode] = useState<'YOUTUBE' | 'HTML5'>('YOUTUBE');
-  const [startSeconds, setStartSeconds] = useState<number>(0);
-  const [likesCount, setLikesCount] = useState(1284);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [viewMode, setViewMode] = useState<'INTERACTIVE_TOUR' | 'YOUTUBE_MASTERCLASS'>('INTERACTIVE_TOUR');
+  const [likesCount, setLikesCount] = useState(1420);
   const [hasLiked, setHasLiked] = useState(false);
-
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   // --- Registration / Google Form State ---
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -178,6 +364,20 @@ export default function VlogPage() {
     'Google Gemini AI Doubt Solver',
   ]);
   const [applicantNotes, setApplicantNotes] = useState('');
+
+  const currentSlide =
+    activeEpisode.slides[currentSlideIndex] || activeEpisode.slides[0];
+
+  // Auto-advance interactive tour slides when playing
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isPlaying && viewMode === 'INTERACTIVE_TOUR') {
+      timer = setInterval(() => {
+        setCurrentSlideIndex((prev) => (prev + 1) % activeEpisode.slides.length);
+      }, 7000); // 7 seconds per visual scene
+    }
+    return () => clearInterval(timer);
+  }, [isPlaying, viewMode, activeEpisode]);
 
   const toggleInterest = (interest: string) => {
     if (selectedInterests.includes(interest)) {
@@ -199,21 +399,8 @@ export default function VlogPage() {
 
   const handleSelectEpisode = (ep: VlogEpisode) => {
     setActiveEpisode(ep);
-    setStartSeconds(0);
+    setCurrentSlideIndex(0);
     setIsPlaying(true);
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
-    }
-  };
-
-  const handleSeekTimestamp = (seconds: number) => {
-    setStartSeconds(seconds);
-    setIsPlaying(true);
-    if (playerMode === 'HTML5' && videoRef.current) {
-      videoRef.current.currentTime = seconds;
-      videoRef.current.play().catch(() => {});
-    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -240,13 +427,13 @@ export default function VlogPage() {
           <div className="space-y-3 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary-foreground border border-primary/30 text-xs font-bold tracking-wide uppercase">
               <Video className="w-4 h-4 text-emerald-400" />
-              <span>EduTen Official Vlog & Platform Showcase</span>
+              <span>EduTen Official Platform Tour & Video Showcase</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
               Experience the Future of 10th-Grade Board Learning
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Watch real playable video walkthroughs, discover our Google Gemini AI Doubt Solver, explore 3D concept graphics, and register your interest with our official 2026 admission form.
+              Watch the interactive video walkthrough of the EduTen ecosystem — from Google Gemini Multimodal AI to 3D concept models, multi-board syllabi, live classrooms, and parent oversight.
             </p>
           </div>
 
@@ -267,140 +454,226 @@ export default function VlogPage() {
               className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
             >
               <Play className="w-4 h-4" />
-              <span>Watch Video Tour (8 min)</span>
+              <span>Watch Website Tour</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* 2. Interactive Video Player Showcase with REAL WORKING VIDEO */}
+      {/* 2. AUTHENTIC EDUTEN PLATFORM VIDEO WALKTHROUGH ENGINE */}
       <div id="vlog-player" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left 8 Cols: Real Video Player & Active Video Details */}
+        {/* Left 8 Cols: Real EduTen Video Presentation Player */}
         <div className="lg:col-span-8 space-y-6">
-          {/* Player Source Mode Toggle Bar */}
-          <div className="flex items-center justify-between bg-muted/60 p-2 rounded-2xl border border-border">
+          {/* Player Mode Switcher */}
+          <div className="flex items-center justify-between bg-muted/70 p-2 rounded-2xl border border-border">
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setPlayerMode('YOUTUBE')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-                  playerMode === 'YOUTUBE'
-                    ? 'bg-red-600 text-white shadow-sm'
+                onClick={() => setViewMode('INTERACTIVE_TOUR')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  viewMode === 'INTERACTIVE_TOUR'
+                    ? 'bg-primary text-white shadow-md'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <MonitorPlay className="w-3.5 h-3.5" />
+                <span>🎬 EduTen Platform Video Tour</span>
+              </button>
+
+              <button
+                onClick={() => setViewMode('YOUTUBE_MASTERCLASS')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  viewMode === 'YOUTUBE_MASTERCLASS'
+                    ? 'bg-red-600 text-white shadow-md'
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 <Tv className="w-3.5 h-3.5" />
-                <span>YouTube HD Player</span>
-              </button>
-              <button
-                onClick={() => setPlayerMode('HTML5')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-                  playerMode === 'HTML5'
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Film className="w-3.5 h-3.5" />
-                <span>Direct HTML5 Stream</span>
+                <span>📺 10th Board Prep Masterclass</span>
               </button>
             </div>
 
-            <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
+            <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 hidden sm:flex">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              1080p 60fps Active Stream
-            </span>
+              <span>100% Platform Verified Tour</span>
+            </div>
           </div>
 
-          {/* REAL VIDEO PLAYER CONTAINER */}
-          <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full">
-            {/* If NOT playing yet, show high-res poster with big play button */}
-            {!isPlaying ? (
-              <div
-                onClick={() => setIsPlaying(true)}
-                className="absolute inset-0 cursor-pointer group flex flex-col justify-between p-6 z-20"
-              >
-                <img
-                  src={activeEpisode.thumbnail}
-                  alt={activeEpisode.title}
-                  className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          {/* MAIN PLAYER VIEW */}
+          {viewMode === 'INTERACTIVE_TOUR' ? (
+            /* --- 100% AUTHENTIC EDUTEN INTERACTIVE PLATFORM VIDEO TOUR --- */
+            <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full flex flex-col justify-between group">
+              {/* Background 3D Concept / Screen Image with Cinematic Zoom */}
+              <img
+                key={currentSlide.image}
+                src={currentSlide.image}
+                alt={currentSlide.title}
+                className="absolute inset-0 w-full h-full object-cover opacity-35 scale-105 group-hover:scale-110 transition-transform duration-1000"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40" />
 
-                {/* Top Badge */}
-                <div className="relative z-10 flex items-center justify-between text-white">
-                  <span className="px-3 py-1 rounded-full bg-red-600/90 text-white font-extrabold text-[11px] tracking-wider uppercase flex items-center gap-1.5 shadow">
+              {/* Top Header inside Video */}
+              <div className="relative z-10 p-4 sm:p-6 flex items-center justify-between text-white">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-3 py-1 rounded-full bg-primary text-white font-extrabold text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow">
                     <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                    EduTen Vlog HD
+                    EduTen Live Tour HD
                   </span>
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/15">
-                    {activeEpisode.badge}
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white ${currentSlide.badgeColor}`}>
+                    {currentSlide.featureTag}
                   </span>
                 </div>
 
-                {/* Big Center Play Button */}
-                <div className="relative z-10 self-center">
-                  <div className="w-20 h-20 rounded-full bg-primary/95 text-white flex items-center justify-center shadow-2xl shadow-primary/60 group-hover:scale-110 group-hover:bg-primary transition-all border-2 border-white/40">
-                    <Play className="w-10 h-10 fill-white ml-1.5" />
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
+                    Scene {currentSlideIndex + 1} of {activeEpisode.slides.length}
+                  </span>
+                </div>
+              </div>
+
+              {/* Center Content Slide */}
+              <div className="relative z-10 px-6 sm:px-10 py-4 text-white space-y-3 max-w-2xl">
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 uppercase tracking-wide">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{currentSlide.subtitle}</span>
+                </div>
+
+                <h3 className="text-xl sm:text-3xl font-black tracking-tight leading-tight drop-shadow-md">
+                  {currentSlide.title}
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed drop-shadow line-clamp-3 sm:line-clamp-none">
+                  {currentSlide.description}
+                </p>
+
+                {/* Key Points Checklist */}
+                <div className="hidden sm:flex flex-wrap gap-2 pt-2">
+                  {currentSlide.keyPoints.map((pt, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur-md text-[11px] font-medium border border-white/15 flex items-center gap-1.5 text-emerald-300"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>{pt}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Video Controls & Navigation Bar */}
+              <div className="relative z-10 p-4 sm:p-6 space-y-3 bg-gradient-to-t from-black via-black/90 to-transparent">
+                {/* Visual Scene Progress Bar */}
+                <div className="grid grid-cols-6 gap-1.5">
+                  {activeEpisode.slides.map((s, idx) => (
+                    <div
+                      key={s.id}
+                      onClick={() => setCurrentSlideIndex(idx)}
+                      className={`h-1.5 rounded-full cursor-pointer transition-all ${
+                        idx === currentSlideIndex
+                          ? 'bg-primary h-2 shadow-lg shadow-primary/50'
+                          : idx < currentSlideIndex
+                          ? 'bg-primary/60'
+                          : 'bg-white/20 hover:bg-white/40'
+                      }`}
+                      title={s.title}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between text-white text-xs font-semibold">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
+                    >
+                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        setCurrentSlideIndex((prev) =>
+                          prev === 0 ? activeEpisode.slides.length - 1 : prev - 1
+                        )
+                      }
+                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
+                      title="Previous Scene"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        setCurrentSlideIndex((prev) => (prev + 1) % activeEpisode.slides.length)
+                      }
+                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
+                      title="Next Scene"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    <span className="font-mono text-[11px] text-slate-300">
+                      {currentSlide.timestamp} / {activeEpisode.duration}
+                    </span>
                   </div>
-                </div>
 
-                {/* Bottom Title bar */}
-                <div className="relative z-10 text-white space-y-1">
-                  <h3 className="text-base sm:text-lg font-black">{activeEpisode.title}</h3>
-                  <div className="text-xs text-slate-300 font-mono">
-                    Click to Start Video Playback ({activeEpisode.duration})
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={currentSlide.ctaHref}
+                      className="px-3 py-1.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow flex items-center gap-1.5 transition-all"
+                    >
+                      <span>{currentSlide.ctaText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </div>
               </div>
-            ) : playerMode === 'YOUTUBE' ? (
-              /* REAL YOUTUBE EMBED PLAYER */
+            </div>
+          ) : (
+            /* --- YOUTUBE MASTERCLASS PLAYER --- */
+            <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full">
               <iframe
-                key={`${activeEpisode.youtubeId}-${startSeconds}`}
-                src={`https://www.youtube-nocookie.com/embed/${activeEpisode.youtubeId}?autoplay=1&rel=0&start=${startSeconds}&modestbranding=1`}
+                src={`https://www.youtube-nocookie.com/embed/${activeEpisode.youtubeId || 'PkZNo7MFNFg'}?autoplay=1&rel=0&modestbranding=1`}
                 title={activeEpisode.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 className="w-full h-full border-0 absolute inset-0 z-10"
               />
-            ) : (
-              /* REAL HTML5 VIDEO PLAYER */
-              <video
-                ref={videoRef}
-                key={activeEpisode.html5VideoUrl}
-                src={activeEpisode.html5VideoUrl}
-                controls
-                autoPlay
-                className="w-full h-full object-cover absolute inset-0 z-10"
-              >
-                Your browser does not support HTML5 video tag.
-              </video>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Video Controls & Mode Options Row */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-card border border-border text-xs">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="px-3 py-1.5 rounded-xl bg-primary text-white font-bold flex items-center gap-1.5 hover:bg-primary/90 transition-all"
-              >
-                {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                <span>{isPlaying ? 'Pause' : 'Play Video'}</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setIsPlaying(false);
-                  setStartSeconds(0);
-                }}
-                className="px-3 py-1.5 rounded-xl bg-muted text-foreground font-semibold flex items-center gap-1.5 hover:bg-muted/80 transition-all border border-border"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Replay from Start</span>
-              </button>
+          {/* Interactive Scene Jumper Buttons */}
+          <div className="p-4 rounded-3xl bg-card border border-border space-y-2.5 shadow-sm">
+            <div className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Compass className="w-3.5 h-3.5 text-primary" />
+                Jump to Platform Tour Chapters:
+              </span>
+              <span className="text-[11px] font-normal">Click any chapter to view UI walkthrough</span>
             </div>
 
-            <div className="text-muted-foreground font-medium flex items-center gap-2">
-              <span>Playing: <strong className="text-foreground">{activeEpisode.title.slice(0, 35)}...</strong></span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {activeEpisode.slides.map((slide, idx) => (
+                <button
+                  key={slide.id}
+                  onClick={() => {
+                    setViewMode('INTERACTIVE_TOUR');
+                    setCurrentSlideIndex(idx);
+                    setIsPlaying(true);
+                  }}
+                  className={`p-2.5 rounded-2xl text-left border transition-all text-xs flex items-start gap-2.5 ${
+                    currentSlideIndex === idx && viewMode === 'INTERACTIVE_TOUR'
+                      ? 'bg-primary/10 border-primary text-primary font-bold shadow-sm'
+                      : 'bg-muted/40 border-border text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-card border border-border font-bold text-primary shrink-0">
+                    {slide.timestamp}
+                  </span>
+                  <div className="overflow-hidden">
+                    <div className="font-bold truncate">{slide.title}</div>
+                    <div className="text-[10px] text-muted-foreground truncate">{slide.subtitle}</div>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -474,25 +747,6 @@ export default function VlogPage() {
                 <div>Published {activeEpisode.date}</div>
               </div>
             </div>
-
-            {/* Clickable Timestamps */}
-            <div className="pt-3 border-t border-border/60">
-              <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" /> Click Timestamp to Jump and Play:
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {activeEpisode.timestamps.map((ts) => (
-                  <button
-                    key={ts.time}
-                    onClick={() => handleSeekTimestamp(ts.seconds)}
-                    className="px-3 py-1 rounded-xl bg-muted/60 hover:bg-primary/10 hover:text-primary hover:border-primary/40 text-foreground text-xs font-medium border border-border flex items-center gap-1.5 transition-all"
-                  >
-                    <span className="font-mono font-bold text-primary">{ts.time}</span>
-                    <span>{ts.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
@@ -501,10 +755,10 @@ export default function VlogPage() {
           <div className="flex items-center justify-between pb-2 border-b border-border">
             <h3 className="font-extrabold text-base text-foreground flex items-center gap-2">
               <Video className="w-4 h-4 text-primary" />
-              <span>EduTen Vlog Episodes</span>
+              <span>EduTen Video Episodes</span>
             </h3>
             <span className="text-xs font-bold text-muted-foreground">
-              {VLOG_EPISODES.length} Videos
+              {VLOG_EPISODES.length} Tours
             </span>
           </div>
 
@@ -521,7 +775,7 @@ export default function VlogPage() {
                       : 'bg-card border-border hover:border-primary/40 hover:bg-muted/30'
                   }`}
                 >
-                  <div className="relative w-28 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-900">
+                  <div className="relative w-28 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-900 border border-border">
                     <img
                       src={ep.thumbnail}
                       alt={ep.title}
