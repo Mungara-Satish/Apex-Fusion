@@ -37,6 +37,7 @@ export function Footer() {
           <div className="space-y-2">
             <h4 className="font-semibold text-foreground text-sm">Exam Hub</h4>
             <ul className="space-y-1.5">
+              <li><Link href="/vlog" className="hover:text-primary transition-colors font-bold text-primary">🎬 Vlog & Platform Tour</Link></li>
               <li><Link href="/tests" className="hover:text-primary transition-colors">Timed Chapter Mock Tests</Link></li>
               <li><Link href="/resources" className="hover:text-primary transition-colors">10-Year Past Solved Papers (PYQs)</Link></li>
               <li><Link href="/resources" className="hover:text-primary transition-colors">All-Subject Formula Cheatcards</Link></li>

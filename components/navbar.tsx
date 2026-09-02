@@ -43,6 +43,7 @@ export function Navbar() {
         { name: 'Parent Oversight', href: '/dashboard/parent', icon: HeartHandshake, badge: 'Active' },
         { name: 'CCE Report Card', href: '/parent/report-card', icon: FileCheck2 },
         { name: 'Students & Tutors', href: '/directory', icon: Users },
+        { name: 'Vlog & Tour', href: '/vlog', icon: Video, badge: 'Watch' },
         { name: 'AI Doubt Insights', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI', highlight: true },
         { name: 'Syllabus & Notes', href: '/subjects', icon: BookOpen },
         { name: 'Verified Mentors', href: '/tutors', icon: Users },
@@ -54,6 +55,7 @@ export function Navbar() {
       return [
         { name: 'Tutor Dashboard', href: '/dashboard/tutor', icon: Users, badge: 'Live Class' },
         { name: 'Students & Directory', href: '/directory', icon: Users },
+        { name: 'Vlog & Tour', href: '/vlog', icon: Video, badge: 'Watch' },
         { name: 'AI Doubt Assistant', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI' },
         { name: 'Doubt Queue', href: '/doubts', icon: HelpCircle },
         { name: 'Syllabus Hub', href: '/subjects', icon: BookOpen },
@@ -65,6 +67,7 @@ export function Navbar() {
       return [
         { name: 'Admin Console', href: '/dashboard/admin', icon: HeartHandshake, badge: 'Root Access' },
         { name: 'Students, Parents & Tutors', href: '/directory', icon: Users, badge: 'Credentials' },
+        { name: 'Vlog & Tour', href: '/vlog', icon: Video, badge: 'Watch' },
         { name: 'AI Doubt Solver', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI' },
         { name: 'Subjects', href: '/subjects', icon: BookOpen },
         { name: 'Tutors & Ops', href: '/tutors', icon: Users },
@@ -75,6 +78,7 @@ export function Navbar() {
     return [
       { name: 'AI Doubt Solver', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI', highlight: true },
       { name: 'Students, Parents & Tutors', href: '/directory', icon: Users },
+      { name: 'Vlog & Tour', href: '/vlog', icon: Video, badge: 'Watch' },
       { name: 'Subjects', href: '/subjects', icon: BookOpen },
       { name: 'Doubt Forum', href: '/doubts', icon: HelpCircle },
       { name: 'Tutors & Live', href: '/tutors', icon: Users },
