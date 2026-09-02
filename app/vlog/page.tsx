@@ -80,7 +80,10 @@ const THREE_D_CONCEPTS = [
   },
 ];
 
+import { useAppStore } from '@/lib/store';
+
 export default function PlatformOverviewPage() {
+  const { interestedCandidates, addInterestedCandidate, currentRole } = useAppStore();
   const [activeRoleTab, setActiveRoleTab] = useState<'STUDENT' | 'PARENT' | 'TUTOR' | 'SCHOOL'>('STUDENT');
 
   // --- Registration / Google Form State ---
@@ -115,6 +118,19 @@ export default function PlatformOverviewPage() {
 
     const token = `EDUTEN-${applicantBoard}-2026-${Math.floor(100000 + Math.random() * 900000)}`;
     setRegId(token);
+
+    addInterestedCandidate({
+      token,
+      name: applicantName.trim(),
+      email: applicantEmail.trim(),
+      phone: applicantPhone.trim() || '+91 98765 43210',
+      role: applicantRole,
+      board: applicantBoard as any,
+      city: applicantCity.trim(),
+      interests: selectedInterests,
+      notes: applicantNotes.trim(),
+    });
+
     setFormSubmitted(true);
   };
 
@@ -146,18 +162,18 @@ export default function PlatformOverviewPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             <a
               href="#registration-form"
-              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-500 text-white font-extrabold text-sm shadow-xl shadow-primary/25 flex items-center justify-center gap-2 transition-all hover:scale-105"
+              className="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-primary/25 flex items-center justify-center gap-2 transition-all hover:scale-105"
             >
               <Send className="w-4 h-4" />
-              <span>Register Interest Form</span>
+              <span>Register Interest</span>
             </a>
-            <a
-              href="#platform-pillars"
-              className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
+            <Link
+              href="/directory"
+              className="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
             >
-              <Layers className="w-4 h-4" />
-              <span>Explore Features</span>
-            </a>
+              <Users className="w-4 h-4 text-emerald-400" />
+              <span>Interested List ({interestedCandidates.length})</span>
+            </Link>
           </div>
         </div>
       </div>
@@ -615,7 +631,14 @@ export default function PlatformOverviewPage() {
               </button>
             </div>
 
-            <div className="pt-3">
+            <div className="pt-3 flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="/directory"
+                className="px-5 py-2.5 rounded-xl bg-primary text-white font-extrabold text-xs hover:bg-primary/90 transition-all shadow flex items-center gap-1.5"
+              >
+                <Users className="w-3.5 h-3.5" />
+                <span>View in Interested Candidates List (Directory) &rarr;</span>
+              </Link>
               <button
                 onClick={() => {
                   setFormSubmitted(false);
@@ -625,9 +648,9 @@ export default function PlatformOverviewPage() {
                   setApplicantCity('');
                   setApplicantNotes('');
                 }}
-                className="text-xs text-primary font-bold hover:underline"
+                className="text-xs text-muted-foreground hover:text-foreground font-semibold underline"
               >
-                Submit Another Response &rarr;
+                Submit Another Response
               </button>
             </div>
           </div>

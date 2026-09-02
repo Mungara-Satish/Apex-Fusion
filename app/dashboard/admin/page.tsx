@@ -27,6 +27,7 @@ import {
   Sparkles,
   Server,
   Zap,
+  FileSpreadsheet,
 } from 'lucide-react';
 
 export default function AdminDashboardPage() {
@@ -260,6 +261,17 @@ export default function AdminDashboardPage() {
                     <KeyRound className="w-4 h-4 text-purple-600" />
                   </div>
                   <span className="text-[11px] text-muted-foreground">Grant, issue and suspend login credentials &rarr;</span>
+                </Link>
+
+                <Link
+                  href="/directory"
+                  className="p-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/15 text-xs flex flex-col justify-between space-y-2 transition-all shadow-sm group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-amber-700 dark:text-amber-300">Interested Leads & Inquiries</span>
+                    <FileSpreadsheet className="w-4 h-4 text-amber-500" />
+                  </div>
+                  <span className="text-[11px] text-muted-foreground">Review Google Form leads & 1-click enroll &rarr;</span>
                 </Link>
 
                 <Link

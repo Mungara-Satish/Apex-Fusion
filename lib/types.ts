@@ -31,6 +31,21 @@ export interface User {
   parentProfile?: ParentProfile;
 }
 
+export interface InterestedCandidate {
+  id: string;
+  token: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: 'STUDENT' | 'PARENT' | 'EDUCATOR' | 'SCHOOL';
+  board: Board;
+  city?: string;
+  interests: string[];
+  notes?: string;
+  status: 'NEW_LEAD' | 'CONTACTED' | 'ENROLLED';
+  createdAt: string;
+}
+
 export interface ParentProfile {
   id: string;
   userId: string;

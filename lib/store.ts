@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Role, Board, ChapterStatus, Booking, Doubt, DoubtReply, MockTest, StudyResource, User } from './types';
+import { Role, Board, ChapterStatus, Booking, Doubt, DoubtReply, MockTest, StudyResource, User, InterestedCandidate } from './types';
 import {
   CURRENT_STUDENT,
   CURRENT_TUTOR,
@@ -11,6 +11,7 @@ import {
   SAMPLE_RESOURCES,
   SAMPLE_TUTORS,
   SAMPLE_DIRECTORY_USERS,
+  SAMPLE_INTERESTED_CANDIDATES,
   BADGES,
   getChaptersForBoard,
 } from './mock-data';
@@ -117,6 +118,12 @@ interface AppState {
   addNewUserWithCredentials: (user: Partial<User>) => void;
   updateUserCredentials: (userId: string, updates: Partial<User>) => void;
   deleteUser: (userId: string) => void;
+
+  // Interested Candidates & Registration Leads
+  interestedCandidates: InterestedCandidate[];
+  addInterestedCandidate: (candidate: Omit<InterestedCandidate, 'id' | 'createdAt' | 'status'>) => void;
+  updateCandidateStatus: (id: string, status: 'NEW_LEAD' | 'CONTACTED' | 'ENROLLED') => void;
+  enrollCandidateAsUser: (candidateId: string) => void;
 
   // Classroom Live State
   classroomMessages: Record<string, ClassroomMessage[]>;
@@ -353,6 +360,65 @@ export const useAppStore = create<AppState>((set, get) => ({
     set((state) => ({
       directoryUsers: state.directoryUsers.filter((u) => u.id !== userId),
     })),
+
+  // Interested Candidates & Registration Leads
+  interestedCandidates: SAMPLE_INTERESTED_CANDIDATES,
+  addInterestedCandidate: (candData) =>
+    set((state) => {
+      const newCand: InterestedCandidate = {
+        ...candData,
+        id: `cand-${Date.now()}`,
+        status: 'NEW_LEAD',
+        createdAt: new Date().toISOString(),
+      };
+      return { interestedCandidates: [newCand, ...state.interestedCandidates] };
+    }),
+  updateCandidateStatus: (id, status) =>
+    set((state) => ({
+      interestedCandidates: state.interestedCandidates.map((c) =>
+        c.id === id ? { ...c, status } : c
+      ),
+    })),
+  enrollCandidateAsUser: (candidateId: string) =>
+    set((state) => {
+      const cand = state.interestedCandidates.find((c) => c.id === candidateId);
+      if (!cand) return state;
+
+      const role: Role =
+        cand.role === 'PARENT' ? 'PARENT' : cand.role === 'EDUCATOR' ? 'TUTOR' : 'STUDENT';
+
+      const newUser: User = {
+        id: `user-enrolled-${Date.now()}`,
+        name: cand.name,
+        email: cand.email,
+        phone: cand.phone,
+        role,
+        board: cand.board,
+        credentialStatus: 'APPROVED',
+        username: `${cand.name.toLowerCase().replace(/\s+/g, '_')}_${cand.board.toLowerCase()}`,
+        tempPassword: 'Pass@' + Math.floor(1000 + Math.random() * 9000),
+        rollNumber: `${cand.board}-2026-X-${Math.floor(1000 + Math.random() * 9000)}`,
+        schoolName: cand.city || 'State Model High School',
+        subscriptionPass: `${cand.board} 2026 All-Access Super Pass`,
+        streakCount: 1,
+        points: 250,
+        studyHoursWeekly: 5,
+        avatar:
+          role === 'STUDENT'
+            ? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+            : role === 'PARENT'
+            ? 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80'
+            : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
+        createdAt: new Date().toISOString(),
+      };
+
+      return {
+        directoryUsers: [newUser, ...state.directoryUsers],
+        interestedCandidates: state.interestedCandidates.map((c) =>
+          c.id === candidateId ? { ...c, status: 'ENROLLED' } : c
+        ),
+      };
+    }),
 
   // Live Classroom
   classroomMessages: {

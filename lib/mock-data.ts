@@ -1,4 +1,4 @@
-import { Subject, Chapter, User, TutorProfile, Booking, Doubt, MockTest, StudyResource, Badge, TestAttempt, LiveClassSession, Board } from './types';
+import { Subject, Chapter, User, TutorProfile, Booking, Doubt, MockTest, StudyResource, Badge, TestAttempt, LiveClassSession, Board, InterestedCandidate } from './types';
 
 export const CURRENT_STUDENT: User = {
   id: 'user-student-1',
@@ -3783,4 +3783,63 @@ export const SUBJECT_PERFORMANCE_METRICS = [
   { subject: 'Biology', score: 85, syllabusProgress: 85, targetScore: 90 },
   { subject: 'Social Studies', score: 82, syllabusProgress: 70, targetScore: 90 },
   { subject: 'English', score: 90, syllabusProgress: 80, targetScore: 95 },
+];
+
+export const SAMPLE_INTERESTED_CANDIDATES: InterestedCandidate[] = [
+  {
+    id: 'cand-1',
+    token: 'EDUTEN-CBSE-2026-894120',
+    name: 'Diya Sharma',
+    email: 'diya.sharma@gmail.com',
+    phone: '+91 98450 11223',
+    role: 'STUDENT',
+    board: 'CBSE',
+    city: 'Hyderabad, Telangana',
+    interests: ['Live Classes (Morning/Evening Slots)', 'Google Gemini AI Doubt Solver', 'Timed Chapter Mocks & PYQs'],
+    notes: 'Aiming for 95%+ in Science and Mathematics. Need guidance on Ray Optics numericals and Coordinate Geometry proofs.',
+    status: 'NEW_LEAD',
+    createdAt: '2026-09-02T14:30:00Z',
+  },
+  {
+    id: 'cand-2',
+    token: 'EDUTEN-ICSE-2026-673412',
+    name: 'Vikramaditya Roy (Parent)',
+    email: 'vikram.roy@corporate.in',
+    phone: '+91 98112 44556',
+    role: 'PARENT',
+    board: 'ICSE',
+    city: 'Kolkata, West Bengal',
+    interests: ['Parent Oversight & WhatsApp CCE Alerts', '1-on-1 Mentorship with IIT Faculty'],
+    notes: 'Ward studying in Class 10 ICSE. Need weekly WhatsApp attendance logs and weakness heatmap updates.',
+    status: 'CONTACTED',
+    createdAt: '2026-09-01T18:15:00Z',
+  },
+  {
+    id: 'cand-3',
+    token: 'EDUTEN-STATE-2026-441982',
+    name: 'Suresh Babu M.Sc.',
+    email: 'suresh.babu.physics@gmail.com',
+    phone: '+91 97012 88990',
+    role: 'EDUCATOR',
+    board: 'STATE',
+    city: 'Vijayawada, Andhra Pradesh',
+    interests: ['Live Classes (Morning/Evening Slots)', '1-on-1 Mentorship with IIT Faculty'],
+    notes: '12 years experience in State Board Class 10 Physical Science. Interested in conducting evening live whiteboard problem-solving batches.',
+    status: 'NEW_LEAD',
+    createdAt: '2026-08-31T11:45:00Z',
+  },
+  {
+    id: 'cand-4',
+    token: 'EDUTEN-CBSE-2026-129045',
+    name: 'St. Xavier Public School (Principal Office)',
+    email: 'principal@stxaviers-school.edu.in',
+    phone: '+91 94401 77665',
+    role: 'SCHOOL',
+    board: 'CBSE',
+    city: 'Bengaluru, Karnataka',
+    interests: ['School Institutional Bulk Access', 'Timed Chapter Mocks & PYQs'],
+    notes: 'Inquiry for bulk licensing for 180 Class 10 board candidates. Need cohort diagnostics and mock test engine access.',
+    status: 'ENROLLED',
+    createdAt: '2026-08-30T09:00:00Z',
+  },
 ];
