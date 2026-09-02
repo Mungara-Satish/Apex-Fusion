@@ -1,0 +1,294 @@
+// Prisma schema for 10th Grade CBSE Online Tutoring & EdTech Platform
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                String            @id @default(cuid())
+  email             String            @unique
+  name              String
+  phone             String?           @unique
+  role              String            @default("STUDENT") // STUDENT | TUTOR | PARENT | ADMIN
+  board             String            @default("CBSE")    // CBSE | ICSE | STATE
+  avatar            String?
+  streakCount       Int               @default(5)
+  points            Int               @default(320)
+  studyHoursWeekly  Float             @default(14.5)
+  inviteCode        String?           @unique
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  tutorProfile      TutorProfile?
+  parentProfile     ParentProfile?
+  chapterProgress   ChapterProgress[]
+  bookingsAsStudent Booking[]         @relation("StudentBookings")
+  bookingsAsTutor   Booking[]         @relation("TutorBookings")
+  doubts            Doubt[]
+  doubtReplies      DoubtReply[]
+  testAttempts      TestAttempt[]
+  badges            UserBadge[]
+  aiDoubtHistories  AiDoubtHistory[]
+  payments          PaymentTransaction[]
+  examSubmissions   CbseExamSubmission[]
+}
+
+model ParentProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  linkedStudentId    String
+  relationship       String   @default("Parent")
+  notifyOnTestScore  Boolean  @default(true)
+  notifyOnAttendance Boolean  @default(true)
+  whatsappAlerts     Boolean  @default(true)
+  createdAt          DateTime @default(now())
+}
+
+model TutorProfile {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  headline          String
+  bio               String
+  qualifications    String
+  hourlyRate        Float     @default(500)
+  rating            Float     @default(4.9)
+  reviewCount       Int       @default(42)
+  verified          Boolean   @default(true)
+  subjectsTaught    String    // JSON array or comma-separated
+  availabilitySlots String    // JSON array of strings
+}
+
+model Subject {
+  id          String          @id @default(cuid())
+  name        String
+  code        String          @unique
+  slug        String          @unique
+  grade       Int             @default(10)
+  description String
+  icon        String
+  color       String
+  chapters    Chapter[]
+  doubts      Doubt[]
+  resources   StudyResource[]
+  mockTests   MockTest[]
+  bookings    Booking[]
+}
+
+model Chapter {
+  id             String            @id @default(cuid())
+  subjectId      String
+  subject        Subject           @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  chapterNumber  Int
+  title          String
+  unitName       String
+  description    String
+  estHours       Float             @default(6.0)
+  totalQuestions Int               @default(25)
+  difficulty     String            @default("MEDIUM") // EASY | MEDIUM | HARD
+  progress       ChapterProgress[]
+  doubts         Doubt[]
+  resources      StudyResource[]
+  mockTests      MockTest[]
+  aiDoubts       AiDoubtHistory[]
+}
+
+model ChapterProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapterId   String
+  chapter     Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  status      String    @default("NOT_STARTED") // NOT_STARTED | IN_PROGRESS | COMPLETED | REVISED
+  score       Float?    @default(0)             // 0-100% for weakness heatmap
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([userId, chapterId])
+}
+
+model Booking {
+  id              String   @id @default(cuid())
+  studentId       String
+  student         User     @relation("StudentBookings", fields: [studentId], references: [id], onDelete: Cascade)
+  tutorId         String
+  tutor           User     @relation("TutorBookings", fields: [tutorId], references: [id], onDelete: Cascade)
+  subjectId       String
+  subject         Subject  @relation(fields: [subjectId], references: [id])
+  topic           String
+  scheduledAt     DateTime
+  durationMinutes Int      @default(60)
+  status          String   @default("CONFIRMED") // CONFIRMED | COMPLETED | CANCELLED
+  attended        Boolean  @default(true)
+  meetingUrl      String?
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+model Doubt {
+  id        String       @id @default(cuid())
+  studentId String
+  student   User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId String
+  subject   Subject      @relation(fields: [subjectId], references: [id])
+  chapterId String?
+  chapter   Chapter?     @relation(fields: [chapterId], references: [id])
+  title     String
+  content   String
+  imageUrl  String?
+  status    String       @default("OPEN") // OPEN | ANSWERED | RESOLVED
+  views     Int          @default(0)
+  upvotes   Int          @default(0)
+  createdAt DateTime     @default(now())
+  replies   DoubtReply[]
+}
+
+model DoubtReply {
+  id              String   @id @default(cuid())
+  doubtId         String
+  doubt           Doubt    @relation(fields: [doubtId], references: [id], onDelete: Cascade)
+  authorId        String
+  author          User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content         String
+  isAccepted      Boolean  @default(false)
+  isTutorVerified Boolean  @default(false)
+  upvotes         Int      @default(0)
+  createdAt       DateTime @default(now())
+}
+
+model AiDoubtHistory {
+  id             String   @id @default(cuid())
+  studentId      String
+  student        User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId      String?
+  chapterId      String?
+  chapter        Chapter? @relation(fields: [chapterId], references: [id])
+  queryText      String
+  imageUrl       String?
+  concept        String   // NCERT chapter & concept tag
+  stepsWorking   String   // Markdown with KaTeX math/chem working
+  commonPitfalls String   // CBSE mistake traps
+  relatedPyq     String   // CBSE Past year question
+  followUps      String?  // JSON array of follow-up messages
+  createdAt      DateTime @default(now())
+}
+
+model PaymentTransaction {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  razorpayOrderId   String   @unique
+  razorpayPaymentId String?
+  amount            Float
+  currency          String   @default("INR")
+  status            String   @default("PENDING") // PENDING | SUCCESS | FAILED
+  planType          String   // CRASH_COURSE | MONTHLY_PASS | SESSION_PASS
+  planTitle         String
+  invoiceNumber     String   @unique
+  gstAmount         Float    @default(0)
+  receiptUrl        String?
+  createdAt         DateTime @default(now())
+}
+
+model CbseExamSubmission {
+  id                String   @id @default(cuid())
+  studentId         String
+  student           User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  examTitle         String
+  subjectName       String
+  totalMarks        Int      @default(80)
+  marksObtained     Float
+  sectionAScore     Float    // MCQs & Assertion-Reasoning (20 marks)
+  sectionBScore     Float    // Very Short (10 marks)
+  sectionCScore     Float    // Short (18 marks)
+  sectionDScore     Float    // Long (20 marks)
+  sectionEScore     Float    // Case-based (12 marks)
+  topperComparison  String   // JSON feedback
+  submittedAnswers  String   // JSON map of answers
+  completedAt       DateTime @default(now())
+}
+
+model MockTest {
+  id              String         @id @default(cuid())
+  subjectId       String
+  subject         Subject        @relation(fields: [subjectId], references: [id])
+  chapterId       String?
+  chapter         Chapter?       @relation(fields: [chapterId], references: [id])
+  title           String
+  description     String
+  durationMinutes Int            @default(30)
+  totalMarks      Int            @default(40)
+  passingMarks    Int            @default(16)
+  difficulty      String         @default("MEDIUM") // EASY | MEDIUM | HARD
+  questions       TestQuestion[]
+  attempts        TestAttempt[]
+}
+
+model TestQuestion {
+  id                 String   @id @default(cuid())
+  mockTestId         String
+  mockTest           MockTest @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+  questionText       String
+  options            String   // JSON array of options
+  correctOptionIndex Int
+  explanation        String
+  marks              Int      @default(1)
+  topic              String
+  difficulty         String   @default("MEDIUM")
+}
+
+model TestAttempt {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mockTestId       String
+  mockTest         MockTest @relation(fields: [mockTestId], references: [id], onDelete: Cascade)
+  score            Float
+  totalQuestions   Int
+  correctCount     Int
+  timeSpentSeconds Int
+  answers          String   // JSON map of questionId -> chosenIndex
+  completedAt      DateTime @default(now())
+}
+
+model StudyResource {
+  id           String   @id @default(cuid())
+  subjectId    String
+  subject      Subject  @relation(fields: [subjectId], references: [id])
+  chapterId    String?
+  chapter      Chapter? @relation(fields: [chapterId], references: [id])
+  title        String
+  resourceType String   // NOTES | FORMULA_SHEET | PYQ | WORKSHEET
+  fileUrl      String
+  fileFormat   String   @default("PDF")
+  fileSize     String   @default("2.4 MB")
+  year         Int?
+  downloads    Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  category    String
+  pointsReq   Int         @default(100)
+  users       UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId  String
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  earnedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+}
