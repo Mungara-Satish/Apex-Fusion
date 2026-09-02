@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import {
   Play,
@@ -33,6 +33,8 @@ import {
   ChevronRight,
   MessageSquare,
   HelpCircle,
+  Tv,
+  Film,
 } from 'lucide-react';
 
 interface VlogEpisode {
@@ -46,10 +48,11 @@ interface VlogEpisode {
   speakerRole: string;
   speakerAvatar: string;
   thumbnail: string;
+  youtubeId: string;
+  html5VideoUrl: string;
   badge: string;
   topics: string[];
-  videoSrc?: string;
-  timestamps: { time: string; label: string }[];
+  timestamps: { time: string; label: string; seconds: number }[];
 }
 
 const VLOG_EPISODES: VlogEpisode[] = [
@@ -65,14 +68,16 @@ const VLOG_EPISODES: VlogEpisode[] = [
     speakerRole: 'Ex-IIT Delhi Faculty & Class 10 Topper',
     speakerAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
     thumbnail: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80',
+    youtubeId: 'PkZNo7MFNFg',
+    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     badge: '⭐ Featured Overview',
     topics: ['Full Platform Tour', 'CBSE/ICSE/State', 'Gemini AI', 'Live Classrooms'],
     timestamps: [
-      { time: '0:45', label: 'Why 3 Distinct Boards Matter (CBSE, ICSE, State)' },
-      { time: '2:15', label: 'Google Gemini Multimodal AI Doubt Solver Live Demo' },
-      { time: '4:10', label: '3D Pixar Concept Illustrations & Formulas' },
-      { time: '5:50', label: 'Live Whiteboard Classrooms across 4 Timings' },
-      { time: '7:20', label: 'Parent Oversight & WhatsApp CCE Reports' },
+      { time: '0:45', label: 'Why 3 Distinct Boards Matter (CBSE, ICSE, State)', seconds: 45 },
+      { time: '2:15', label: 'Google Gemini Multimodal AI Doubt Solver Live Demo', seconds: 135 },
+      { time: '4:10', label: '3D Pixar Concept Illustrations & Formulas', seconds: 250 },
+      { time: '5:50', label: 'Live Whiteboard Classrooms across 4 Timings', seconds: 350 },
+      { time: '7:20', label: 'Parent Oversight & WhatsApp CCE Reports', seconds: 440 },
     ],
   },
   {
@@ -87,13 +92,15 @@ const VLOG_EPISODES: VlogEpisode[] = [
     speakerRole: 'Senior Mathematics Mentor (IIT Madras)',
     speakerAvatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
     thumbnail: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80',
+    youtubeId: 'Z1BCujX3pw8',
+    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
     badge: '🤖 AI Technology',
     topics: ['Gemini 1.5 Flash', 'KaTeX Proofs', 'Multimodal Diagrams', '24/7 Assistance'],
     timestamps: [
-      { time: '0:30', label: 'Submitting a Doubt via Image & Text' },
-      { time: '1:45', label: 'KaTeX Mathematical Notation Rendering' },
-      { time: '3:20', label: 'Exam Marking Scheme Tips by AI' },
-      { time: '5:00', label: 'Triage to Live IIT Faculty' },
+      { time: '0:30', label: 'Submitting a Doubt via Image & Text', seconds: 30 },
+      { time: '1:45', label: 'KaTeX Mathematical Notation Rendering', seconds: 105 },
+      { time: '3:20', label: 'Exam Marking Scheme Tips by AI', seconds: 200 },
+      { time: '5:00', label: 'Triage to Live IIT Faculty', seconds: 300 },
     ],
   },
   {
@@ -108,13 +115,15 @@ const VLOG_EPISODES: VlogEpisode[] = [
     speakerRole: 'Head of Visual Curriculum & Biology Lead',
     speakerAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
     thumbnail: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&auto=format&fit=crop&q=80',
+    youtubeId: '2_c_g5qE4Xg',
+    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
     badge: '🎨 3D Visual Learning',
     topics: ['3D Graphics', 'Ray Optics', 'DNA Double Helix', 'pH Scales'],
     timestamps: [
-      { time: '0:40', label: 'Why Visual Memory Outlasts Rote Memorization' },
-      { time: '2:10', label: 'Optics Ray Diagrams with Focal Convergence' },
-      { time: '4:15', label: 'Chemical Smelting & Blast Furnace Models' },
-      { time: '6:00', label: 'DNA Double Helix & Punnett Square Grids' },
+      { time: '0:40', label: 'Why Visual Memory Outlasts Rote Memorization', seconds: 40 },
+      { time: '2:10', label: 'Optics Ray Diagrams with Focal Convergence', seconds: 130 },
+      { time: '4:15', label: 'Chemical Smelting & Blast Furnace Models', seconds: 255 },
+      { time: '6:00', label: 'DNA Double Helix & Punnett Square Grids', seconds: 360 },
     ],
   },
   {
@@ -129,13 +138,15 @@ const VLOG_EPISODES: VlogEpisode[] = [
     speakerRole: 'Parent Advisory Board Member',
     speakerAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
     thumbnail: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&auto=format&fit=crop&q=80',
+    youtubeId: 'XqZsoesa55w',
+    html5VideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     badge: '👨‍👩‍👧 Parent Guide',
     topics: ['CCE Reports', 'WhatsApp Alerts', 'Weakness Heatmaps', 'Attendance Logs'],
     timestamps: [
-      { time: '0:35', label: 'Student Data Isolation in Parent Portal' },
-      { time: '1:50', label: 'Configuring WhatsApp Score Alerts' },
-      { time: '3:10', label: 'Understanding Red/Amber/Green Weakness Heatmap' },
-      { time: '4:30', label: 'Downloading Official CBSE CCE Report Card' },
+      { time: '0:35', label: 'Student Data Isolation in Parent Portal', seconds: 35 },
+      { time: '1:50', label: 'Configuring WhatsApp Score Alerts', seconds: 110 },
+      { time: '3:10', label: 'Understanding Red/Amber/Green Weakness Heatmap', seconds: 190 },
+      { time: '4:30', label: 'Downloading Official CBSE CCE Report Card', seconds: 270 },
     ],
   },
 ];
@@ -143,11 +154,12 @@ const VLOG_EPISODES: VlogEpisode[] = [
 export default function VlogPage() {
   const [activeEpisode, setActiveEpisode] = useState<VlogEpisode>(VLOG_EPISODES[0]);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTimeSec, setCurrentTimeSec] = useState(135); // 2:15
-  const totalDurationSec = 525; // 8:45
+  const [playerMode, setPlayerMode] = useState<'YOUTUBE' | 'HTML5'>('YOUTUBE');
+  const [startSeconds, setStartSeconds] = useState<number>(0);
   const [likesCount, setLikesCount] = useState(1284);
   const [hasLiked, setHasLiked] = useState(false);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // --- Registration / Google Form State ---
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -185,11 +197,23 @@ export default function VlogPage() {
     }
   };
 
-  const handleSeek = (timeStr: string) => {
-    const parts = timeStr.split(':');
-    const sec = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-    setCurrentTimeSec(sec);
+  const handleSelectEpisode = (ep: VlogEpisode) => {
+    setActiveEpisode(ep);
+    setStartSeconds(0);
     setIsPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleSeekTimestamp = (seconds: number) => {
+    setStartSeconds(seconds);
+    setIsPlaying(true);
+    if (playerMode === 'HTML5' && videoRef.current) {
+      videoRef.current.currentTime = seconds;
+      videoRef.current.play().catch(() => {});
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -207,12 +231,6 @@ export default function VlogPage() {
     setTimeout(() => setCopiedToken(false), 2000);
   };
 
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
       {/* 1. Hero Title Banner */}
@@ -228,7 +246,7 @@ export default function VlogPage() {
               Experience the Future of 10th-Grade Board Learning
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Watch in-depth video walkthroughs, discover our Google Gemini AI Doubt Solver, explore 3D concept graphics, and register your interest with our official 2026 admission form.
+              Watch real playable video walkthroughs, discover our Google Gemini AI Doubt Solver, explore 3D concept graphics, and register your interest with our official 2026 admission form.
             </p>
           </div>
 
@@ -240,101 +258,149 @@ export default function VlogPage() {
               <Send className="w-4 h-4" />
               <span>Register Interest Form</span>
             </a>
-            <a
-              href="#vlog-player"
+            <button
+              onClick={() => {
+                setIsPlaying(true);
+                const el = document.getElementById('vlog-player');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
             >
               <Play className="w-4 h-4" />
-              <span>Watch Tour (8 min)</span>
-            </a>
+              <span>Watch Video Tour (8 min)</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* 2. Interactive Video Player Showcase */}
+      {/* 2. Interactive Video Player Showcase with REAL WORKING VIDEO */}
       <div id="vlog-player" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left 8 Cols: Video Player & Active Video Details */}
+        {/* Left 8 Cols: Real Video Player & Active Video Details */}
         <div className="lg:col-span-8 space-y-6">
-          {/* Video Player Box */}
-          <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl group aspect-video flex flex-col justify-between">
-            {/* Background Thumbnail / Mock Stream */}
-            <img
-              src={activeEpisode.thumbnail}
-              alt={activeEpisode.title}
-              className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-
-            {/* Top Bar inside video */}
-            <div className="relative z-10 p-4 sm:p-6 flex items-center justify-between text-white">
-              <span className="px-3 py-1 rounded-full bg-red-600/90 text-white font-extrabold text-[11px] tracking-wider uppercase flex items-center gap-1.5 shadow">
-                <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                EduTen Vlog HD
-              </span>
-
-              <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/15">
-                {activeEpisode.badge}
-              </span>
-            </div>
-
-            {/* Center Play Button Overlay */}
-            <div className="relative z-10 self-center">
+          {/* Player Source Mode Toggle Bar */}
+          <div className="flex items-center justify-between bg-muted/60 p-2 rounded-2xl border border-border">
+            <div className="flex items-center gap-2">
               <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary/90 hover:bg-primary text-white flex items-center justify-center shadow-2xl shadow-primary/50 hover:scale-110 transition-all border-2 border-white/30"
+                onClick={() => setPlayerMode('YOUTUBE')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  playerMode === 'YOUTUBE'
+                    ? 'bg-red-600 text-white shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
-                {isPlaying ? (
-                  <Pause className="w-8 h-8 sm:w-10 sm:h-10 fill-white" />
-                ) : (
-                  <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-white ml-1" />
-                )}
+                <Tv className="w-3.5 h-3.5" />
+                <span>YouTube HD Player</span>
+              </button>
+              <button
+                onClick={() => setPlayerMode('HTML5')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  playerMode === 'HTML5'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Film className="w-3.5 h-3.5" />
+                <span>Direct HTML5 Stream</span>
               </button>
             </div>
 
-            {/* Bottom Controls Bar */}
-            <div className="relative z-10 p-4 sm:p-6 space-y-3 bg-gradient-to-t from-black via-black/80 to-transparent">
-              {/* Scrubber Progress Bar */}
-              <div
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const newPercent = clickX / rect.width;
-                  setCurrentTimeSec(Math.floor(newPercent * totalDurationSec));
-                }}
-                className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-2 transition-all relative"
-              >
-                <div
-                  className="h-full bg-primary rounded-full relative transition-all"
-                  style={{ width: `${(currentTimeSec / totalDurationSec) * 100}%` }}
-                />
-              </div>
+            <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              1080p 60fps Active Stream
+            </span>
+          </div>
 
-              <div className="flex items-center justify-between text-white text-xs font-semibold">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  </button>
-                  <button
-                    onClick={() => setIsMuted(!isMuted)}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                  </button>
-                  <span className="font-mono text-[11px] text-slate-300">
-                    {formatTime(currentTimeSec)} / {activeEpisode.duration}
+          {/* REAL VIDEO PLAYER CONTAINER */}
+          <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full">
+            {/* If NOT playing yet, show high-res poster with big play button */}
+            {!isPlaying ? (
+              <div
+                onClick={() => setIsPlaying(true)}
+                className="absolute inset-0 cursor-pointer group flex flex-col justify-between p-6 z-20"
+              >
+                <img
+                  src={activeEpisode.thumbnail}
+                  alt={activeEpisode.title}
+                  className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                {/* Top Badge */}
+                <div className="relative z-10 flex items-center justify-between text-white">
+                  <span className="px-3 py-1 rounded-full bg-red-600/90 text-white font-extrabold text-[11px] tracking-wider uppercase flex items-center gap-1.5 shadow">
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                    EduTen Vlog HD
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-semibold border border-white/15">
+                    {activeEpisode.badge}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] text-slate-400 font-mono">1080p 60fps</span>
-                  <button className="hover:text-primary transition-colors">
-                    <Maximize2 className="w-4 h-4" />
-                  </button>
+                {/* Big Center Play Button */}
+                <div className="relative z-10 self-center">
+                  <div className="w-20 h-20 rounded-full bg-primary/95 text-white flex items-center justify-center shadow-2xl shadow-primary/60 group-hover:scale-110 group-hover:bg-primary transition-all border-2 border-white/40">
+                    <Play className="w-10 h-10 fill-white ml-1.5" />
+                  </div>
+                </div>
+
+                {/* Bottom Title bar */}
+                <div className="relative z-10 text-white space-y-1">
+                  <h3 className="text-base sm:text-lg font-black">{activeEpisode.title}</h3>
+                  <div className="text-xs text-slate-300 font-mono">
+                    Click to Start Video Playback ({activeEpisode.duration})
+                  </div>
                 </div>
               </div>
+            ) : playerMode === 'YOUTUBE' ? (
+              /* REAL YOUTUBE EMBED PLAYER */
+              <iframe
+                key={`${activeEpisode.youtubeId}-${startSeconds}`}
+                src={`https://www.youtube-nocookie.com/embed/${activeEpisode.youtubeId}?autoplay=1&rel=0&start=${startSeconds}&modestbranding=1`}
+                title={activeEpisode.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full border-0 absolute inset-0 z-10"
+              />
+            ) : (
+              /* REAL HTML5 VIDEO PLAYER */
+              <video
+                ref={videoRef}
+                key={activeEpisode.html5VideoUrl}
+                src={activeEpisode.html5VideoUrl}
+                controls
+                autoPlay
+                className="w-full h-full object-cover absolute inset-0 z-10"
+              >
+                Your browser does not support HTML5 video tag.
+              </video>
+            )}
+          </div>
+
+          {/* Video Controls & Mode Options Row */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-card border border-border text-xs">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="px-3 py-1.5 rounded-xl bg-primary text-white font-bold flex items-center gap-1.5 hover:bg-primary/90 transition-all"
+              >
+                {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                <span>{isPlaying ? 'Pause' : 'Play Video'}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsPlaying(false);
+                  setStartSeconds(0);
+                }}
+                className="px-3 py-1.5 rounded-xl bg-muted text-foreground font-semibold flex items-center gap-1.5 hover:bg-muted/80 transition-all border border-border"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Replay from Start</span>
+              </button>
+            </div>
+
+            <div className="text-muted-foreground font-medium flex items-center gap-2">
+              <span>Playing: <strong className="text-foreground">{activeEpisode.title.slice(0, 35)}...</strong></span>
             </div>
           </div>
 
@@ -412,13 +478,13 @@ export default function VlogPage() {
             {/* Clickable Timestamps */}
             <div className="pt-3 border-t border-border/60">
               <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" /> Jump to Chapters in this Vlog:
+                <Clock className="w-3.5 h-3.5" /> Click Timestamp to Jump and Play:
               </div>
               <div className="flex flex-wrap gap-2">
                 {activeEpisode.timestamps.map((ts) => (
                   <button
                     key={ts.time}
-                    onClick={() => handleSeek(ts.time)}
+                    onClick={() => handleSeekTimestamp(ts.seconds)}
                     className="px-3 py-1 rounded-xl bg-muted/60 hover:bg-primary/10 hover:text-primary hover:border-primary/40 text-foreground text-xs font-medium border border-border flex items-center gap-1.5 transition-all"
                   >
                     <span className="font-mono font-bold text-primary">{ts.time}</span>
@@ -448,11 +514,7 @@ export default function VlogPage() {
               return (
                 <div
                   key={ep.id}
-                  onClick={() => {
-                    setActiveEpisode(ep);
-                    setCurrentTimeSec(0);
-                    setIsPlaying(true);
-                  }}
+                  onClick={() => handleSelectEpisode(ep)}
                   className={`p-3 rounded-2xl border transition-all cursor-pointer flex gap-3 ${
                     isSelected
                       ? 'bg-primary/5 border-primary shadow-md ring-1 ring-primary/30'
