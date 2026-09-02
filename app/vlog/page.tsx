@@ -1,351 +1,87 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Maximize2,
-  RotateCcw,
   Sparkles,
   Bot,
   GraduationCap,
   HeartHandshake,
   Users,
-  Video,
   BookOpen,
   FileCheck2,
   CheckCircle2,
   Send,
   ExternalLink,
   Clock,
-  Eye,
-  ThumbsUp,
-  Share2,
-  Calendar,
   Layers,
   Award,
   ShieldCheck,
   Check,
   Copy,
   ChevronRight,
-  ChevronLeft,
-  MessageSquare,
-  HelpCircle,
-  Tv,
-  Film,
-  Compass,
   ArrowRight,
-  MonitorPlay,
-  Radio,
   Zap,
+  HelpCircle,
+  Building,
+  Target,
+  BarChart3,
+  Flame,
 } from 'lucide-react';
 
-interface VlogSlide {
-  id: string;
-  timestamp: string;
-  seconds: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  featureTag: string;
-  badgeColor: string;
-  image: string;
-  ctaText: string;
-  ctaHref: string;
-  keyPoints: string[];
-}
-
-interface VlogEpisode {
-  id: string;
-  title: string;
-  description: string;
-  duration: string;
-  views: string;
-  date: string;
-  speaker: string;
-  speakerRole: string;
-  speakerAvatar: string;
-  thumbnail: string;
-  badge: string;
-  topics: string[];
-  slides: VlogSlide[];
-  youtubeId?: string;
-}
-
-const VLOG_EPISODES: VlogEpisode[] = [
+const THREE_D_CONCEPTS = [
   {
-    id: 'vlog-1',
-    title: 'Inside EduTen: Complete Platform Tour & 10th Board Exam Mastery',
-    description:
-      'A comprehensive video tour of EduTen — discover how we combine Google Gemini Multimodal AI, authentic multi-board syllabi (CBSE, ICSE, State), 3D concept models, live classrooms, and parent oversight.',
-    duration: '8:45',
-    views: '24.8K views',
-    date: 'Sep 2, 2026',
-    speaker: 'Dr. Priya Raman & Aarav Sharma',
-    speakerRole: 'Ex-IIT Delhi Faculty & Class 10 Topper',
-    speakerAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-    thumbnail: '/concepts/physics_optics_3d.jpg',
-    badge: '⭐ Platform Walkthrough',
-    topics: ['Full Platform Tour', 'CBSE/ICSE/State', 'Gemini AI', 'Live Classrooms', 'Parent Portal'],
-    youtubeId: 'PkZNo7MFNFg',
-    slides: [
-      {
-        id: 's1',
-        timestamp: '0:00',
-        seconds: 0,
-        title: '1. Multi-Board Curriculum Hub (CBSE, ICSE & State)',
-        subtitle: 'Authentic 10th-Grade Syllabi with Minimum 5 Chapters per Subject',
-        description:
-          'EduTen never mixes up curricula. Switch seamlessly between CBSE (NCERT core), ICSE (GST, Banking & Matrices), and State Board (Metallurgy & SCERT) with dedicated chapter notes, formulas, and worked examples.',
-        featureTag: 'Multi-Board Architecture',
-        badgeColor: 'bg-blue-600',
-        image: '/concepts/math_algebra_3d.jpg',
-        ctaText: 'Explore Subject Catalog',
-        ctaHref: '/subjects',
-        keyPoints: [
-          '21 full subjects populated across CBSE, ICSE, and State Board',
-          'Step-by-step worked board solutions for every chapter',
-          'Downloadable formula cheatcards & PYQ question banks',
-        ],
-      },
-      {
-        id: 's2',
-        timestamp: '1:45',
-        seconds: 105,
-        title: '2. Google Gemini Multimodal AI Doubt Solver',
-        subtitle: '24/7 Instant KaTeX Mathematical & Scientific Solutions',
-        description:
-          'Upload textbook snapshots, hand-drawn ray diagrams, or quadratic proofs. Gemini AI breaks down the concept step-by-step with LaTeX equations, exam tips, and marking scheme insights.',
-        featureTag: 'Multimodal AI Engine',
-        badgeColor: 'bg-indigo-600',
-        image: '/concepts/physics_elec_3d.jpg',
-        ctaText: 'Try Gemini AI Solver Live',
-        ctaHref: '/ai-doubt-solver',
-        keyPoints: [
-          'Instant OCR & mathematical formula rendering with KaTeX',
-          'Exam marking scheme tips to secure maximum step marks',
-          'Automatic triage to live IIT mentors for deep doubts',
-        ],
-      },
-      {
-        id: 's3',
-        timestamp: '3:30',
-        seconds: 210,
-        title: '3. 3D Pixar-Style Visual Concept Models',
-        subtitle: 'Turning Abstract Science into Intuitive 3D Graphics',
-        description:
-          'Explore custom 3D cartoonish illustrations across Optics (concave/convex mirror rays), Electricity (circuits & solenoids), Acids & Metallurgy (blast furnace smelting), and Biology (DNA & double circulation).',
-        featureTag: '3D Visual Learning',
-        badgeColor: 'bg-emerald-600',
-        image: '/concepts/chem_acids_metal_3d.jpg',
-        ctaText: 'View 3D Concepts in Physics',
-        ctaHref: '/subjects/physics',
-        keyPoints: [
-          '10 dedicated 3D visual concept models tailored to each topic',
-          'Proven visual memory retention over rote memorization',
-          'Interactive zoom, hover badges, and chapter breakdown',
-        ],
-      },
-      {
-        id: 's4',
-        timestamp: '5:15',
-        seconds: 315,
-        title: '4. Live Interactive Classrooms across 4 Timings',
-        subtitle: 'Morning, Afternoon, Evening & Night Live Sessions',
-        description:
-          'Attend live sessions at 6:30 AM (Morning), 2:30 PM (Afternoon), 6:00 PM (Evening), and 8:30 PM (Night). Features real-time whiteboard canvas, audio hand-raising, and free pass access.',
-        featureTag: 'Live Classrooms',
-        badgeColor: 'bg-amber-600',
-        image: '/concepts/sst_history_geo_3d.jpg',
-        ctaText: 'Meet Verified Live Mentors',
-        ctaHref: '/tutors',
-        keyPoints: [
-          '100% Free Live Class Access for Super Pass holders',
-          'Real-time interactive digital whiteboard & math equations',
-          'Session recordings available for 24/7 revision',
-        ],
-      },
-      {
-        id: 's5',
-        timestamp: '7:00',
-        seconds: 420,
-        title: '5. Parent Oversight & Automated WhatsApp Alerts',
-        subtitle: 'Real-Time Attendance Audits & CCE Weakness Heatmaps',
-        description:
-          'Parents strictly view their linked child’s performance, Red/Amber/Green chapter weakness heatmaps, live class attendance logs, and receive automated WhatsApp score updates.',
-        featureTag: 'Parent Control Portal',
-        badgeColor: 'bg-rose-600',
-        image: '/concepts/bio_heart_3d.jpg',
-        ctaText: 'Open Parent Oversight Portal',
-        ctaHref: '/dashboard/parent',
-        keyPoints: [
-          'Strict student data isolation in parent view',
-          'Red/Amber/Green chapter weakness diagnostic heatmaps',
-          'Printable official CBSE/ICSE CCE performance report cards',
-        ],
-      },
-      {
-        id: 's6',
-        timestamp: '8:00',
-        seconds: 480,
-        title: '6. Master Admin Credential & Access Control',
-        subtitle: 'Centralized User Provisioning & Password Authority',
-        description:
-          'Academic Master Admin has full control to + add students, parents, and tutors, grant or suspend login access, and change credentials with an instant strong password generator.',
-        featureTag: 'Admin Access Control',
-        badgeColor: 'bg-purple-600',
-        image: '/concepts/eng_lit_3d.jpg',
-        ctaText: 'View Directory & Credentials Hub',
-        ctaHref: '/directory',
-        keyPoints: [
-          'Instant 1-click login access granting & suspension',
-          'Comprehensive credential editor (username & password generator)',
-          'Provisioning options for goals, pass tiers, and alert channels',
-        ],
-      },
-    ],
+    title: 'Physics: Ray Optics & Focal Reflection',
+    subject: 'Physics',
+    board: 'CBSE / ICSE / State',
+    img: '/concepts/physics_optics_3d.jpg',
+    desc: 'Concave and convex mirrors with focal point convergence and ROYGBIV rainbow dispersion.',
+    href: '/subjects/physics',
   },
   {
-    id: 'vlog-2',
-    title: 'Google Gemini Multimodal AI Doubt Solver: Deep-Dive Demo',
-    description:
-      'See how our AI assistant processes 10th-grade Board questions, generates step-by-step LaTeX math proofs, and advises on exam answer phrasing.',
-    duration: '6:15',
-    views: '18.4K views',
-    date: 'Aug 28, 2026',
-    speaker: 'Prof. Rajesh Verma',
-    speakerRole: 'Senior Mathematics Faculty (IIT Madras)',
-    speakerAvatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
-    thumbnail: '/concepts/math_trig_3d.jpg',
-    badge: '🤖 AI Feature Focus',
-    topics: ['Gemini 1.5 Flash', 'KaTeX Math', 'Exam Scoring Tips', 'Diagram OCR'],
-    youtubeId: 'Z1BCujX3pw8',
-    slides: [
-      {
-        id: 's2-1',
-        timestamp: '0:00',
-        seconds: 0,
-        title: 'Step 1: Submitting Any 10th Doubt with Text or Diagram',
-        subtitle: 'Physics Ray Diagrams, Math Trigonometry, or Chemistry Equations',
-        description:
-          'Simply type your query or upload an image from your textbook or handwritten notes. Gemini AI immediately parses formulas and diagrams.',
-        featureTag: 'Multimodal Input',
-        badgeColor: 'bg-indigo-600',
-        image: '/concepts/math_trig_3d.jpg',
-        ctaText: 'Test Doubt Solver',
-        ctaHref: '/ai-doubt-solver',
-        keyPoints: ['Supports image OCR and text input', 'Covers CBSE, ICSE, and State syllabi'],
-      },
-      {
-        id: 's2-2',
-        timestamp: '3:00',
-        seconds: 180,
-        title: 'Step 2: Step-by-Step KaTeX LaTeX Solution Rendering',
-        subtitle: 'Clear Mathematical Formatting with Board Marking Keys',
-        description:
-          'Solutions are formatted with high-clarity KaTeX math notation so students learn the exact layout required for 100/100 board scores.',
-        featureTag: 'LaTeX Rendering',
-        badgeColor: 'bg-indigo-600',
-        image: '/concepts/physics_optics_3d.jpg',
-        ctaText: 'View Sample Doubts',
-        ctaHref: '/doubts',
-        keyPoints: ['Step-by-step formula breakdown', 'Highlighting key scoring keywords'],
-      },
-    ],
+    title: 'Mathematics: Quadratic & Algebraic Graphs',
+    subject: 'Mathematics',
+    board: 'CBSE / ICSE / State',
+    img: '/concepts/math_algebra_3d.jpg',
+    desc: 'Coordinate geometry with parabola roots, factorization curves, and animated polynomial axes.',
+    href: '/subjects/mathematics',
   },
   {
-    id: 'vlog-3',
-    title: '3D Visual Science & Mathematics: Concept Gallery Walkthrough',
-    description:
-      'A visual tour of how abstract ray optics, chemical metallurgy smelting, and biological double circulation are rendered into memorable 3D models.',
-    duration: '7:30',
-    views: '15.1K views',
-    date: 'Aug 24, 2026',
-    speaker: 'Ananya Sengupta',
-    speakerRole: 'Visual Learning Director & Biology Lead',
-    speakerAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-    thumbnail: '/concepts/bio_genetics_3d.jpg',
-    badge: '🎨 3D Concept Art',
-    topics: ['Ray Optics 3D', 'Blast Furnace 3D', 'DNA Helix 3D', 'Trigonometry 3D'],
-    youtubeId: '2_c_g5qE4Xg',
-    slides: [
-      {
-        id: 's3-1',
-        timestamp: '0:00',
-        seconds: 0,
-        title: 'Physics Optics & Electric Circuits in 3D',
-        subtitle: 'Laser Convergence at Focus F & Solenoid Magnetic Lines',
-        description:
-          'Concave and convex mirrors with focal point convergence and ROYGBIV rainbow dispersion make optical sign conventions unforgettable.',
-        featureTag: 'Physics 3D',
-        badgeColor: 'bg-blue-600',
-        image: '/concepts/physics_optics_3d.jpg',
-        ctaText: 'Explore Physics Chapters',
-        ctaHref: '/subjects/physics',
-        keyPoints: ['Light reflection & refraction in 3D', 'Electric circuit battery cells & resistors'],
-      },
-      {
-        id: 's3-2',
-        timestamp: '3:45',
-        seconds: 225,
-        title: 'Biology Circulation & Genetics in 3D',
-        subtitle: 'Stylized Human Heart & Glowing DNA Double Helix',
-        description:
-          'Friendly heart characters showing pulmonary and systemic circuits alongside 4-box Punnett squares with Mendel pea pods.',
-        featureTag: 'Biology 3D',
-        badgeColor: 'bg-emerald-600',
-        image: '/concepts/bio_genetics_3d.jpg',
-        ctaText: 'Explore Biology Chapters',
-        ctaHref: '/subjects/biology',
-        keyPoints: ['Double circulation pathways', 'Mitosis stages & Punnett 3:1 ratio'],
-      },
-    ],
+    title: 'Chemistry: Blast Furnace & Smelting Metallurgy',
+    subject: 'Chemistry',
+    board: 'State / CBSE / ICSE',
+    img: '/concepts/chem_acids_metal_3d.jpg',
+    desc: 'Froth floatation froth tanks, electrolytic refining, and molten iron blast furnace extraction.',
+    href: '/subjects/chemistry',
   },
   {
-    id: 'vlog-4',
-    title: 'Parent Oversight & CCE Report Cards: Ensuring Student Growth',
-    description:
-      'Learn how parents monitor daily live class attendance, review Red/Amber/Green topic weakness heatmaps, and download printable CCE reports.',
-    duration: '5:20',
-    views: '11.9K views',
-    date: 'Aug 19, 2026',
-    speaker: 'Rajesh Sharma',
-    speakerRole: 'Parent Advisory Board Member',
-    speakerAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
-    thumbnail: '/concepts/chem_molecules_3d.jpg',
-    badge: '👨‍👩‍👧 Parent Portal',
-    topics: ['CCE Reports', 'WhatsApp Alerts', 'Weakness Heatmaps', 'Attendance Logs'],
-    youtubeId: 'XqZsoesa55w',
-    slides: [
-      {
-        id: 's4-1',
-        timestamp: '0:00',
-        seconds: 0,
-        title: 'Private Ward Data Isolation & Real-Time Logs',
-        subtitle: 'Parents Only See Their Linked Child’s Academic Records',
-        description:
-          'Every parent account is securely linked to their ward. View exact live class join times, quiz scores, and subject strengths.',
-        featureTag: 'Data Privacy',
-        badgeColor: 'bg-rose-600',
-        image: '/concepts/sst_history_geo_3d.jpg',
-        ctaText: 'Inspect Parent Portal',
-        ctaHref: '/dashboard/parent',
-        keyPoints: ['Strict ward isolation', 'Automatic WhatsApp score notifications'],
-      },
-    ],
+    title: 'Biology: Stylized Human Heart Double Circulation',
+    subject: 'Biology',
+    board: 'CBSE / ICSE / State',
+    img: '/concepts/bio_heart_3d.jpg',
+    desc: 'Friendly 3D heart character showing pulmonary and systemic circuits with oxygenated blood flow.',
+    href: '/subjects/biology',
+  },
+  {
+    title: 'Mathematics: Trigonometry Right-Angle Ratios',
+    subject: 'Mathematics',
+    board: 'CBSE / ICSE / State',
+    img: '/concepts/math_trig_3d.jpg',
+    desc: '3D glowing right triangle with sine, cosine, tangent formulas and angle of elevation trees.',
+    href: '/subjects/mathematics',
+  },
+  {
+    title: 'Physics: Electric Circuits & Solenoids',
+    subject: 'Physics',
+    board: 'CBSE / ICSE / State',
+    img: '/concepts/physics_elec_3d.jpg',
+    desc: 'Resistors, battery cells, ammeters, and glowing coils demonstrating magnetic field lines.',
+    href: '/subjects/physics',
   },
 ];
 
-export default function VlogPage() {
-  const [activeEpisode, setActiveEpisode] = useState<VlogEpisode>(VLOG_EPISODES[0]);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [viewMode, setViewMode] = useState<'INTERACTIVE_TOUR' | 'YOUTUBE_MASTERCLASS'>('INTERACTIVE_TOUR');
-  const [likesCount, setLikesCount] = useState(1420);
-  const [hasLiked, setHasLiked] = useState(false);
+export default function PlatformOverviewPage() {
+  const [activeRoleTab, setActiveRoleTab] = useState<'STUDENT' | 'PARENT' | 'TUTOR' | 'SCHOOL'>('STUDENT');
 
   // --- Registration / Google Form State ---
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -365,42 +101,12 @@ export default function VlogPage() {
   ]);
   const [applicantNotes, setApplicantNotes] = useState('');
 
-  const currentSlide =
-    activeEpisode.slides[currentSlideIndex] || activeEpisode.slides[0];
-
-  // Auto-advance interactive tour slides when playing
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isPlaying && viewMode === 'INTERACTIVE_TOUR') {
-      timer = setInterval(() => {
-        setCurrentSlideIndex((prev) => (prev + 1) % activeEpisode.slides.length);
-      }, 7000); // 7 seconds per visual scene
-    }
-    return () => clearInterval(timer);
-  }, [isPlaying, viewMode, activeEpisode]);
-
   const toggleInterest = (interest: string) => {
     if (selectedInterests.includes(interest)) {
       setSelectedInterests(selectedInterests.filter((i) => i !== interest));
     } else {
       setSelectedInterests([...selectedInterests, interest]);
     }
-  };
-
-  const handleLike = () => {
-    if (!hasLiked) {
-      setLikesCount((prev) => prev + 1);
-      setHasLiked(true);
-    } else {
-      setLikesCount((prev) => prev - 1);
-      setHasLiked(false);
-    }
-  };
-
-  const handleSelectEpisode = (ep: VlogEpisode) => {
-    setActiveEpisode(ep);
-    setCurrentSlideIndex(0);
-    setIsPlaying(true);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -419,555 +125,421 @@ export default function VlogPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-14">
       {/* 1. Hero Title Banner */}
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-10 border border-border shadow-2xl">
-        <div className="absolute -right-10 -bottom-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary-foreground border border-primary/30 text-xs font-bold tracking-wide uppercase">
-              <Video className="w-4 h-4 text-emerald-400" />
-              <span>EduTen Official Platform Tour & Video Showcase</span>
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-12 border border-border shadow-2xl">
+        <div className="absolute -right-10 -bottom-10 w-96 h-96 bg-primary/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="space-y-4 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/20 text-primary-foreground border border-primary/30 text-xs font-extrabold tracking-wide uppercase">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>EduTen Platform Overview & Admissions Hub</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-              Experience the Future of 10th-Grade Board Learning
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+              All Details About EduTen — Modern 10th-Grade Board Preparation
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Watch the interactive video walkthrough of the EduTen ecosystem — from Google Gemini Multimodal AI to 3D concept models, multi-board syllabi, live classrooms, and parent oversight.
+              Explore the complete ecosystem built for Class 10 board toppers: Google Gemini Multimodal AI Doubt Solver, authentic CBSE/ICSE/State Board curricula, 3D Pixar-style concept models, live multi-slot classrooms, parent oversight, and early admission registration.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             <a
               href="#registration-form"
-              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-primary/25 flex items-center justify-center gap-2 transition-all hover:scale-105"
+              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary/90 hover:to-indigo-500 text-white font-extrabold text-sm shadow-xl shadow-primary/25 flex items-center justify-center gap-2 transition-all hover:scale-105"
             >
               <Send className="w-4 h-4" />
               <span>Register Interest Form</span>
             </a>
-            <button
-              onClick={() => {
-                setIsPlaying(true);
-                const el = document.getElementById('vlog-player');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs sm:text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
-            >
-              <Play className="w-4 h-4" />
-              <span>Watch Website Tour</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. AUTHENTIC EDUTEN PLATFORM VIDEO WALKTHROUGH ENGINE */}
-      <div id="vlog-player" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left 8 Cols: Real EduTen Video Presentation Player */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* Player Mode Switcher */}
-          <div className="flex items-center justify-between bg-muted/70 p-2 rounded-2xl border border-border">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setViewMode('INTERACTIVE_TOUR')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
-                  viewMode === 'INTERACTIVE_TOUR'
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <MonitorPlay className="w-3.5 h-3.5" />
-                <span>🎬 EduTen Platform Video Tour</span>
-              </button>
-
-              <button
-                onClick={() => setViewMode('YOUTUBE_MASTERCLASS')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
-                  viewMode === 'YOUTUBE_MASTERCLASS'
-                    ? 'bg-red-600 text-white shadow-md'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <Tv className="w-3.5 h-3.5" />
-                <span>📺 10th Board Prep Masterclass</span>
-              </button>
-            </div>
-
-            <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 hidden sm:flex">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>100% Platform Verified Tour</span>
-            </div>
-          </div>
-
-          {/* MAIN PLAYER VIEW */}
-          {viewMode === 'INTERACTIVE_TOUR' ? (
-            /* --- 100% AUTHENTIC EDUTEN INTERACTIVE PLATFORM VIDEO TOUR --- */
-            <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full flex flex-col justify-between group">
-              {/* Background 3D Concept / Screen Image with Cinematic Zoom */}
-              <img
-                key={currentSlide.image}
-                src={currentSlide.image}
-                alt={currentSlide.title}
-                className="absolute inset-0 w-full h-full object-cover opacity-35 scale-105 group-hover:scale-110 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40" />
-
-              {/* Top Header inside Video */}
-              <div className="relative z-10 p-4 sm:p-6 flex items-center justify-between text-white">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-3 py-1 rounded-full bg-primary text-white font-extrabold text-[11px] uppercase tracking-wider flex items-center gap-1.5 shadow">
-                    <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                    EduTen Live Tour HD
-                  </span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white ${currentSlide.badgeColor}`}>
-                    {currentSlide.featureTag}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-                    Scene {currentSlideIndex + 1} of {activeEpisode.slides.length}
-                  </span>
-                </div>
-              </div>
-
-              {/* Center Content Slide */}
-              <div className="relative z-10 px-6 sm:px-10 py-4 text-white space-y-3 max-w-2xl">
-                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>{currentSlide.subtitle}</span>
-                </div>
-
-                <h3 className="text-xl sm:text-3xl font-black tracking-tight leading-tight drop-shadow-md">
-                  {currentSlide.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed drop-shadow line-clamp-3 sm:line-clamp-none">
-                  {currentSlide.description}
-                </p>
-
-                {/* Key Points Checklist */}
-                <div className="hidden sm:flex flex-wrap gap-2 pt-2">
-                  {currentSlide.keyPoints.map((pt, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur-md text-[11px] font-medium border border-white/15 flex items-center gap-1.5 text-emerald-300"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                      <span>{pt}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Bottom Video Controls & Navigation Bar */}
-              <div className="relative z-10 p-4 sm:p-6 space-y-3 bg-gradient-to-t from-black via-black/90 to-transparent">
-                {/* Visual Scene Progress Bar */}
-                <div className="grid grid-cols-6 gap-1.5">
-                  {activeEpisode.slides.map((s, idx) => (
-                    <div
-                      key={s.id}
-                      onClick={() => setCurrentSlideIndex(idx)}
-                      className={`h-1.5 rounded-full cursor-pointer transition-all ${
-                        idx === currentSlideIndex
-                          ? 'bg-primary h-2 shadow-lg shadow-primary/50'
-                          : idx < currentSlideIndex
-                          ? 'bg-primary/60'
-                          : 'bg-white/20 hover:bg-white/40'
-                      }`}
-                      title={s.title}
-                    />
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between text-white text-xs font-semibold">
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => setIsPlaying(!isPlaying)}
-                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
-                    >
-                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white ml-0.5" />}
-                    </button>
-
-                    <button
-                      onClick={() =>
-                        setCurrentSlideIndex((prev) =>
-                          prev === 0 ? activeEpisode.slides.length - 1 : prev - 1
-                        )
-                      }
-                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
-                      title="Previous Scene"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-
-                    <button
-                      onClick={() =>
-                        setCurrentSlideIndex((prev) => (prev + 1) % activeEpisode.slides.length)
-                      }
-                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-all"
-                      title="Next Scene"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-
-                    <span className="font-mono text-[11px] text-slate-300">
-                      {currentSlide.timestamp} / {activeEpisode.duration}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={currentSlide.ctaHref}
-                      className="px-3 py-1.5 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold text-xs shadow flex items-center gap-1.5 transition-all"
-                    >
-                      <span>{currentSlide.ctaText}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* --- YOUTUBE MASTERCLASS PLAYER --- */
-            <div className="relative rounded-3xl overflow-hidden bg-slate-950 border border-slate-800 shadow-2xl aspect-video w-full">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${activeEpisode.youtubeId || 'PkZNo7MFNFg'}?autoplay=1&rel=0&modestbranding=1`}
-                title={activeEpisode.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="w-full h-full border-0 absolute inset-0 z-10"
-              />
-            </div>
-          )}
-
-          {/* Interactive Scene Jumper Buttons */}
-          <div className="p-4 rounded-3xl bg-card border border-border space-y-2.5 shadow-sm">
-            <div className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Compass className="w-3.5 h-3.5 text-primary" />
-                Jump to Platform Tour Chapters:
-              </span>
-              <span className="text-[11px] font-normal">Click any chapter to view UI walkthrough</span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {activeEpisode.slides.map((slide, idx) => (
-                <button
-                  key={slide.id}
-                  onClick={() => {
-                    setViewMode('INTERACTIVE_TOUR');
-                    setCurrentSlideIndex(idx);
-                    setIsPlaying(true);
-                  }}
-                  className={`p-2.5 rounded-2xl text-left border transition-all text-xs flex items-start gap-2.5 ${
-                    currentSlideIndex === idx && viewMode === 'INTERACTIVE_TOUR'
-                      ? 'bg-primary/10 border-primary text-primary font-bold shadow-sm'
-                      : 'bg-muted/40 border-border text-foreground hover:bg-muted'
-                  }`}
-                >
-                  <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-card border border-border font-bold text-primary shrink-0">
-                    {slide.timestamp}
-                  </span>
-                  <div className="overflow-hidden">
-                    <div className="font-bold truncate">{slide.title}</div>
-                    <div className="text-[10px] text-muted-foreground truncate">{slide.subtitle}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Video Metadata & Speaker Card */}
-          <div className="p-6 rounded-3xl bg-card border border-border space-y-4 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                {activeEpisode.topics.map((t) => (
-                  <span
-                    key={t}
-                    className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/20"
-                  >
-                    #{t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-3 text-xs">
-                <button
-                  onClick={handleLike}
-                  className={`px-3 py-1.5 rounded-xl border flex items-center gap-1.5 transition-all font-semibold ${
-                    hasLiked
-                      ? 'bg-primary text-white border-primary'
-                      : 'bg-muted hover:bg-muted/80 text-foreground border-border'
-                  }`}
-                >
-                  <ThumbsUp className={`w-3.5 h-3.5 ${hasLiked ? 'fill-white' : ''}`} />
-                  <span>{likesCount}</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    alert('Video link copied to clipboard!');
-                  }}
-                  className="px-3 py-1.5 rounded-xl bg-muted hover:bg-muted/80 text-foreground border border-border flex items-center gap-1.5 transition-all font-semibold"
-                >
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span>Share</span>
-                </button>
-              </div>
-            </div>
-
-            <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
-              {activeEpisode.title}
-            </h2>
-
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {activeEpisode.description}
-            </p>
-
-            {/* Speaker Info */}
-            <div className="flex items-center justify-between pt-4 border-t border-border">
-              <div className="flex items-center gap-3">
-                <img
-                  src={activeEpisode.speakerAvatar}
-                  alt={activeEpisode.speaker}
-                  className="w-12 h-12 rounded-2xl object-cover border-2 border-primary/40 shadow"
-                />
-                <div>
-                  <div className="font-extrabold text-sm text-foreground flex items-center gap-1.5">
-                    {activeEpisode.speaker}
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary fill-primary/20" />
-                  </div>
-                  <div className="text-xs text-muted-foreground">{activeEpisode.speakerRole}</div>
-                </div>
-              </div>
-
-              <div className="text-right text-xs text-muted-foreground">
-                <div className="font-semibold text-foreground">{activeEpisode.views}</div>
-                <div>Published {activeEpisode.date}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right 4 Cols: Vlog Playlist */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-border">
-            <h3 className="font-extrabold text-base text-foreground flex items-center gap-2">
-              <Video className="w-4 h-4 text-primary" />
-              <span>EduTen Video Episodes</span>
-            </h3>
-            <span className="text-xs font-bold text-muted-foreground">
-              {VLOG_EPISODES.length} Tours
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            {VLOG_EPISODES.map((ep) => {
-              const isSelected = activeEpisode.id === ep.id;
-              return (
-                <div
-                  key={ep.id}
-                  onClick={() => handleSelectEpisode(ep)}
-                  className={`p-3 rounded-2xl border transition-all cursor-pointer flex gap-3 ${
-                    isSelected
-                      ? 'bg-primary/5 border-primary shadow-md ring-1 ring-primary/30'
-                      : 'bg-card border-border hover:border-primary/40 hover:bg-muted/30'
-                  }`}
-                >
-                  <div className="relative w-28 h-20 rounded-xl overflow-hidden shrink-0 bg-slate-900 border border-border">
-                    <img
-                      src={ep.thumbnail}
-                      alt={ep.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 text-[10px] font-mono text-white font-bold">
-                      {ep.duration}
-                    </span>
-                    {isSelected && (
-                      <div className="absolute inset-0 bg-primary/40 flex items-center justify-center">
-                        <Play className="w-6 h-6 text-white fill-white" />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col justify-between py-0.5 space-y-1 overflow-hidden">
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-wide truncate">
-                      {ep.badge}
-                    </span>
-                    <h4 className="text-xs font-extrabold text-foreground line-clamp-2 leading-tight">
-                      {ep.title}
-                    </h4>
-                    <div className="text-[11px] text-muted-foreground flex items-center gap-2">
-                      <span>{ep.views}</span>
-                      <span>•</span>
-                      <span>{ep.date}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Quick Registration Teaser Card */}
-          <div className="p-5 rounded-3xl bg-gradient-to-br from-indigo-900 to-purple-950 text-white space-y-3 shadow-lg">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] font-bold uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 text-amber-300" /> Early Admission
-            </div>
-            <h4 className="font-extrabold text-sm leading-snug">
-              Want 1-on-1 Guidance from IIT & CBSE Master Faculty?
-            </h4>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Register your interest today to claim a free diagnostic assessment & scholarship evaluation.
-            </p>
             <a
-              href="#registration-form"
-              className="block w-full text-center py-2.5 rounded-xl bg-white text-slate-900 font-extrabold text-xs hover:bg-slate-100 shadow transition-all"
+              href="#platform-pillars"
+              className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/20 flex items-center justify-center gap-2 transition-all"
             >
-              Fill Registration Form &darr;
+              <Layers className="w-4 h-4" />
+              <span>Explore Features</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* 3. Complete Website Blueprint & Details Grid */}
-      <div className="space-y-6 pt-6 border-t border-border">
+      {/* 2. Platform Highlights & Architecture Grid */}
+      <div id="platform-pillars" className="space-y-6">
         <div className="text-center max-w-3xl mx-auto space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
-            <Layers className="w-3.5 h-3.5" /> Platform Architecture & Features
+            <Layers className="w-3.5 h-3.5" /> Core Platform Pillars
           </div>
           <h2 className="text-2xl sm:text-4xl font-black text-foreground tracking-tight">
-            Everything You Need to Know About EduTen
+            Everything You Need to Master 10th Board Exams
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground">
-            A comprehensive, all-in-one learning ecosystem built specifically for 10th-grade exam excellence.
+            Built from the ground up for CBSE, ICSE, and State Board curriculum requirements.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1: Gemini AI */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
               <Bot className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              Google Gemini Multimodal AI Doubt Solver
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Upload textbook questions, hand-drawn ray diagrams, or chemical equations. Receives instant step-by-step LaTeX formulas, CBSE marking schemes, and exam answer templates 24/7.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                Google Gemini Multimodal AI Doubt Solver
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Snap textbook diagrams or type questions. Gemini AI produces step-by-step KaTeX LaTeX formulas, CBSE marking keys, and exam answer tips 24/7.
+              </p>
+            </div>
             <Link
               href="/ai-doubt-solver"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>Try Gemini AI Solver</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Card 2: 3 Boards */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
               <BookOpen className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              Dedicated CBSE, ICSE & State Board Syllabi
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Never mix up curricula. 21 full subjects with minimum 5 chapters each — covers ICSE GST & Matrices, State Board Froth Floatation & SCERT lessons, and CBSE NCERT core concepts.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                Dedicated CBSE, ICSE & State Syllabi
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                21 full subjects populated with at least 5 chapters each — covers ICSE GST & Matrices, State Board Metallurgy & SCERT, and CBSE NCERT core concepts.
+              </p>
+            </div>
             <Link
               href="/subjects"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>Explore Subject Syllabi</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Card 3: 3D Concepts */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
               <Sparkles className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              3D Pixar/Blender Concept Visuals
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Every chapter features custom 3D cartoonish illustrations (concave mirrors, Ohm&apos;s circuits, blast furnaces, DNA helices, Shakespeare Forum) to make retention effortless.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                3D Pixar/Blender Concept Graphics
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                10 custom 3D cartoonish illustrations (concave mirrors, Ohm&apos;s circuits, blast furnaces, DNA helices, Shakespeare Forum) to make retention effortless.
+              </p>
+            </div>
             <Link
               href="/subjects/physics"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>View Physics 3D Concepts</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Card 4: Live Classrooms */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
-              <Video className="w-6 h-6" />
+              <Clock className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              Live Interactive Classrooms (4 Timings)
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Morning (6:30 AM), Afternoon (2:30 PM), Evening (6:00 PM), and Night (8:30 PM) sessions with digital whiteboards, hand raise audio interaction, and free pass access.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                Live Classrooms Across 4 Daily Timings
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Morning (6:30 AM), Afternoon (2:30 PM), Evening (6:00 PM), and Night (8:30 PM) sessions with digital whiteboards, hand raise audio interaction, and free pass access.
+              </p>
+            </div>
             <Link
               href="/tutors"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>Meet Live Mentors</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Card 5: Parent Portal */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold">
               <HeartHandshake className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              Parent Oversight & CCE Report Cards
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Parents strictly see their linked child&apos;s data, Red/Amber/Green topic weakness heatmaps, live class attendance logs, and automated WhatsApp scorecard updates.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                Parent Oversight & WhatsApp CCE Reports
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Parents strictly see their linked child&apos;s data, Red/Amber/Green topic weakness heatmaps, live class attendance logs, and automated WhatsApp scorecard updates.
+              </p>
+            </div>
             <Link
               href="/dashboard/parent"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>Open Parent Portal</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           {/* Card 6: Admin Directory */}
-          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-3 shadow-sm hover:shadow-md">
+          <div className="p-6 rounded-3xl bg-card border border-border hover:border-primary/50 transition-all space-y-4 shadow-sm hover:shadow-md">
             <div className="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="font-extrabold text-base text-foreground">
-              Master Admin Credential Authority
-            </h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Full control over student, parent, and tutor account provisioning, one-click login access granting, password resets, and user permissions across all boards.
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-lg text-foreground">
+                Master Admin Credential Authority
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Full control over student, parent, and tutor account provisioning, one-click login access granting, password resets, and user permissions across all boards.
+              </p>
+            </div>
             <Link
               href="/directory"
-              className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline pt-2"
             >
               <span>View Directory Hub</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </div>
 
-      {/* 4. Official Google Form / Registration & Expression of Interest */}
+      {/* 3. Role-Tailored Experience Breakdown */}
+      <div className="p-8 sm:p-10 rounded-3xl bg-card border border-border space-y-6 shadow-md">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span className="text-xs font-extrabold text-primary uppercase tracking-wider">
+              Tailored Ecosystem
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black text-foreground">
+              How EduTen Serves Every Stakeholder
+            </h3>
+          </div>
+
+          {/* Tab Selector */}
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-muted/70 border border-border overflow-x-auto">
+            {[
+              { id: 'STUDENT', label: '🎓 For Students' },
+              { id: 'PARENT', label: '👨‍👩‍👧 For Parents' },
+              { id: 'TUTOR', label: '👨‍🏫 For Faculty' },
+              { id: 'SCHOOL', label: '🏫 For Schools' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveRoleTab(tab.id as any)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
+                  activeRoleTab === tab.id
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tab Content Panels */}
+        {activeRoleTab === 'STUDENT' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Zap className="w-4 h-4 text-amber-500" />
+                <span>Instant 24/7 AI Doubt Solver</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Never wait until next morning. Upload textbook problems anytime for step-by-step KaTeX LaTeX solutions and exam scoring tips.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-primary" />
+                <span>5-Section Timed Board Mocks</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Take authentic 80-mark mock exams with section timers, official marking schemes, and comparison with Topper model answers.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-emerald-500" />
+                <span>3D Visual Memory Anchors</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Replace text-heavy memorization with 3D models for ray optics, chemical blast furnaces, Ohm&apos;s circuits, and genetics.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeRoleTab === 'PARENT' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-rose-500" />
+                <span>Strict Ward Data Isolation</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Complete privacy. Parents only access their linked child&apos;s records, mock scores, and class attendance logs.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Target className="w-4 h-4 text-amber-500" />
+                <span>Red/Amber/Green Weakness Heatmap</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Identify weak chapters before board exams occur. Instantly see which topics need revision and book targeted mentor sessions.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <FileCheck2 className="w-4 h-4 text-emerald-500" />
+                <span>Official CCE Report Card Downloads</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Download printable Continuous Comprehensive Evaluation (CCE) report cards and receive automated WhatsApp score digests.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeRoleTab === 'TUTOR' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Users className="w-4 h-4 text-indigo-500" />
+                <span>Live Interactive Whiteboard</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Teach with digital drawing tools, equation renderers, real-time student doubt queues, and audio hand-raising.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Award className="w-4 h-4 text-amber-500" />
+                <span>Verified Subject Badges</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Highlight your academic credentials (IIT/NIT alumnus, Certified Board Evaluator) and set transparent hourly rates.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Clock className="w-4 h-4 text-primary" />
+                <span>Flexible 4-Slot Scheduling</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Host sessions in Morning (6:30 AM), Afternoon (2:30 PM), Evening (6:00 PM), or Night (8:30 PM) slots.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeRoleTab === 'SCHOOL' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <Building className="w-4 h-4 text-blue-500" />
+                <span>Institutional Bulk Access</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Onboard entire Class 10 cohorts with customized school branding, teacher dashboards, and batch-level CCE analytics.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-emerald-500" />
+                <span>Cohort Weakness Diagnostics</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Principal and HOD dashboards pinpointing class-wide syllabus gaps before pre-board preliminary examinations.
+              </p>
+            </div>
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border space-y-2">
+              <div className="font-extrabold text-sm text-foreground flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-purple-500" />
+                <span>Dedicated Board Support</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Curriculum alignments tailored for CBSE NCERT, ICSE CISCE, and State SCERT school requirements.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 4. 3D Concept Illustrations Showcase */}
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span className="text-xs font-extrabold text-primary uppercase tracking-wider">
+              Visual Learning Gallery
+            </span>
+            <h3 className="text-2xl font-black text-foreground">
+              3D Concept Visual Models (Pixar/Blender Style)
+            </h3>
+          </div>
+          <Link
+            href="/subjects"
+            className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+          >
+            <span>View All 21 Subjects</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {THREE_D_CONCEPTS.map((c, i) => (
+            <div
+              key={i}
+              className="rounded-3xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
+            >
+              <div className="relative aspect-video overflow-hidden bg-slate-950">
+                <img
+                  src={c.img}
+                  alt={c.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-white text-[10px] font-bold">
+                  {c.subject}
+                </span>
+                <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-primary/90 text-white text-[10px] font-bold">
+                  {c.board}
+                </span>
+              </div>
+
+              <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                <div className="space-y-1.5">
+                  <h4 className="font-extrabold text-sm text-foreground leading-snug">
+                    {c.title}
+                  </h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {c.desc}
+                  </p>
+                </div>
+
+                <Link
+                  href={c.href}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline pt-2"
+                >
+                  <span>Explore Subject Chapter</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. Official Google Form / Registration & Expression of Interest */}
       <div
         id="registration-form"
         className="rounded-3xl border border-border bg-card p-6 sm:p-10 space-y-8 shadow-xl relative overflow-hidden"
@@ -981,7 +553,7 @@ export default function VlogPage() {
               <FileCheck2 className="w-3.5 h-3.5" /> Official 2026 Registration & Expression of Interest
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-              Register for EduTen Board Tutoring & Early Access
+              Register for EduTen Board Tutoring & Early Admission
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl">
               Fill out this official form to request enrollment, book a complimentary 1-on-1 mentor session, or enquire about school-wide institutional access.
