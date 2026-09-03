@@ -14,15 +14,19 @@ import {
 } from 'lucide-react';
 
 export function NetworkStatusBadge() {
+  const [mounted, setMounted] = useState(false);
   const [telemetry, setTelemetry] = useState<NetworkTelemetry>(networkSyncEngine.getTelemetry());
   const [showDetails, setShowDetails] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     meshNetwork.init('Client Peer');
     const unsubscribe = networkSyncEngine.subscribe((t) => setTelemetry(t));
     return () => unsubscribe();
   }, []);
+
+  if (!mounted) return null;
 
   const handleManualSync = async () => {
     setIsSyncing(true);
