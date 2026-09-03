@@ -34,7 +34,31 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const activeBoard = currentBoard || currentUser?.board || 'CBSE';
+  // Board badge calculation according to role & student connection:
+  // 1. For TUTOR and ADMIN: Do NOT show board badge on logo.
+  // 2. For PARENT: Show the board of their linked student/ward.
+  // 3. For STUDENT: Show the student's active board.
+  const isTutorOrAdmin = currentRole === 'TUTOR' || currentRole === 'ADMIN';
+  const showBoardBadge = !isTutorOrAdmin;
+
+  const logoBoard = React.useMemo(() => {
+    if (currentRole === 'PARENT') {
+      return currentUser?.parentProfile?.studentBoard || currentUser?.board || currentBoard || 'CBSE';
+    }
+    if (currentRole === 'STUDENT') {
+      return currentBoard || currentUser?.board || 'CBSE';
+    }
+    return null;
+  }, [currentRole, currentUser, currentBoard]);
+
+  const activeBoard = logoBoard || currentBoard || currentUser?.board || 'CBSE';
+
+  const logoSubtitle = React.useMemo(() => {
+    if (currentRole === 'TUTOR') return 'Faculty & Mentor Portal';
+    if (currentRole === 'ADMIN') return 'Management & Admin Console';
+    if (currentRole === 'PARENT') return 'Parent Oversight Portal';
+    return 'Board Prep Platform';
+  }, [currentRole]);
 
   // Dynamic role-tailored navigation links
   const navLinks = React.useMemo(() => {
@@ -115,17 +139,19 @@ export function Navbar() {
             <div className="flex flex-col">
               <span className="leading-none flex items-center gap-1.5">
                 Apex Fusion{' '}
-                <span className={`text-[10px] uppercase font-extrabold tracking-wider px-1.5 py-0.5 rounded ${
-                  activeBoard === 'ICSE'
-                    ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
-                    : activeBoard === 'STATE'
-                    ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/30'
-                    : 'bg-primary/10 text-primary border border-primary/30'
-                }`}>
-                  {activeBoard} 10
-                </span>
+                {showBoardBadge && logoBoard && (
+                  <span className={`text-[10px] uppercase font-extrabold tracking-wider px-1.5 py-0.5 rounded ${
+                    logoBoard === 'ICSE'
+                      ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
+                      : logoBoard === 'STATE'
+                      ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/30'
+                      : 'bg-primary/10 text-primary border border-primary/30'
+                  }`}>
+                    {logoBoard} 10
+                  </span>
+                )}
               </span>
-              <span className="text-[10px] text-muted-foreground font-normal">Board Prep Platform</span>
+              <span className="text-[10px] text-muted-foreground font-normal">{logoSubtitle}</span>
             </div>
           </Link>
 
@@ -267,7 +293,9 @@ export function Navbar() {
         <div className="lg:hidden border-b border-border bg-background p-4 space-y-3">
           <div className="px-2 py-1 flex items-center justify-between text-xs font-bold text-muted-foreground border-b border-border pb-2">
             <span>Role: {currentRole}</span>
-            <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">{activeBoard} 10</span>
+            {showBoardBadge && logoBoard && (
+              <span className="px-2 py-0.5 rounded bg-primary/10 text-primary font-bold">{logoBoard} 10</span>
+            )}
           </div>
 
           <div className="space-y-1">
