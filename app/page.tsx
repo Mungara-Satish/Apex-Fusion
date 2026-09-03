@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import LoginHubPage from './login/page';
+import PlatformOverviewPage from './vlog/page';
 
 export default function HomePage() {
-  return <LoginHubPage />;
+  return <PlatformOverviewPage />;
 }
