@@ -156,9 +156,8 @@ export default function SubjectsPage() {
           const Icon = iconMap[sub.icon] || BookOpen;
           const bgGradient = gradientMap[sub.id] || 'from-indigo-600/90 to-purple-900/95';
 
-          // Calculate real completion from board chapters
-          const allBoardChapters = getChaptersForBoard(currentBoard || 'CBSE');
-          const subjectChapters = allBoardChapters.filter((c) => c.subjectId === sub.id);
+          // Calculate real completion from active store chapters
+          const subjectChapters = chapters.filter((c) => c.subjectId === sub.id);
           const completedCount = subjectChapters.filter(
             (c) => c.status === 'COMPLETED' || c.status === 'REVISED'
           ).length;

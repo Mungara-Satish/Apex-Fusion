@@ -7,11 +7,11 @@ export const CURRENT_STUDENT: User = {
   role: 'STUDENT',
   board: 'CBSE',
   avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
-  streakCount: 7,
-  points: 1240,
-  studyHoursWeekly: 18.5,
+  streakCount: 1,
+  points: 0,
+  studyHoursWeekly: 0,
   inviteCode: 'AARAV10TH',
-  createdAt: '2025-06-15T09:00:00Z',
+  createdAt: '2026-09-01T09:00:00Z',
 };
 
 export const CURRENT_TUTOR: User = {
@@ -654,7 +654,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-blue-600 to-indigo-700',
     image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-physics',
@@ -669,7 +669,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-amber-500 to-orange-600',
     image: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-chemistry',
@@ -684,7 +684,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-emerald-600 to-teal-700',
     image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-biology',
@@ -699,7 +699,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-green-600 to-emerald-800',
     image: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 4,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-history-civics',
@@ -714,7 +714,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-purple-600 to-pink-700',
     image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 4,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-geography-economics',
@@ -729,7 +729,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-cyan-600 to-blue-700',
     image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 4,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-english',
@@ -744,7 +744,7 @@ export const CBSE_SUBJECTS: Subject[] = [
     color: 'from-rose-500 to-red-700',
     image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   }
 ];
 
@@ -765,7 +765,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-blue-600 to-indigo-700',
     image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-physics-icse',
@@ -780,7 +780,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-amber-500 to-orange-600',
     image: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-chemistry-icse',
@@ -795,7 +795,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-emerald-600 to-teal-700',
     image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-biology-icse',
@@ -810,7 +810,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-green-600 to-emerald-800',
     image: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 4,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-history-civics-icse',
@@ -825,7 +825,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-purple-600 to-pink-700',
     image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-geography-icse',
@@ -840,7 +840,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-cyan-600 to-blue-700',
     image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-english-icse',
@@ -855,7 +855,7 @@ export const ICSE_SUBJECTS: Subject[] = [
     color: 'from-rose-500 to-red-700',
     image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   }
 ];
 
@@ -876,7 +876,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-blue-600 to-indigo-700',
     image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-physical-science-state',
@@ -891,7 +891,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-amber-500 to-orange-600',
     image: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-chemistry-state',
@@ -906,7 +906,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-emerald-600 to-teal-700',
     image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-biological-science-state',
@@ -921,7 +921,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-green-600 to-emerald-800',
     image: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-social-studies-state',
@@ -936,7 +936,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-purple-600 to-pink-700',
     image: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-geography-state',
@@ -951,7 +951,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-cyan-600 to-blue-700',
     image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   },
   {
     id: 'sub-english-state',
@@ -966,7 +966,7 @@ export const STATE_SUBJECTS: Subject[] = [
     color: 'from-rose-500 to-red-700',
     image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&auto=format&fit=crop&q=80',
     chaptersCount: 5,
-    completedChaptersCount: 3,
+    completedChaptersCount: 0,
   }
 ];
 
@@ -998,7 +998,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 4.5,
     totalQuestions: 24,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Fundamental Theorem of Arithmetic', 'Irrationality Proofs (√p)', 'HCF & LCM Prime Factorisation'],
     formulaList: [
       '\\text{HCF}(a, b) \\times \\text{LCM}(a, b) = a \\times b',
@@ -1023,7 +1023,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Zeroes of Quadratic Polynomials', 'Relationship Between Zeroes & Coefficients', 'Forming Quadratic Polynomials'],
     formulaList: [
       '\\alpha + \\beta = -\\frac{b}{a}',
@@ -1049,7 +1049,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Consistent & Inconsistent Systems', 'Elimination & Substitution Methods', 'Upstream/Downstream Word Problems'],
     formulaList: [
       '\\text{Unique Solution}: \\frac{a_1}{a_2} \\neq \\frac{b_1}{b_2}',
@@ -1075,7 +1075,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Discriminant (D = b² - 4ac)', 'Nature of Roots (Real & Equal, Distinct, No Real Roots)', 'Quadratic Formula'],
     formulaList: [
       'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}',
@@ -1101,7 +1101,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'REVISED',
+    status: 'NOT_STARTED',
     keyTopics: ['Trigonometric Ratios (sin, cos, tan, csc, sec, cot)', 'Standard Angle Table', 'Core Identities Proofs'],
     formulaList: [
       '\\sin^2\\theta + \\cos^2\\theta = 1',
@@ -1129,7 +1129,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 38,
     difficulty: 'HARD',
-    status: 'REVISED',
+    status: 'NOT_STARTED',
     keyTopics: ['Mirror Formula & Magnification', 'Refraction & Snell’s Law', 'Lens Formula & Power of Lens'],
     formulaList: [
       '\\frac{1}{f} = \\frac{1}{v} + \\frac{1}{u}',
@@ -1155,7 +1155,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Prism Dispersion (VIBGYOR)', 'Atmospheric Refraction (Advance Sunrise)', 'Tyndall Effect & Blue Sky'],
     formulaList: [
       '\\text{Scattering Intensity } I \\propto \\frac{1}{\\lambda^4} \\quad (\\text{Rayleigh\'s Law})',
@@ -1180,7 +1180,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 42,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Ohm’s Law (V = IR)', 'Series & Parallel Combinations', 'Joule’s Law of Heating (H = I²Rt)'],
     formulaList: [
       'V = IR',
@@ -1207,7 +1207,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Right-Hand Thumb Rule', 'Magnetic Field in a Solenoid', 'Fleming’s Left-Hand Rule'],
     formulaList: [
       '\\text{Force on Current-Carrying Conductor}: F = B I l \\sin\\theta',
@@ -1232,7 +1232,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.0,
     totalQuestions: 25,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Solar Cells & Photovoltaic Effect', 'Biogas Plant Working', 'Nuclear Fission & Safety'],
     formulaList: [
       '\\text{Efficiency} = \\frac{\\text{Useful Energy Output}}{\\text{Total Energy Input}} \\times 100\\%'
@@ -1258,7 +1258,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Balancing Redox Reactions', 'Oxidising & Reducing Agents', 'Precipitation & Corrosion'],
     formulaList: [
       '\\text{Oxidation} = \\text{Gain of } \\text{O}_2 \\text{ / Loss of } \\text{H}_2',
@@ -1283,7 +1283,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 36,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['pH Scale (0 to 14)', 'Chlor-Alkali Process (NaOH, Cl₂, H₂)', 'Plaster of Paris & Gypsum'],
     formulaList: [
       '\\text{pH} = -\\log[\\text{H}^+]',
@@ -1308,7 +1308,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 38,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Reactivity Series of Metals', 'Calcination vs Roasting', 'Ionic Bond Formation (NaCl, MgCl₂)'],
     formulaList: [
       '\\text{Roasting (Sulphide Ores)}: 2\\text{ZnS} + 3\\text{O}_2 \\xrightarrow{\\Delta} 2\\text{ZnO} + 2\\text{SO}_2',
@@ -1333,7 +1333,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.5,
     totalQuestions: 44,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Esterification & Saponification', 'Functional Groups IUPAC', 'Micelle Cleansing Action'],
     formulaList: [
       '\\text{CH}_3\\text{COOH} + \\text{C}_2\\text{H}_5\\text{OH} \\xrightarrow{\\text{conc. } \\text{H}_2\\text{SO}_4} \\text{CH}_3\\text{COOC}_2\\text{H}_5 + \\text{H}_2\\text{O}',
@@ -1358,7 +1358,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Modern Periodic Law (Atomic Number)', 'Atomic Radius Trends across Period/Group', 'Metallic & Non-Metallic Character'],
     formulaList: [
       '\\text{Across a Period (Left to Right)}: \\text{Atomic Radius Decreases, Electronegativity Increases}',
@@ -1385,7 +1385,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 40,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Double Circulation & Heart Valves', '3 Pathways of Glucose Breakdown', 'Structure & Function of Nephron'],
     formulaList: [
       '\\text{Glucose (6C)} \\xrightarrow{\\text{Cytoplasm}} 2 \\times \\text{Pyruvate (3C)} + \\text{Energy}',
@@ -1410,7 +1410,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Reflex Arc Pathway', 'Plant Hormones (Auxin, Cytokinin, ABA)', 'Phototropism & Geotropism'],
     formulaList: [
       '\\text{Reflex Arc}: \\text{Receptor} \\rightarrow \\text{Sensory Neuron} \\rightarrow \\text{Spinal Cord} \\rightarrow \\text{Motor Neuron} \\rightarrow \\text{Effector}'
@@ -1434,7 +1434,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 36,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Flower Anatomy (Stamen & Carpel)', 'Double Fertilization & Pollination', 'Contraceptive Methods & Health'],
     formulaList: [
       '\\text{Double Fertilization} = (\\text{Egg} + \\text{Sperm} \\rightarrow \\text{Zygote}) + (\\text{Polar Nuclei} + \\text{Sperm} \\rightarrow \\text{Endosperm})'
@@ -1458,7 +1458,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Mendel’s Monohybrid Cross (3:1)', 'Dihybrid Cross (9:3:3:1)', 'Human Sex Determination (XX vs XY)'],
     formulaList: [
       '\\text{Monohybrid Phenotypic Ratio} = 3 : 1, \\quad \\text{Genotypic Ratio} = 1 : 2 : 1',
@@ -1484,7 +1484,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['10% Energy Transfer Law (Lindeman)', 'Biological Magnification (Pesticide Accumulation)', 'Ozone Depletion by CFCs'],
     formulaList: [
       '\\text{Energy at Level } (n+1) = 10\\% \\times \\text{Energy at Level } n',
@@ -1511,7 +1511,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 35,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Non-Cooperation vs Civil Disobedience', 'Salt March & Dandi Satyagraha', 'Simon Commission & Poona Pact 1932'],
     formulaList: [
       '\\text{Non-Cooperation (1920-22)}: \\text{Refusal to cooperate with colonial laws}',
@@ -1536,7 +1536,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 36,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Napoleonic Code (Civil Code 1804)', 'Unification of Germany (Otto von Bismarck)', 'Unification of Italy (Mazzini, Cavour, Garibaldi)'],
     formulaList: [
       '\\text{Civil Code 1804}: \\text{Abolished privileges based on birth, equality before law, secured property rights}'
@@ -1560,7 +1560,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Belgium Model vs Sri Lanka Majoritarianism', 'Horizontal Power Sharing (Organs of Govt)', 'Vertical Power Sharing (Federal Levels)'],
     formulaList: [
       '\\text{Horizontal}: \\text{Legislature} \\leftrightarrow \\text{Executive} \\leftrightarrow \\text{Judiciary}',
@@ -1585,7 +1585,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Union, State & Concurrent Lists', 'Decentralisation Act 1992', 'Linguistic States & Language Policy'],
     formulaList: [
       '\\text{Union List (Defence, Foreign)} + \\text{State List (Police, Agri)} + \\text{Concurrent List (Education)}'
@@ -1609,7 +1609,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Criteria for National Party (6% votes + 4 Lok Sabha seats)', 'Challenges to Political Parties (Dynastic, Money Power)', 'Reforming Political Parties'],
     formulaList: [
       '\\text{National Party Criteria}: 6\\% \\text{ votes in 4 states} + 4 \\text{ Lok Sabha seats}'
@@ -1635,7 +1635,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Bangar vs Khadar Alluvial Soils', 'Black Soil & Cotton Cultivation', 'Soil Conservation (Contour Ploughing, Shelter Belts)'],
     formulaList: [
       '\\text{Kharif (Monsoon)}: \\text{Sown: June-July, Harvest: Sept-Oct (Rice, Maize, Cotton)}',
@@ -1660,7 +1660,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Rice vs Wheat Growing Conditions', 'Kharif, Rabi and Zaid Seasons', 'Institutional Reforms (Kisan Credit Card, MSP)'],
     formulaList: [
       '\\text{Rice}: \\text{Temp } > 25^\\circ\\text{C}, \\text{Rainfall } > 100\\text{ cm}',
@@ -1685,7 +1685,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Ferrous (Iron Ore, Manganese) vs Non-Ferrous', 'Coal Varieties (Anthracite, Bituminous, Lignite)', 'Solar & Wind Energy Hubs'],
     formulaList: [
       '\\text{Anthracite (Highest Carbon > 80\\%)} \\rightarrow \\text{Bituminous} \\rightarrow \\text{Lignite (Brown Coal)} \\rightarrow \\text{Peat}'
@@ -1709,7 +1709,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Primary, Secondary & Tertiary Sectors', 'Disguised Unemployment in Agriculture', 'MGNREGA 2005 (100 Days Guaranteed Work)'],
     formulaList: [
       '\\text{GDP} = \\sum \\text{Value of final goods and services produced in 3 sectors in 1 year}'
@@ -1733,7 +1733,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Double Coincidence of Wants', 'Formal vs Informal Sources of Credit', 'Role of RBI in Banking', 'Self Help Groups (SHGs)'],
     formulaList: [
       '\\text{Formal Credit}: \\text{Banks & Cooperatives (Supervised by RBI, Low Interest)}',
@@ -1760,7 +1760,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Irony in Lencho’s Story (Crooks of Post Office)', 'Postmaster’s Benevolence', 'Themes of Unshakable Faith vs Suspicion'],
     formulaList: [
       '\\text{Situational Irony}: \\text{The post office employees who helped Lencho were called "a bunch of crooks"}'
@@ -1784,7 +1784,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Mandela’s Twin Obligations', 'Definition of Courage (Triumph over Fear)', 'Oppressor and Oppressed Humanity'],
     formulaList: [
       '\\text{Mandela’s Twin Obligations}: \\text{Obligation to Family} + \\text{Obligation to People & Country}'
@@ -1808,7 +1808,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 25,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Young Seagull’s Fear of Flying', 'Parental Motivation through Hunger', 'Mystery of the Black Aeroplane Pilot'],
     formulaList: [
       '\\text{Theme}: \\text{Self-reliance, conquering self-doubt, and the instinct of survival}'
@@ -1832,7 +1832,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Formal Letter Layout', '3-Paragraph Content Structure', 'Tone & Expression Scoring Rubrics'],
     formulaList: [
       '\\text{Letter Format Marks (5M)}: \\text{Format (1M)} + \\text{Content (2M)} + \\text{Accuracy & Fluency (2M)}'
@@ -1856,7 +1856,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 25,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Introductory Trend Statement', 'Comparative Body Paragraphs', 'Concluding Summary Overview'],
     formulaList: [
       '\\text{Analytical Paragraph}: \\text{Introductory Line} + \\text{Key Comparisons} + \\text{Overall Concluding Trend}'
@@ -1886,7 +1886,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Intra-State (CGST + SGST) vs Inter-State (IGST)', 'Input Tax Credit (ITC)', 'Tax Payable to Government'],
     formulaList: [
       '\\text{CGST} = \\text{SGST} = \\frac{\\text{GST Rate}}{2}',
@@ -1911,7 +1911,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Monthly Principal Deposit (P)', 'Number of Months (n)', 'Recurring Deposit Interest Formula'],
     formulaList: [
       'I = P \\times \\frac{n(n+1)}{2 \\times 12} \\times \\frac{r}{100}',
@@ -1936,7 +1936,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 26,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Properties of Inequations', 'Reversing Inequality on Negative Multiplication', 'Number Line Representation (Hollow vs Solid Dots)'],
     formulaList: [
       '\\text{If } a < b \\implies -a > -b',
@@ -1961,7 +1961,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Remainder Theorem f(a) = R', 'Factor Theorem (f(a) = 0 implies (x-a) is factor)', 'Complete Factorisation of Cubic Polynomials'],
     formulaList: [
       'f(x) = (x - a) q(x) + R \\implies f(a) = R',
@@ -1986,7 +1986,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Order of Matrix (m × n)', 'Matrix Addition & Scalar Multiplication', 'Matrix Multiplication Compatibility (n = p)', 'Identity & Null Matrices'],
     formulaList: [
       'A_{m \\times n} \\times B_{n \\times p} = C_{m \\times p}',
@@ -2013,7 +2013,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Moment of Force (τ = F × d)', 'Principle of Moments (Clockwise = Anticlockwise)', 'Velocity Ratio (VR) of Block & Tackle'],
     formulaList: [
       '\\text{Moment of Force} = F \\times d_\\perp',
@@ -2039,7 +2039,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Snell’s Law of Refraction', 'Total Internal Reflection (TIR) & Critical Angle', 'Prisms & Angle of Minimum Deviation'],
     formulaList: [
       '\\mu = \\frac{\\sin i}{\\sin r} = \\frac{c}{v}',
@@ -2065,7 +2065,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Echo Distance Formula (v = 2d/t)', 'Minimum Distance for Echo in Air (17.2 m)', 'Resonance Conditions'],
     formulaList: [
       'v = \\frac{2d}{t} \\implies d = \\frac{v \\times t}{2}'
@@ -2089,7 +2089,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 38,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['EMF vs Terminal Voltage (V = E - Ir)', 'Ring Main Wiring System', 'Three-Pin Plug (Live, Neutral, Earth)'],
     formulaList: [
       'E = V + I r = I (R + r)',
@@ -2114,7 +2114,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Specific Heat Capacity (Q = mcΔT)', 'Specific Latent Heat of Fusion (Q = mL)', 'Principle of Calorimetry'],
     formulaList: [
       'Q = m c \\Delta T',
@@ -2142,7 +2142,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 40,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Gay-Lussac’s Law of Combining Volumes', 'Empirical vs Molecular Formula', 'Vapour Density (VD = Molecular Mass / 2)'],
     formulaList: [
       '\\text{Molecular Mass} = 2 \\times \\text{Vapour Density}',
@@ -2168,7 +2168,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Ionisation Potential & Electron Affinity', 'Coordinate Covalent Bond (Hydronium & Ammonium)', 'Ionic vs Covalent Properties'],
     formulaList: [
       '\\text{Coordinate Bond in } \\text{H}_3\\text{O}^+: \\text{H}_2\\text{O}: + \\text{H}^+ \\rightarrow [\\text{H}_2\\text{O} \\rightarrow \\text{H}]^+'
@@ -2192,7 +2192,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 36,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Selective Discharge Series', 'Hall-Héroult Electrolytic Extraction of Al', 'Electroplating with Nickel/Silver'],
     formulaList: [
       '\\text{At Cathode (Reduction)}: \\text{Al}^{3+} + 3e^- \\rightarrow \\text{Al}',
@@ -2217,7 +2217,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 40,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Fountain Experiment (Extreme Solubility)', 'Contact Process for H₂SO₄ (V₂O₅ Catalyst)', 'Ostwald Process for HNO₃ (Pt Catalyst)'],
     formulaList: [
       '2\\text{SO}_2 + \\text{O}_2 \\xrightarrow[450^\\circ\\text{C}]{\\text{V}_2\\text{O}_5} 2\\text{SO}_3 \\quad (\\Delta H = -196\\text{ kJ})',
@@ -2242,7 +2242,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.5,
     totalQuestions: 42,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['IUPAC Naming of Hydrocarbons', 'Addition Reactions of Ethene/Ethyne with Bromine', 'Cleansing Action & Micelles'],
     formulaList: [
       '\\text{Alkane: } \\text{C}_n\\text{H}_{2n+2}, \\quad \\text{Alkene: } \\text{C}_n\\text{H}_{2n}, \\quad \\text{Alkyne: } \\text{C}_n\\text{H}_{2n-2}',
@@ -2269,7 +2269,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Stages of Mitosis', 'Punnett Square Dihybrid Cross (9:3:3:1)', 'Law of Segregation & Independent Assortment'],
     formulaList: [
       '\\text{Dihybrid Phenotype} = 9 \\text{ Round Yellow} : 3 \\text{ Round Green} : 3 \\text{ Wrinkled Yellow} : 1 \\text{ Wrinkled Green}',
@@ -2294,7 +2294,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Endosmosis vs Exosmosis (Turgidity vs Plasmolysis)', 'Ganong’s Potometer Working', 'Transpiration Pull & Cooling Effect'],
     formulaList: [
       '\\text{Rate of Transpiration} = \\frac{\\text{Distance travelled by air bubble (cm)}}{\\text{Time (minutes)}}'
@@ -2318,7 +2318,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 34,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Photolysis of Water in Grana (Light Reaction)', 'Calvin Cycle in Stroma (Dark Reaction)', 'Mohl’s Half-Leaf CO₂ Experiment'],
     formulaList: [
       '2\\text{H}_2\\text{O} \\xrightarrow[\\text{Chlorophyll}]{\\text{Photons}} 4\\text{H}^+ + 4e^- + \\text{O}_2 \\uparrow \\quad (\\text{Photolysis})'
@@ -2342,7 +2342,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 38,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Structure of Human Heart & Valves', 'Double Circulation (Pulmonary & Systemic)', 'Cardiac Cycle & Blood Pressure (120/80 mmHg)'],
     formulaList: [
       '\\text{Cardiac Output} = \\text{Stroke Volume (70 mL)} \\times \\text{Heart Rate (72 bpm)} = 5.04\\text{ L/min}'
@@ -2366,7 +2366,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Nephron Anatomy (Bowman’s Capsule, PCT, Henle’s Loop, DCT)', 'Ultrafiltration under High Hydrostatic Pressure', 'Selective Reabsorption of Glucose'],
     formulaList: [
       '\\text{Urine Formation} = \\text{Ultrafiltration} + \\text{Selective Reabsorption} + \\text{Tubular Secretion}'
@@ -2392,7 +2392,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Lok Sabha vs Rajya Sabha Powers', 'Money Bill Procedure', 'Supreme Court Writ Jurisdiction'],
     formulaList: [
       '\\text{Qualifications}: \\text{Lok Sabha (25 yrs), Rajya Sabha (30 yrs), Supreme Court Judge (5 yrs HC Judge)}',
@@ -2417,7 +2417,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['President’s Electoral College', 'Emergency Powers (Article 352, 356, 360)', 'Prime Minister as Keystone of Cabinet Arch'],
     formulaList: [
       '\\text{Emergency Powers}: \\text{Art 352 (National Emergency)}, \\text{Art 356 (State Breakdown)}, \\text{Art 360 (Financial)}'
@@ -2441,7 +2441,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Doctrine of Lapse (Lord Dalhousie)', 'Enfield Rifle Greased Cartridges', 'Queen Victoria’s Proclamation 1858 End of Company Rule'],
     formulaList: [
       '\\text{Queen’s Proclamation 1858}: \\text{East India Company rule transferred to British Crown}'
@@ -2465,7 +2465,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Sarajevo Crisis (Assassination of Archduke Franz Ferdinand)', 'Treaty of Versailles Humiliation', 'Fascism in Italy & Nazism in Germany'],
     formulaList: [
       '\\text{Triple Entente (Britain, France, Russia)} \\leftrightarrow \\text{Triple Alliance (Germany, Austria-Hungary, Italy)}'
@@ -2489,7 +2489,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Security Council Composition (5 Permanent + 10 Non-Permanent)', 'Veto Power of Big 5', 'Specialised Agencies (WHO, UNICEF, UNESCO)', 'Panchsheel & NAM Architecture'],
     formulaList: [
       '\\text{Permanent 5 (P5)}: \\text{USA, UK, France, Russia, China (Hold Veto Power)}'
@@ -2515,7 +2515,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 30,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['4-Figure & 6-Figure Grid References', 'Contour Patterns (Steep vs Gentle Slope)', 'Drainage Patterns (Dendritic, Trellis, Radial)'],
     formulaList: [
       '\\text{Scale}: 2\\text{ cm} = 1\\text{ km} \\implies \\text{Representative Fraction (RF)} = 1 : 50,000'
@@ -2539,7 +2539,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Arabian Sea vs Bay of Bengal Monsoon Branches', 'Western Disturbances & Winter Rain in Punjab', 'Annual Temperature Range Calculation'],
     formulaList: [
       '\\text{Annual Range of Temperature} = \\text{Maximum Mean Monthly Temp} - \\text{Minimum Mean Monthly Temp}',
@@ -2564,7 +2564,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Alluvial (Bangar/Khadar)', 'Black Soil (Self-Ploughing & Cotton)', 'Laterite Soil Leaching', 'Terrace Farming & Strip Cropping'],
     formulaList: [
       '\\text{Leaching}: \\text{Heavy rainfall washes silica and lime away, leaving iron and aluminium oxides}'
@@ -2588,7 +2588,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Well & Tube-well Irrigation', 'Tank Irrigation in South India', 'Drip & Sprinkler Micro-irrigation', 'Rooftop Rainwater Harvesting'],
     formulaList: [
       '\\text{Rainwater Harvest Volume} = \\text{Catchment Area } (m^2) \\times \\text{Annual Rainfall } (m) \\times \\text{Runoff Coefficient (0.8)}'
@@ -2612,7 +2612,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Iron Ore Belts (Odisha-Jharkhand)', 'Coal Fields (Gondwana vs Tertiary)', 'Tata Iron & Steel Company (TISCO) Jamshedpur Location Advantages'],
     formulaList: [
       '\\text{TISCO Advantages}: \\text{Iron (Noamundi)} + \\text{Coal (Jharia)} + \\text{Water (Subarnarekha)} + \\text{Railway (Kolkata-Mumbai line)}'
@@ -2638,7 +2638,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Antony’s Funeral Oration Rhetoric', 'Brutus’ Justification of Tyranny vs Freedom', 'Mob Psychology & Caesar’s Will'],
     formulaList: [
       '\\text{"Et tu, Brute? — Then fall, Caesar!"}',
@@ -2663,7 +2663,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 30,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Brutus and Cassius Tent Dispute (Bribery Charges)', 'Caesar’s Ghost Apparition', 'Noble Character of Brutus in Defeat'],
     formulaList: [
       '\\text{"There is a tide in the affairs of men, which, taken at the flood, leads on to fortune."}'
@@ -2687,7 +2687,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Fickle Public Acclaim in "The Patriot"', 'Religious Faith & Salvation in Browning', 'Empathy & Joint Victory in "Nine Gold Medals"'],
     formulaList: [
       '\\text{"It was roses, roses, all the way"} \\rightarrow \\text{"A rope cuts both my wrists behind"}'
@@ -2711,7 +2711,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Leacock’s Satire on Photographer’s Artificial Retouching', 'Maggie as the "Angel in Disguise"', 'Softening of Mrs. Thompson’s Bitter Heart'],
     formulaList: [
       '\\text{Theme}: \\text{Human warmth and compassion breathe life into cold, bitter domestic spaces}'
@@ -2735,7 +2735,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Notice Writing Layout (Catchy Heading, Date, Time, Venue)', 'Formal Email to External Chief Guest / Principal', 'Synthesis of Sentences & Preposition Fillers'],
     formulaList: [
       '\\text{Notice Marks (5M)}: \\text{Heading (1M)} + \\text{Event (1M)} + \\text{Date/Time/Venue (2M)} + \\text{Target Group (1M)}',
@@ -2766,7 +2766,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Venn Diagram Representations', 'Set Operations (A ∪ B, A ∩ B, A \\ B)', 'Euclid’s Division Lemma'],
     formulaList: [
       'a = bq + r \\quad (0 \\le r < b)',
@@ -2792,7 +2792,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Zeroes of Cubic Polynomials', 'Division Algorithm p(x) = g(x)q(x) + r(x)', 'Graphical Method of Solving Linear Equations'],
     formulaList: [
       'p(x) = g(x) \\cdot q(x) + r(x) \\quad (\\text{deg } r(x) < \\text{deg } g(x))',
@@ -2817,7 +2817,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['nth term of AP (a_n = a + (n-1)d)', 'Sum of n terms AP (S_n)', 'nth term of GP (a_n = a r^{n-1})'],
     formulaList: [
       'a_n = a + (n-1)d, \\quad S_n = \\frac{n}{2}[2a + (n-1)d] = \\frac{n}{2}(a + l)',
@@ -2842,7 +2842,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Distance Formula', 'Section Formula (m₁x₂ + m₂x₁)/(m₁+m₂)', 'Area of Triangle with Coordinates'],
     formulaList: [
       'd = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}',
@@ -2868,7 +2868,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Trigonometry Heights & Distances', 'Assumed Mean & Step Deviation Method', 'Mode of Grouped Data (Modal Class Formula)'],
     formulaList: [
       '\\text{Mean } \\bar{x} = a + \\frac{\\sum f_i u_i}{\\sum f_i} \\times h',
@@ -2895,7 +2895,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Specific Heat (Q = msΔT)', 'Calorimeter Method of Mixtures', 'Evaporation vs Boiling'],
     formulaList: [
       'Q = m \\cdot s \\cdot \\Delta T',
@@ -2921,7 +2921,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Four Quantum Numbers (n, l, m_l, m_s)', 'Aufbau Principle & (n + l) Rule', 'Hund’s Rule & Pauli’s Exclusion Principle'],
     formulaList: [
       'E = h \\nu = \\frac{hc}{\\lambda}',
@@ -2946,7 +2946,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Mendeleev’s Periodic Law vs Modern Law', 'Ionization Energy Trends', 'Electronegativity (Pauling Scale)'],
     formulaList: [
       '\\text{Ionization Energy}: \\text{Increases across a period (left to right), Decreases down a group}'
@@ -2970,7 +2970,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 38,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Drift Velocity (I = n A e v_d)', 'Kirchhoff’s Current Law (KCL)', 'Kirchhoff’s Voltage Law (KVL Loop Rule)'],
     formulaList: [
       'I = n A e v_d',
@@ -2996,7 +2996,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Froth Floatation Process for Sulphide Ores', 'Smelting & Role of Flux (Gangue + Flux = Slag)', 'Carbon Allotropes (Diamond vs Graphite)'],
     formulaList: [
       '\\text{Gangue (Impurity)} + \\text{Flux} \\rightarrow \\text{Slag (Fusible Waste)}',
@@ -3023,7 +3023,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 30,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Balancing Chemical Reactions', 'Exothermic vs Endothermic Reactions', 'Precipitation and Gas Evolution'],
     formulaList: [
       '2\\text{H}_2 + \\text{O}_2 \\rightarrow 2\\text{H}_2\\text{O} + \\text{Heat (Exothermic)}',
@@ -3048,7 +3048,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Reaction of Acids with Active Metals (H₂ Gas)', 'Neutralization Reactions', 'Baking Soda Preparation (Solvay Process)'],
     formulaList: [
       '\\text{Acid} + \\text{Base} \\rightarrow \\text{Salt} + \\text{Water}',
@@ -3073,7 +3073,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Electrolytic Refining of Copper (Anode Mud)', 'Thermite Process for Railway Track Welding', 'Corrosion Prevention (Galvanization)'],
     formulaList: [
       '\\text{Thermite Reaction}: \\text{Fe}_2\\text{O}_3 + 2\\text{Al} \\rightarrow 2\\text{Fe (molten)} + \\text{Al}_2\\text{O}_3 + \\text{Heat}',
@@ -3098,7 +3098,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 8.0,
     totalQuestions: 40,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Catenation and Tetravalency', 'Homologous Series Characteristics', 'Soaps vs Synthetic Detergents in Hard Water'],
     formulaList: [
       '\\text{Catenation}: \\text{Ability of carbon atoms to form strong stable C-C covalent bonds}',
@@ -3123,7 +3123,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Lewis Electron Dot Structures', 'Electrovalent (Ionic) Bonding', 'Covalent C-H, O=O, and N≡N Bonds'],
     formulaList: [
       '\\text{Octet Rule}: \\text{Atoms gain, lose or share electrons to attain 8 valence electrons}'
@@ -3149,7 +3149,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Mohl’s Half-Leaf CO₂ Experiment', 'Light Reaction (Grana) vs Dark Reaction (Stroma)', 'Digestive Enzymes (Pepsin, Trypsin, Lipase)'],
     formulaList: [
       '6\\text{CO}_2 + 12\\text{H}_2\\text{O} \\xrightarrow[\\text{Chlorophyll}]{\\text{Light}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2 + 6\\text{H}_2\\text{O}',
@@ -3174,7 +3174,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Glycolysis (Glucose to Pyruvate)', 'Aerobic vs Anaerobic Respiration', 'Alveoli Gaseous Exchange'],
     formulaList: [
       '\\text{Anaerobic Respiration}: \\text{Pyruvate} \\rightarrow 2\\text{C}_2\\text{H}_5\\text{OH} + 2\\text{CO}_2 + 2\\text{ ATP}',
@@ -3199,7 +3199,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 34,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Structure of Heart & Cardiac Cycle', 'Double Circulation in Humans', 'Xylem (Water) vs Phloem (Translocation)'],
     formulaList: [
       '\\text{Blood} = \\text{Plasma} + \\text{Corpuscles (RBC, WBC, Platelets)}',
@@ -3224,7 +3224,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 32,
     difficulty: 'HARD',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Structure of Nephron', 'Urine Formation Stages', 'Dialysis (Artificial Kidney)'],
     formulaList: [
       '\\text{Filtration Pressure} = \\text{Glomerular Hydrostatic Pressure} - (\\text{Osmotic} + \\text{Capsular Pressure})'
@@ -3248,7 +3248,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'MEDIUM',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Functions of Cerebrum, Cerebellum & Medulla', 'Phytohormones (Auxins, Gibberellins, Cytokinins, ABA, Ethylene)', 'Mendelian Genetics Monohybrid Cross'],
     formulaList: [
       '\\text{Cerebrum}: \\text{Seat of Intelligence and Memory}',
@@ -3276,7 +3276,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Himalayan vs Peninsular Rivers', 'Western Ghats vs Eastern Ghats', 'Per Capita Income & HDI'],
     formulaList: [
       '\\text{Per Capita Income} = \\frac{\\text{Total National Income}}{\\text{Total Population}}',
@@ -3301,7 +3301,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.5,
     totalQuestions: 35,
     difficulty: 'HARD',
-    status: 'IN_PROGRESS',
+    status: 'NOT_STARTED',
     keyTopics: ['Russian Revolution & Lenin’s April Theses', 'The Great Depression of 1929', 'Holocaust & Formation of UNO (1945)'],
     formulaList: [
       '\\text{Russian Revolution (1917)}: \\text{Bolsheviks under Lenin overthrew Tsar Nicholas II (Peace, Land, Bread)}'
@@ -3325,7 +3325,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 7.0,
     totalQuestions: 32,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Quit India Movement 1942 ("Do or Die")', 'Subhas Chandra Bose & Indian National Army (INA)', 'Cabinet Mission & Mountbatten Plan 1947'],
     formulaList: [
       '\\text{Quit India Slogan}: \\text{"Do or Die" (Karo ya Maro) — Mahatma Gandhi, August 1942}'
@@ -3349,7 +3349,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.5,
     totalQuestions: 30,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Constituent Assembly & Drafting Committee', 'Preamble Philosophy', 'Federal vs Unitary Features of Indian Constitution'],
     formulaList: [
       '\\text{Preamble}: \\text{Sovereign, Socialist, Secular, Democratic Republic + Justice, Liberty, Equality, Fraternity}'
@@ -3373,7 +3373,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Chipko Movement (Forest Conservation)', 'Narmada Bachao Andolan (Medha Patkar)', 'Right to Information Act (RTI 2005)'],
     formulaList: [
       '\\text{RTI Act 2005}: \\text{Mandates public authorities to provide government information within 30 days}'
@@ -3399,7 +3399,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['6 Physiographic Divisions of India', 'Peninsular Rivers Drainage (Godavari & Krishna)', 'Monsoon Dynamics & Annual Rainfall Isohyets'],
     formulaList: [
       '\\text{Godavari Basin}: \\text{Largest Peninsular River (Dakshin Ganga), Originates at Trimbak (Nashik)}'
@@ -3423,7 +3423,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Sex Ratio (Females per 1000 Males)', 'Population Density Formula', 'Push and Pull Factors of Migration'],
     formulaList: [
       '\\text{Population Density} = \\frac{\\text{Total Population}}{\\text{Total Land Area } (\\text{km}^2)}',
@@ -3448,7 +3448,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 25,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['4 Factors of Production (Land, Labour, Capital, Enterprise)', 'Fixed vs Working Capital', 'Green Revolution Impact on Small Farmers'],
     formulaList: [
       '\\text{Factors of Production}: \\text{Land} + \\text{Labour} + \\text{Fixed Capital (Tools)} + \\text{Working Capital (Raw materials)}'
@@ -3472,7 +3472,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['3 Dimensions of Food Security', 'Food Corporation of India (FCI) & Buffer Stock', 'Public Distribution System (PDS) Fair Price Shops'],
     formulaList: [
       '\\text{Food Security} = \\text{Availability} + \\text{Accessibility} + \\text{Affordability}'
@@ -3496,7 +3496,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Groundwater Depletion Crisis', 'Brundtland Commission Definition of Sustainability', 'Organic Farming vs Chemical Agriculture'],
     formulaList: [
       '\\text{Sustainable Development}: \\text{Development that meets present needs without compromising future generations}'
@@ -3522,7 +3522,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Nick Vujicic’s Torso & Little Foot', 'Overcoming Bullying & Suicide Attempt at Age 10', 'Surfing & Spreading Global Inspiration'],
     formulaList: [
       '\\text{Key Message}: \\text{"If I fail, I try again, and again, and again. If you fail, are you going to try again?"}'
@@ -3546,7 +3546,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 25,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Abraham Lincoln’s Repeated Electoral Defeats before Presidency', 'Colonel Sanders Knocking on 1009 Doors for KFC Recipe', 'Thomas Edison’s 10,000 Failed Experiments'],
     formulaList: [
       '\\text{Principle}: \\text{"Failure is the highway to success. Tom Watson Sr. said: If you want to succeed, double your failure rate."}'
@@ -3570,7 +3570,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 5.5,
     totalQuestions: 25,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Narayana Murthy’s IIT-JEE Success', 'Father’s Inability to Pay IIT Fees', 'Perseverance at Mysore Engineering College and Founding Infosys'],
     formulaList: [
       '\\text{Core Value}: \\text{"It is not the institution, but your dedication and hard work that shapes your destiny."}'
@@ -3594,7 +3594,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 26,
     difficulty: 'EASY',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['False Pride and Guilt of the Educated Son', 'Father’s Selfless Love Carrying the Heavy Trunk', 'Old Pair of Canvas Shoes Symbolism'],
     formulaList: [
       '\\text{Theme}: \\text{Generational sacrifice, filial guilt, and traditional filial dignity}'
@@ -3618,7 +3618,7 @@ export const CHAPTERS: Chapter[] = [
     estHours: 6.0,
     totalQuestions: 28,
     difficulty: 'MEDIUM',
-    status: 'COMPLETED',
+    status: 'NOT_STARTED',
     keyTopics: ['Diary Entry Format (Day, Date, Time, Emotional Reflections)', 'Biographical Sketch Structuring', 'Notice and Invitation Layouts'],
     formulaList: [
       '\\text{Diary Entry Layout}: \\text{Day & Date} \\rightarrow \\text{Time} \\rightarrow \\text{Emotional Reflection} \\rightarrow \\text{Sign-off}'
@@ -3774,15 +3774,42 @@ export const SAMPLE_RESOURCES: StudyResource[] = [
 
 export const BADGES: Badge[] = [
   {
+    id: 'badge-0',
+    name: 'Class of 2026 Board Aspirant',
+    description: 'Enrolled and initialized Class 10 Board preparation',
+    icon: 'GraduationCap',
+    category: 'Welcome',
+    pointsReq: 0,
+    unlocked: true,
+    unlockedAt: '2026-09-01',
+  },
+  {
     id: 'badge-1',
     name: '7-Day Streak Warrior',
-    description: 'Studied every day for 7 consecutive days',
+    description: 'Study consecutively for 7 days',
     icon: 'Flame',
     category: 'Streak',
     pointsReq: 100,
-    unlocked: true,
-    unlockedAt: '2025-08-31'
-  }
+    unlocked: false,
+  },
+  {
+    id: 'badge-2',
+    name: 'Chapter 1 Master',
+    description: 'Complete all Chapter 1 exercises and worked examples',
+    icon: 'BookOpen',
+    category: 'Syllabus',
+    pointsReq: 250,
+    unlocked: false,
+  },
+  {
+    id: 'badge-3',
+    name: 'Mock Exam Distinction',
+    description: 'Score 90%+ on any 5-section timed board mock test',
+    icon: 'Award',
+    category: 'Assessment',
+    pointsReq: 500,
+    unlocked: false,
+  },
 ];
 
 export const WEEKLY_STUDY_ANALYTICS = [

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store';
-import { CURRENT_STUDENT, SUBJECTS, BADGES } from '@/lib/mock-data';
+import { CURRENT_STUDENT, SUBJECTS, BADGES, getSubjectsForBoard } from '@/lib/mock-data';
 import { PerformanceChart } from '@/components/charts/performance-chart';
 import { SubjectRadarChart } from '@/components/charts/subject-radar';
 import { MathRenderer } from '@/components/math-renderer';
@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 export default function StudentDashboardPage() {
-  const { currentBoard, streakCount, studentPoints, bookings, doubts, chapters, incrementStreak } =
+  const { currentUser, currentBoard, streakCount, studentPoints, bookings, doubts, chapters, incrementStreak } =
     useAppStore();
 
   const activeBookings = bookings.filter((b) => b.status === 'CONFIRMED');
@@ -52,10 +52,10 @@ export default function StudentDashboardPage() {
               <span className="text-xs text-indigo-200">Exam Target: Feb-Mar 2026</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Welcome back, {CURRENT_STUDENT.name}! 🚀
+              Welcome, {currentUser?.name || 'Aarav Sharma'}! 🚀
             </h1>
             <p className="text-xs sm:text-sm text-indigo-200 max-w-xl">
-              You are on track for a 95%+ score. Complete today’s Light chapter numerical problems to maintain your study streak!
+              Start your learning journey for {currentBoard} Class 10 board exams. Complete your first chapter to build your study streak and earn Scholar XP!
             </p>
           </div>
 
@@ -182,12 +182,12 @@ export default function StudentDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {SUBJECTS.slice(0, 4).map((sub) => {
+              {getSubjectsForBoard(currentBoard || 'CBSE').slice(0, 4).map((sub) => {
                 const subChapters = chapters.filter((c) => c.subjectId === sub.id);
                 const subCompleted = subChapters.filter(
                   (c) => c.status === 'COMPLETED' || c.status === 'REVISED'
                 ).length;
-                const subTotal = subChapters.length || sub.chaptersCount || 1;
+                const subTotal = subChapters.length || sub.chaptersCount || 5;
                 const percent = Math.round((subCompleted / subTotal) * 100);
 
                 return (

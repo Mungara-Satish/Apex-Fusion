@@ -70,17 +70,12 @@ export default function SubjectDetailPage() {
     );
   }
 
-  // Get chapters specific to this board & subject
-  const allBoardChapters = getChaptersForBoard(activeBoard);
-  const subjectChapters =
-    allBoardChapters.filter((c) => c.subjectId === subject.id) ||
-    chapters.filter((c) => c.subjectId === subject.id);
-
-  // Fallback if empty to ensure student always sees core curriculum
+  // Get chapters specific to this board & subject from active store
+  const subjectChapters = chapters.filter((c) => c.subjectId === subject.id);
   const finalChapters =
     subjectChapters.length > 0
       ? subjectChapters
-      : chapters.filter((c) => c.subjectId.includes(slug) || c.subjectId === subject.id);
+      : getChaptersForBoard(activeBoard).filter((c) => c.subjectId === subject.id);
 
   const filteredChapters =
     filterStatus === 'ALL'

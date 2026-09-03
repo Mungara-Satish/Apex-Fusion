@@ -181,12 +181,18 @@ export const useAppStore = create<AppState>((set, get) => ({
       } catch {}
     }
     const activeBoard = user.board || 'CBSE';
+    const boardChapters = getChaptersForBoard(activeBoard).map((c) => ({
+      ...c,
+      status: 'NOT_STARTED' as ChapterStatus,
+    }));
     set({
       isLoggedIn: true,
       currentUser: user,
       currentRole: role,
       currentBoard: activeBoard,
-      chapters: getChaptersForBoard(activeBoard),
+      studentPoints: user.points ?? 0,
+      streakCount: user.streakCount ?? 1,
+      chapters: role === 'STUDENT' ? boardChapters : getChaptersForBoard(activeBoard),
     });
   },
 
