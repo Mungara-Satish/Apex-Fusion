@@ -34,11 +34,6 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  // Remove header on login page
-  if (pathname?.startsWith('/login')) {
-    return null;
-  }
-
   const activeBoard = currentBoard || currentUser?.board || 'CBSE';
 
   // Dynamic role-tailored navigation links
@@ -103,6 +98,11 @@ export function Navbar() {
     setUserDropdownOpen(false);
     router.push('/login');
   };
+
+  // Remove header on login page (AFTER all hooks have executed)
+  if (pathname?.startsWith('/login')) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">

@@ -82,16 +82,42 @@ function LoginContent() {
     setIsLoading(true);
 
     setTimeout(() => {
-      // 1. Check if user exists in directoryUsers
-      const matchedUser = directoryUsers.find((u) => {
-        const matchesRole = u.role === selectedRole;
+      // 1. Check if user typed admin credentials specifically
+      const isAdminIdentifier =
+        trimmedId.toLowerCase() === 'admin' ||
+        trimmedId.toLowerCase() === 'admin@eduten.org' ||
+        trimmedId.toLowerCase() === 'superadmin' ||
+        trimmedId.toLowerCase() === 'superadmin@eduten.org';
+
+      // 2. Check if user exists in directoryUsers
+      // First try matching both role and identifier, or fallback to matching identifier
+      let matchedUser = directoryUsers.find((u) => {
         const matchesIdentifier =
           u.email.toLowerCase() === trimmedId.toLowerCase() ||
           (u.username && u.username.toLowerCase() === trimmedId.toLowerCase()) ||
           (u.rollNumber && u.rollNumber.toLowerCase() === trimmedId.toLowerCase()) ||
           (u.phone && u.phone.includes(trimmedId));
-        return matchesRole && matchesIdentifier;
+        return u.role === selectedRole && matchesIdentifier;
       });
+
+      if (!matchedUser) {
+        matchedUser = directoryUsers.find((u) => {
+          return (
+            u.email.toLowerCase() === trimmedId.toLowerCase() ||
+            (u.username && u.username.toLowerCase() === trimmedId.toLowerCase()) ||
+            (u.rollNumber && u.rollNumber.toLowerCase() === trimmedId.toLowerCase()) ||
+            (u.phone && u.phone.includes(trimmedId))
+          );
+        });
+      }
+
+      // Determine final role
+      let finalRole: Role = selectedRole;
+      if (isAdminIdentifier || selectedRole === 'ADMIN') {
+        finalRole = 'ADMIN';
+      } else if (matchedUser) {
+        finalRole = matchedUser.role;
+      }
 
       if (matchedUser) {
         if (matchedUser.credentialStatus === 'SUSPENDED') {
@@ -100,29 +126,42 @@ function LoginContent() {
           return;
         }
 
-        loginAs(matchedUser.role, matchedUser);
+        loginAs(finalRole, matchedUser);
         if (matchedUser.board) {
           setBoard(matchedUser.board);
         }
+      } else if (finalRole === 'ADMIN') {
+        loginAs('ADMIN', {
+          name: 'Dr. Sanjay Gupta (Academic Director)',
+          email: 'admin@eduten.org',
+          role: 'ADMIN',
+          board: 'CBSE',
+        });
       } else {
-        // Fallback login with typed credentials
-        const fallbackBoard = selectedRole === 'STUDENT' ? selectedBoard : 'CBSE';
+        // Fallback login with typed credentials for selected role
+        const fallbackBoard = finalRole === 'STUDENT' ? selectedBoard : 'CBSE';
         setBoard(fallbackBoard);
-        loginAs(selectedRole, {
+        loginAs(finalRole, {
           name: trimmedId.includes('@') ? trimmedId.split('@')[0] : trimmedId,
           email: trimmedId.includes('@') ? trimmedId : `${trimmedId.toLowerCase()}@eduten.org`,
+          role: finalRole,
           board: fallbackBoard,
         });
       }
 
       setIsLoading(false);
 
-      // Redirect to appropriate dashboard
-      if (selectedRole === 'STUDENT') router.push('/dashboard/student');
-      else if (selectedRole === 'PARENT') router.push('/dashboard/parent');
-      else if (selectedRole === 'TUTOR') router.push('/dashboard/tutor');
-      else router.push('/dashboard/admin');
-    }, 600);
+      // Strict redirect based on final verified role
+      if (finalRole === 'ADMIN') {
+        router.push('/dashboard/admin');
+      } else if (finalRole === 'PARENT') {
+        router.push('/dashboard/parent');
+      } else if (finalRole === 'TUTOR') {
+        router.push('/dashboard/tutor');
+      } else {
+        router.push('/dashboard/student');
+      }
+    }, 500);
   };
 
   const getRoleMetadata = (role: Role) => {

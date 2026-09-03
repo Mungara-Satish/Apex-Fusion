@@ -72,8 +72,8 @@ export const DEMO_USERS: Record<string, User> = {
   },
   ADMIN: {
     id: 'user-admin-1',
-    email: 'superadmin@eduten.org',
-    name: 'Academic Director (Master Admin)',
+    email: 'admin@eduten.org',
+    name: 'Dr. Sanjay Gupta (Academic Director)',
     role: 'ADMIN',
     board: 'CBSE',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
@@ -414,6 +414,25 @@ export const SAMPLE_DIRECTORY_USERS: User[] = [
       subjectsTaught: ['Physical Science', 'Chemistry'],
       availabilitySlots: ['Mon 5:00 PM - 8:00 PM', 'Fri 5:00 PM - 8:00 PM'],
     },
+  },
+
+  // --- ADMINISTRATORS ---
+  {
+    id: 'user-admin-1',
+    name: 'Dr. Sanjay Gupta (Academic Director)',
+    email: 'admin@eduten.org',
+    role: 'ADMIN',
+    board: 'CBSE',
+    credentialStatus: 'APPROVED',
+    username: 'admin',
+    tempPassword: 'Password@2026',
+    phone: '+91 98100 00001',
+    streakCount: 99,
+    points: 9999,
+    studyHoursWeekly: 40,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2024-01-01T00:00:00Z',
+    subscriptionPass: 'Master Root Superuser Access',
   },
 ];
 
