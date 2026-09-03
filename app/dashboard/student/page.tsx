@@ -230,10 +230,10 @@ export default function StudentDashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-base text-foreground">Weekly Study Hours & Daily Target</h3>
-                <p className="text-xs text-muted-foreground">Target: 2.5 hours/day (Total this week: 18.5 hours)</p>
+                <p className="text-xs text-muted-foreground">Target: 2.5 hours/day (Total this week: 0.0 hours)</p>
               </div>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full">
-                +14% vs Last Week
+              <span className="text-xs font-bold text-sky-600 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-full">
+                🌱 Week 1 Starter
               </span>
             </div>
             <PerformanceChart />

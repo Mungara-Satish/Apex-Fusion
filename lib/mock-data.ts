@@ -3813,22 +3813,22 @@ export const BADGES: Badge[] = [
 ];
 
 export const WEEKLY_STUDY_ANALYTICS = [
-  { day: 'Mon', hours: 2.8, target: 2.5, testsTaken: 1 },
-  { day: 'Tue', hours: 3.2, target: 2.5, testsTaken: 2 },
-  { day: 'Wed', hours: 2.1, target: 2.5, testsTaken: 0 },
-  { day: 'Thu', hours: 3.5, target: 2.5, testsTaken: 1 },
-  { day: 'Fri', hours: 2.4, target: 2.5, testsTaken: 1 },
-  { day: 'Sat', hours: 4.5, target: 3.5, testsTaken: 3 },
-  { day: 'Sun', hours: 4.0, target: 3.5, testsTaken: 2 },
+  { day: 'Mon', hours: 0, target: 2.5, testsTaken: 0 },
+  { day: 'Tue', hours: 0, target: 2.5, testsTaken: 0 },
+  { day: 'Wed', hours: 0, target: 2.5, testsTaken: 0 },
+  { day: 'Thu', hours: 0, target: 2.5, testsTaken: 0 },
+  { day: 'Fri', hours: 0, target: 2.5, testsTaken: 0 },
+  { day: 'Sat', hours: 0, target: 3.5, testsTaken: 0 },
+  { day: 'Sun', hours: 0, target: 3.5, testsTaken: 0 },
 ];
 
 export const SUBJECT_PERFORMANCE_METRICS = [
-  { subject: 'Math', score: 88, syllabusProgress: 75, targetScore: 95 },
-  { subject: 'Physics', score: 92, syllabusProgress: 80, targetScore: 95 },
-  { subject: 'Chemistry', score: 78, syllabusProgress: 60, targetScore: 90 },
-  { subject: 'Biology', score: 85, syllabusProgress: 85, targetScore: 90 },
-  { subject: 'Social Studies', score: 82, syllabusProgress: 70, targetScore: 90 },
-  { subject: 'English', score: 90, syllabusProgress: 80, targetScore: 95 },
+  { subject: 'Math', score: 0, syllabusProgress: 0, targetScore: 95 },
+  { subject: 'Physics', score: 0, syllabusProgress: 0, targetScore: 95 },
+  { subject: 'Chemistry', score: 0, syllabusProgress: 0, targetScore: 90 },
+  { subject: 'Biology', score: 0, syllabusProgress: 0, targetScore: 90 },
+  { subject: 'Social Studies', score: 0, syllabusProgress: 0, targetScore: 90 },
+  { subject: 'English', score: 0, syllabusProgress: 0, targetScore: 95 },
 ];
 
 export const SAMPLE_INTERESTED_CANDIDATES: InterestedCandidate[] = [
