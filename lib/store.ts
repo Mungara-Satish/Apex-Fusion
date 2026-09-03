@@ -158,7 +158,7 @@ const getInitialStoredState = () => {
 };
 
 export const useAppStore = create<AppState>((set, get) => ({
-  isLoggedIn: true,
+  isLoggedIn: false,
   currentUser: CURRENT_STUDENT,
   currentRole: 'STUDENT',
   currentBoard: 'CBSE',
