@@ -41,20 +41,24 @@ export default function StudentDashboardPage() {
   return (
     <RoleAccessGuard allowedRoles={['STUDENT']} pageTitle="Student Learning Portal">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
-      {/* Student Welcome Banner */}
-      <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white shadow-xl overflow-hidden">
+      {/* Student Welcome Banner in Light Sky Blue */}
+      <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-500 text-white shadow-xl shadow-sky-500/20 overflow-hidden border border-sky-300/30">
+        {/* Subtle Decorative Glows */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-60 h-60 bg-sky-200/20 rounded-full blur-2xl pointer-events-none" />
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider">
+              <span className="px-3 py-1 rounded-full bg-white/25 text-white text-xs font-black uppercase tracking-wider backdrop-blur-sm border border-white/30 shadow-sm">
                 {currentBoard} Board Class 10
               </span>
-              <span className="text-xs text-indigo-200">Exam Target: Feb-Mar 2026</span>
+              <span className="text-xs font-semibold text-sky-100 drop-shadow-sm">Exam Target: Feb-Mar 2026</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-sm">
               Welcome, {currentUser?.name || 'Aarav Sharma'}! 🚀
             </h1>
-            <p className="text-xs sm:text-sm text-indigo-200 max-w-xl">
+            <p className="text-xs sm:text-sm text-sky-50 max-w-xl font-medium leading-relaxed drop-shadow-sm">
               Start your learning journey for {currentBoard} Class 10 board exams. Complete your first chapter to build your study streak and earn Scholar XP!
             </p>
           </div>
@@ -62,17 +66,17 @@ export default function StudentDashboardPage() {
           {/* Gamified Metric Badges */}
           <div className="flex flex-wrap items-center gap-3">
             {/* Streak Counter Card */}
-            <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur border border-white/15 flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400">
-                <Flame className="w-6 h-6 fill-amber-400 animate-bounce" />
+            <div className="p-3.5 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 shadow-md flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-amber-400/30 text-amber-200 border border-amber-300/40 shadow-inner">
+                <Flame className="w-6 h-6 fill-amber-300 text-amber-200 animate-bounce" />
               </div>
               <div>
-                <div className="text-lg font-black text-amber-300">{streakCount} Days</div>
-                <div className="text-[11px] text-white/80 font-medium">Daily Study Streak</div>
+                <div className="text-lg font-black text-white">{streakCount} Days</div>
+                <div className="text-[11px] text-sky-100 font-bold">Daily Study Streak</div>
               </div>
               <button
                 onClick={incrementStreak}
-                className="ml-1 text-[10px] bg-amber-400 text-slate-950 font-bold px-2 py-1 rounded-md hover:bg-amber-300 transition-colors"
+                className="ml-1 text-[10px] bg-amber-300 hover:bg-amber-200 text-slate-950 font-black px-2.5 py-1 rounded-lg transition-all shadow-sm active:scale-95"
                 title="Check in for today"
               >
                 + Check In
@@ -80,13 +84,13 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* XP Points */}
-            <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur border border-white/15 flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+            <div className="p-3.5 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 shadow-md flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-emerald-400/30 text-emerald-200 border border-emerald-300/40 shadow-inner">
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-lg font-black text-emerald-300">{studentPoints} XP</div>
-                <div className="text-[11px] text-white/80 font-medium">Scholar Points</div>
+                <div className="text-lg font-black text-white">{studentPoints} XP</div>
+                <div className="text-[11px] text-sky-100 font-bold">Scholar Points</div>
               </div>
             </div>
           </div>
