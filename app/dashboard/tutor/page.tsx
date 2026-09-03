@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store';
 import { CURRENT_TUTOR } from '@/lib/mock-data';
@@ -32,7 +32,47 @@ import {
   UploadCloud,
   BookOpen,
   Zap,
+  HardDrive,
+  FolderUp,
+  FileVideo,
+  Link2,
+  ExternalLink,
+  Check,
 } from 'lucide-react';
+
+// Helper to convert any URL (Direct MP4, Google Drive, YouTube) into streamable/embeddable format
+function getEmbeddableVideo(url: string): { type: 'iframe' | 'video'; src: string } {
+  if (!url) return { type: 'video', src: '' };
+
+  // Google Drive URLs
+  if (url.includes('drive.google.com')) {
+    const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (fileIdMatch && fileIdMatch[1]) {
+      return {
+        type: 'iframe',
+        src: `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`,
+      };
+    }
+  }
+
+  // YouTube URLs
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    let videoId = '';
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+    } else if (url.includes('watch?v=')) {
+      videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
+    }
+    if (videoId) {
+      return {
+        type: 'iframe',
+        src: `https://www.youtube.com/embed/${videoId}?autoplay=1`,
+      };
+    }
+  }
+
+  return { type: 'video', src: url };
+}
 
 export default function TutorDashboardPage() {
   const {
@@ -53,6 +93,15 @@ export default function TutorDashboardPage() {
   const [activeVideoPlayer, setActiveVideoPlayer] = useState<RecordedVideoItem | null>(null);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
   const [tutorToast, setTutorToast] = useState<string | null>(null);
+
+  // Video Source Upload Type: 'computer' | 'drive' | 'url'
+  const [videoSourceType, setVideoSourceType] = useState<'computer' | 'drive' | 'url'>('computer');
+  const [uploadedFileName, setUploadedFileName] = useState<string>('');
+  const [uploadedFileSize, setUploadedFileSize] = useState<string>('');
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [googleDriveUrl, setGoogleDriveUrl] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Add Video Form State
   const activeTutorName = currentUser?.name || CURRENT_TUTOR.name;
@@ -92,6 +141,47 @@ export default function TutorDashboardPage() {
     setTimeout(() => setTutorToast(null), 3000);
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadedFileName(file.name);
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+    setUploadedFileSize(`${sizeMb} MB`);
+    setIsUploading(true);
+    setUploadProgress(0);
+
+    // Auto-create local object URL for preview and playback
+    const objectUrl = URL.createObjectURL(file);
+    setNewVideoUrl(objectUrl);
+
+    // Auto-fill title if empty
+    if (!newVideoTitle) {
+      const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      setNewVideoTitle(cleanName);
+    }
+
+    if (!newVideoDuration || newVideoDuration === '55:00 mins') {
+      setNewVideoDuration('48:30 mins');
+    }
+
+    // Fast simulated upload progress
+    let p = 0;
+    const timer = setInterval(() => {
+      p += 25;
+      setUploadProgress(p);
+      if (p >= 100) {
+        clearInterval(timer);
+        setIsUploading(false);
+      }
+    }, 120);
+  };
+
+  const handleGoogleDriveInput = (val: string) => {
+    setGoogleDriveUrl(val);
+    setNewVideoUrl(val);
+  };
+
   const handleAddVideo = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newVideoTitle.trim()) return;
@@ -121,6 +211,8 @@ export default function TutorDashboardPage() {
     setNewVideoTitle('');
     setNewVideoDesc('');
     setNewVideoTopics('');
+    setUploadedFileName('');
+    setGoogleDriveUrl('');
 
     setTutorToast('🎉 Recorded video masterclass published to student portal!');
     setTimeout(() => setTutorToast(null), 4000);
@@ -521,11 +613,12 @@ export default function TutorDashboardPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* MODAL: ADD RECORDED VIDEO MASTERCLASS (TUTOR ONLY)                        */}
+        {/* MODAL: ADD RECORDED VIDEO MASTERCLASS (COMPUTER, GOOGLE DRIVE & URL)      */}
         {/* ========================================================================= */}
         {showAddVideoModal && (
           <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-in fade-in">
-            <div className="w-full max-w-xl bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 my-8 max-h-[90vh] flex flex-col">
+            <div className="w-full max-w-2xl bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 my-8 max-h-[90vh] flex flex-col">
+              {/* Modal Header */}
               <div className="flex items-center justify-between pb-4 border-b border-border shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-3 rounded-2xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
@@ -536,7 +629,7 @@ export default function TutorDashboardPage() {
                       Publish Recorded Video Masterclass
                     </h3>
                     <p className="text-xs text-muted-foreground">
-                      Publish high-quality whiteboard video lectures and problem sets for Class 10 students.
+                      Upload video from your computer, link Google Drive, or connect a cloud stream for Class 10 students.
                     </p>
                   </div>
                 </div>
@@ -550,6 +643,179 @@ export default function TutorDashboardPage() {
               </div>
 
               <form onSubmit={handleAddVideo} className="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
+                {/* 1. Video Source Mode Selector (Computer vs Google Drive vs Direct URL) */}
+                <div className="space-y-2">
+                  <label className="font-bold text-foreground flex items-center gap-1.5">
+                    <UploadCloud className="w-4 h-4 text-sky-500" />
+                    Select Video Upload Method:
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceType('computer')}
+                      className={`p-3 rounded-2xl border text-left flex flex-col items-center justify-center gap-1.5 transition-all ${
+                        videoSourceType === 'computer'
+                          ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold shadow-sm'
+                          : 'border-border bg-background hover:bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      <HardDrive className="w-5 h-5" />
+                      <span className="text-[11px]">From Computer</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceType('drive')}
+                      className={`p-3 rounded-2xl border text-left flex flex-col items-center justify-center gap-1.5 transition-all ${
+                        videoSourceType === 'drive'
+                          ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold shadow-sm'
+                          : 'border-border bg-background hover:bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      <FolderUp className="w-5 h-5" />
+                      <span className="text-[11px]">Google Drive</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceType('url')}
+                      className={`p-3 rounded-2xl border text-left flex flex-col items-center justify-center gap-1.5 transition-all ${
+                        videoSourceType === 'url'
+                          ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold shadow-sm'
+                          : 'border-border bg-background hover:bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      <Link2 className="w-5 h-5" />
+                      <span className="text-[11px]">Stream URL</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Option A: Computer File Upload Box */}
+                {videoSourceType === 'computer' && (
+                  <div className="p-4 rounded-2xl border-2 border-dashed border-sky-500/40 bg-sky-500/5 space-y-3 text-center">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime,video/mkv,.mp4,.webm,.mov,.mkv"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+
+                    <div className="w-12 h-12 mx-auto rounded-2xl bg-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+                      <FileVideo className="w-6 h-6" />
+                    </div>
+
+                    {uploadedFileName ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-center gap-2 text-foreground font-bold text-xs">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                          <span>{uploadedFileName}</span>
+                          <span className="px-2 py-0.5 rounded bg-muted text-[10px] text-muted-foreground">
+                            {uploadedFileSize}
+                          </span>
+                        </div>
+
+                        {isUploading ? (
+                          <div className="space-y-1">
+                            <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
+                              <div
+                                className="h-full bg-sky-500 transition-all duration-300"
+                                style={{ width: `${uploadProgress}%` }}
+                              />
+                            </div>
+                            <span className="text-[10px] text-muted-foreground">
+                              Processing video from computer... {uploadProgress}%
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center gap-3">
+                            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">
+                              ✓ Local Video Ready to Stream & Publish
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => fileInputRef.current?.click()}
+                              className="text-xs text-sky-600 hover:underline font-bold"
+                            >
+                              Choose Different File
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <p className="font-bold text-foreground text-xs">
+                          Select high-definition video from your computer
+                        </p>
+                        <p className="text-[11px] text-muted-foreground">
+                          Supports MP4, WebM, QuickTime MOV up to 2GB
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md transition-all inline-flex items-center gap-2"
+                        >
+                          <HardDrive className="w-4 h-4" />
+                          <span>Browse Files on Computer</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Option B: Google Drive Link Box */}
+                {videoSourceType === 'drive' && (
+                  <div className="p-4 rounded-2xl border border-sky-500/30 bg-sky-500/5 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-foreground flex items-center gap-1.5">
+                        <FolderUp className="w-4 h-4 text-amber-500" />
+                        Google Drive Video Shareable Link *
+                      </label>
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded">
+                        Auto-Converts to Stream Player
+                      </span>
+                    </div>
+
+                    <input
+                      type="url"
+                      placeholder="https://drive.google.com/file/d/1A2B3C4D5E.../view?usp=sharing"
+                      value={googleDriveUrl}
+                      onChange={(e) => handleGoogleDriveInput(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono"
+                    />
+
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-muted-foreground bg-background p-2.5 rounded-xl border border-border">
+                      <span>💡 <strong>Tip:</strong> In Google Drive, click <em>Share &rarr; Anyone with the link</em>.</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const sampleDrive = 'https://drive.google.com/file/d/1B2C3D4E5F6G7H8I9J0K/view?usp=sharing';
+                          handleGoogleDriveInput(sampleDrive);
+                        }}
+                        className="text-sky-600 hover:underline font-bold shrink-0"
+                      >
+                        Paste Sample Drive URL
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Option C: Direct Stream URL */}
+                {videoSourceType === 'url' && (
+                  <div className="space-y-1.5">
+                    <label className="font-bold text-foreground">Direct Video Stream URL (MP4 / WebM / Cloud)</label>
+                    <input
+                      type="url"
+                      required
+                      placeholder="https://commondatastorage.googleapis.com/.../video.mp4"
+                      value={newVideoUrl}
+                      onChange={(e) => setNewVideoUrl(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono"
+                    />
+                  </div>
+                )}
+
                 {/* Video Title */}
                 <div className="space-y-1.5">
                   <label className="font-bold text-foreground">Lecture / Masterclass Title *</label>
@@ -619,22 +885,10 @@ export default function TutorDashboardPage() {
                   </span>
                 </div>
 
-                {/* Video Stream URL & Duration */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="sm:col-span-2 space-y-1.5">
-                    <label className="font-bold text-foreground">Video Stream URL (MP4 / Cloud)</label>
-                    <input
-                      type="url"
-                      required
-                      placeholder="https://.../lecture-video.mp4"
-                      value={newVideoUrl}
-                      onChange={(e) => setNewVideoUrl(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono"
-                    />
-                  </div>
-
+                {/* Duration & Thumbnail Selection */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="font-bold text-foreground">Duration</label>
+                    <label className="font-bold text-foreground">Video Duration</label>
                     <input
                       type="text"
                       placeholder="e.g. 55:00 mins"
@@ -643,27 +897,26 @@ export default function TutorDashboardPage() {
                       className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
                     />
                   </div>
-                </div>
 
-                {/* 3D Concept Thumbnail Preset */}
-                <div className="space-y-1.5">
-                  <label className="font-bold text-foreground">3D Concept Artwork Thumbnail</label>
-                  <select
-                    value={newVideoThumbnail}
-                    onChange={(e) => setNewVideoThumbnail(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
-                  >
-                    <option value="/concepts/physics_optics_3d.jpg">Physics: Ray Optics & Prisms (3D)</option>
-                    <option value="/concepts/physics_elec_3d.jpg">Physics: Electric Circuits & Magnetic Coils (3D)</option>
-                    <option value="/concepts/math_trig_3d.jpg">Math: Trigonometry & Heights (3D)</option>
-                    <option value="/concepts/math_algebra_3d.jpg">Math: Quadratic & Algebraic Graphs (3D)</option>
-                    <option value="/concepts/chem_molecules_3d.jpg">Chemistry: Carbon & Hydrocarbons (3D)</option>
-                    <option value="/concepts/chem_acids_metal_3d.jpg">Chemistry: Acids & Metallurgy (3D)</option>
-                    <option value="/concepts/bio_heart_3d.jpg">Biology: Human Heart & Nephron (3D)</option>
-                    <option value="/concepts/bio_genetics_3d.jpg">Biology: DNA & Heredity (3D)</option>
-                    <option value="/concepts/sst_history_geo_3d.jpg">Social Studies: History & Indian Soil Maps (3D)</option>
-                    <option value="/concepts/eng_lit_3d.jpg">English: Prose & Grammar (3D)</option>
-                  </select>
+                  <div className="space-y-1.5">
+                    <label className="font-bold text-foreground">3D Concept Thumbnail</label>
+                    <select
+                      value={newVideoThumbnail}
+                      onChange={(e) => setNewVideoThumbnail(e.target.value)}
+                      className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    >
+                      <option value="/concepts/physics_optics_3d.jpg">Physics: Ray Optics & Prisms (3D)</option>
+                      <option value="/concepts/physics_elec_3d.jpg">Physics: Electric Circuits & Magnetic Coils (3D)</option>
+                      <option value="/concepts/math_trig_3d.jpg">Math: Trigonometry & Heights (3D)</option>
+                      <option value="/concepts/math_algebra_3d.jpg">Math: Quadratic & Algebraic Graphs (3D)</option>
+                      <option value="/concepts/chem_molecules_3d.jpg">Chemistry: Carbon & Hydrocarbons (3D)</option>
+                      <option value="/concepts/chem_acids_metal_3d.jpg">Chemistry: Acids & Metallurgy (3D)</option>
+                      <option value="/concepts/bio_heart_3d.jpg">Biology: Human Heart & Nephron (3D)</option>
+                      <option value="/concepts/bio_genetics_3d.jpg">Biology: DNA & Heredity (3D)</option>
+                      <option value="/concepts/sst_history_geo_3d.jpg">Social Studies: History & Indian Soil Maps (3D)</option>
+                      <option value="/concepts/eng_lit_3d.jpg">English: Prose & Grammar (3D)</option>
+                    </select>
+                  </div>
                 </div>
 
                 {/* Key Topics */}
@@ -712,7 +965,7 @@ export default function TutorDashboardPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* MODAL: INTERACTIVE VIDEO PLAYER PREVIEW                                   */}
+        {/* MODAL: INTERACTIVE VIDEO PLAYER PREVIEW (SUPPORTS DIRECT MP4 & GOOGLE DRIVE)*/}
         {/* ========================================================================= */}
         {activeVideoPlayer && (
           <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in">
@@ -744,16 +997,32 @@ export default function TutorDashboardPage() {
                 </button>
               </div>
 
+              {/* Video Player Display (Adaptive: iframe for Google Drive / YouTube, video tag for Direct MP4/Blob) */}
               <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10 shrink-0">
-                <video
-                  ref={(el) => {
-                    if (el) el.playbackRate = playbackSpeed;
-                  }}
-                  src={activeVideoPlayer.videoUrl}
-                  controls
-                  autoPlay
-                  className="w-full h-full object-contain"
-                />
+                {(() => {
+                  const media = getEmbeddableVideo(activeVideoPlayer.videoUrl);
+                  if (media.type === 'iframe') {
+                    return (
+                      <iframe
+                        src={media.src}
+                        className="w-full h-full border-0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      />
+                    );
+                  }
+                  return (
+                    <video
+                      ref={(el) => {
+                        if (el) el.playbackRate = playbackSpeed;
+                      }}
+                      src={media.src}
+                      controls
+                      autoPlay
+                      className="w-full h-full object-contain"
+                    />
+                  );
+                })()}
               </div>
 
               <div className="space-y-4 overflow-y-auto pr-1 flex-1 text-xs">
