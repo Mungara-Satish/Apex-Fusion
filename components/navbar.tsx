@@ -82,8 +82,6 @@ export function Navbar() {
     // Default: STUDENT
     return [
       { name: 'AI Doubt Solver', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI', highlight: true },
-      { name: 'Students, Parents & Tutors', href: '/directory', icon: Users },
-      { name: 'Platform Overview', href: '/vlog', icon: Sparkles, badge: 'Details' },
       { name: 'Subjects', href: '/subjects', icon: BookOpen },
       { name: 'Doubt Forum', href: '/doubts', icon: HelpCircle },
       { name: 'Tutors & Live', href: '/tutors', icon: Users },
