@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Fusion — Executive Demo & Tech Presentation Deck</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .slide { display: none; }
+    .slide.active { display: flex; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 sm:p-8">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <span class="font-black text-lg text-white">Apex Fusion</span>
+      <span id="slideCounter" class="px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold text-slate-300">Slide 1 of 9</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button onclick="toggleNotes()" class="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 text-xs font-bold transition-all">
+        Speaker Notes <span id="notesStatus">OFF</span>
+      </button>
+      <button onclick="toggleFullscreen()" class="p-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 text-xs font-bold transition-all">
+        <i class="fa-solid fa-expand"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="flex-1 flex flex-col justify-center my-6 max-w-5xl mx-auto w-full">
+    <div class="p-6 sm:p-10 rounded-3xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl relative overflow-hidden min-h-[460px] flex flex-col justify-between">
+      
+      <!-- Slide 1 -->
+      <div class="slide active flex-col justify-center text-center space-y-6 max-w-2xl mx-auto my-auto">
+        <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-extrabold uppercase tracking-wider border border-sky-500/30 w-fit mx-auto">EXECUTIVE INTRODUCTION</span>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">APEX FUSION</h1>
+        <p class="text-sm text-slate-300">Modern 10th-Grade Board Examination Prep & Multimodal AI Tutoring Platform</p>
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 font-bold text-xs border border-sky-500/30">CBSE Class 10</span>
+          <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 font-bold text-xs border border-indigo-500/30">ICSE Class 10</span>
+          <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 font-bold text-xs border border-purple-500/30">State SSLC</span>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 font-bold text-xs border border-emerald-500/30">Google Gemini 2.5 AI</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3 pt-2">
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xl font-black text-white">4,820+</div><div class="text-slate-400 text-[10px]">Students</div></div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xl font-black text-sky-400">24/7</div><div class="text-slate-400 text-[10px]">AI Solver</div></div>
+          <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xl font-black text-emerald-400">96.8%</div><div class="text-slate-400 text-[10px]">Distinction</div></div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 text-[10px] font-extrabold uppercase tracking-wider border border-rose-500/30 w-fit">MARKET CHALLENGE</span>
+        <h2 class="text-2xl font-black text-white">The 10th-Grade Board Examination Pain Points</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-1">
+            <div class="font-bold text-rose-400">1. Curriculum Fragmentation</div>
+            <p class="text-slate-400 text-[11px]">Generic apps merge boards, ignoring ICSE GST/Matrices and State Board SCERT requirements.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-1">
+            <div class="font-bold text-amber-400">2. Late-Night Doubt Bottlenecks</div>
+            <p class="text-slate-400 text-[11px]">Students get stuck late at night with no step-by-step LaTeX formula solutions.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <div class="font-bold text-purple-400">3. Parental Blind Spots</div>
+            <p class="text-slate-400 text-[11px]">Parents lack granular visibility into chapter weaknesses until school exam report cards.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/20 space-y-1">
+            <div class="font-bold text-sky-400">4. Tutor Workflow Friction</div>
+            <p class="text-slate-400 text-[11px]">Faculty mentors struggle with fragmented video uploads, live slots, and timetable management.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-[10px] font-extrabold uppercase tracking-wider border border-indigo-500/30 w-fit">CORE SOLUTION</span>
+        <h2 class="text-2xl font-black text-white">The Apex Fusion 4-Pillar Architecture</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <i class="fa-solid fa-robot text-sky-400 text-xl"></i>
+            <div class="font-bold text-white">1. Gemini AI Solver</div>
+            <p class="text-slate-400 text-[10px]">Photo scanning & LaTeX proofs with marking rubrics.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <i class="fa-solid fa-book-open text-indigo-400 text-xl"></i>
+            <div class="font-bold text-white">2. 3-Board Curricula</div>
+            <p class="text-slate-400 text-[10px]">21 subjects with 5+ chapters & formula sheets.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <i class="fa-solid fa-video text-purple-400 text-xl"></i>
+            <div class="font-bold text-white">3. Live Classrooms</div>
+            <p class="text-slate-400 text-[10px]">4 daily slots with interactive whiteboard.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <i class="fa-solid fa-handshake text-emerald-400 text-xl"></i>
+            <div class="font-bold text-white">4. Parent Portal</div>
+            <p class="text-slate-400 text-[10px]">Weakness heatmaps & WhatsApp score alerts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-extrabold uppercase tracking-wider border border-sky-500/30 w-fit">TECH STACK MATRIX</span>
+        <h2 class="text-2xl font-black text-white">Modern, High-Performance Technology Stack</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-sky-400">Next.js 14 & React 18</div>
+            <div class="text-slate-400 text-[10px]">App router, SSR, and zero-latency client navigation.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-indigo-400">Google Gemini 2.5 API</div>
+            <div class="text-slate-400 text-[10px]">Multimodal vision + heuristic fallback solver.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-purple-400">KaTeX Math Engine</div>
+            <div class="text-slate-400 text-[10px]">Real-time LaTeX formula typesetting.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-emerald-400">Zustand 5.0 Store</div>
+            <div class="text-slate-400 text-[10px]">Global state + LocalStorage sync.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-amber-400">Tailwind CSS 3.4</div>
+            <div class="text-slate-400 text-[10px]">Skyblue #38bdf8 palette & glassmorphism.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-rose-400">Razorpay Gateway</div>
+            <div class="text-slate-400 text-[10px]">SHA-256 HMAC orders & GST invoices.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-extrabold uppercase tracking-wider border border-purple-500/30 w-fit">AI INNOVATION</span>
+        <h2 class="text-2xl font-black text-white">Google Gemini 2.5 Flash Multimodal Solver</h2>
+        <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/25 space-y-1">
+          <div class="font-bold text-sky-400 text-sm">Textbook Photo & Formula Scanner</div>
+          <div class="text-slate-400 text-xs">Converts diagram snapshots into step-by-step KaTeX LaTeX mathematical proofs with CBSE marking schemes.</div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-xs text-slate-300">
+          <div class="p-3 rounded-xl bg-white/5 border border-white/10">📷 Photo & Formula Scanner</div>
+          <div class="p-3 rounded-xl bg-white/5 border border-white/10">📐 Step-by-Step KaTeX Proofs</div>
+          <div class="p-3 rounded-xl bg-white/5 border border-white/10">🎯 CBSE 5-Mark Marking Rubric</div>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider border border-emerald-500/30 w-fit">VIDEO VAULT</span>
+        <h2 class="text-2xl font-black text-white">Multi-Source Video Masterclass Uploader</h2>
+        <div class="grid grid-cols-3 gap-3 text-xs">
+          <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/20 space-y-1">
+            <div class="font-bold text-sky-400">💻 From Computer</div>
+            <div class="text-slate-400 text-[10px]">Drag & drop local MP4/WebM files with animated upload progress & instant blob playback.</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 space-y-1">
+            <div class="font-bold text-indigo-400">📁 Google Drive</div>
+            <div class="text-slate-400 text-[10px]">Auto-converts /view share links into embedded /preview video player.</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+            <div class="font-bold text-purple-400">🔗 Stream URL</div>
+            <div class="text-slate-400 text-[10px]">Cloud CDN & YouTube embeds with 0.75x–2x speed controls.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-extrabold uppercase tracking-wider border border-amber-500/30 w-fit">ROLE WORKSPACES</span>
+        <h2 class="text-2xl font-black text-white">Role-Based Access Control (RBAC)</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-sky-400">🎓 Student</div>
+            <div class="text-slate-400 text-[10px]">Syllabi, AI solver, tests, daily study streaks.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-rose-400">👨‍👩‍👧 Parent</div>
+            <div class="text-slate-400 text-[10px]">Child data isolation, weakness heatmap, WhatsApp alerts.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-emerald-400">👨‍🏫 Tutor</div>
+            <div class="text-slate-400 text-[10px]">Computer/Drive upload, live whiteboard classes.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10">
+            <div class="font-bold text-purple-400">🛡️ Admin</div>
+            <div class="text-slate-400 text-[10px]">Directory management, Google Form leads intake.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide flex-col justify-center space-y-4 text-left my-auto">
+        <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-extrabold uppercase tracking-wider border border-sky-500/30 w-fit">DEMO CREDENTIALS</span>
+        <h2 class="text-2xl font-black text-white">Master Credentials Sheet</h2>
+        <div class="overflow-x-auto rounded-2xl border border-white/10">
+          <table class="w-full text-xs">
+            <thead class="bg-white/5 text-white font-bold">
+              <tr>
+                <th class="p-2.5 text-left">Role</th>
+                <th class="p-2.5 text-left">Name</th>
+                <th class="p-2.5 text-left">Email</th>
+                <th class="p-2.5 text-left">Password</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5 text-slate-300">
+              <tr><td class="p-2 font-bold text-sky-400">🎓 Student</td><td class="p-2">Aarav Sharma</td><td class="p-2 font-mono text-[10px]">aarav.sharma@eduten.org</td><td class="p-2 font-mono text-[10px]">Aarav@2026</td></tr>
+              <tr><td class="p-2 font-bold text-rose-400">👨‍👩‍👧 Parent</td><td class="p-2">Rajesh Sharma</td><td class="p-2 font-mono text-[10px]">rajesh.sharma@parent.org</td><td class="p-2 font-mono text-[10px]">Parent@2026</td></tr>
+              <tr><td class="p-2 font-bold text-emerald-400">👨‍🏫 Tutor</td><td class="p-2">Dr. Priya Raman</td><td class="p-2 font-mono text-[10px]">priya.raman@eduten.org</td><td class="p-2 font-mono text-[10px]">Tutor@Physics10</td></tr>
+              <tr><td class="p-2 font-bold text-purple-400">🛡️ Admin</td><td class="p-2">Dr. Sanjay Gupta</td><td class="p-2 font-mono text-[10px]">admin@eduten.org</td><td class="p-2 font-mono text-[10px]">Admin@Master2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Slide 9 -->
+      <div class="slide flex-col justify-center space-y-4 text-center my-auto max-w-lg mx-auto">
+        <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider border border-emerald-500/30 w-fit mx-auto">SUMMARY & NEXT STEPS</span>
+        <h2 class="text-3xl font-black text-white">Apex Fusion Ready for Production</h2>
+        <p class="text-xs text-slate-400">Production-ready Next.js 14 platform with Multimodal AI, authentic syllabi, and multi-source video vault.</p>
+        <div class="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-xs font-mono text-sky-300">
+          github.com/Mungara-Satish/Apex-Fusion
+        </div>
+      </div>
+
+      <!-- Speaker Notes Box -->
+      <div id="notesBox" class="hidden mt-4 p-3 rounded-xl bg-slate-950 border border-sky-500/30 text-xs text-sky-200">
+        <span class="font-bold text-sky-400 uppercase text-[10px] block">Speaker Notes:</span>
+        <p id="notesContent" class="italic text-[11px]"></p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer Navigation -->
+  <footer class="flex items-center justify-between pt-4 border-t border-white/10 shrink-0">
+    <div id="dotsContainer" class="flex items-center gap-1.5"></div>
+
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" id="prevBtn" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold transition-all">
+        Previous
+      </button>
+      <button onclick="nextSlide()" id="nextBtn" class="px-5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs transition-all shadow-lg shadow-sky-500/25">
+        Next Slide
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const notesData = [
+      "Welcome everyone. Today, we are presenting Apex Fusion — a purpose-built educational platform engineered for 10th-grade CBSE, ICSE, and State Board students.",
+      "Class 10 is the foundational academic milestone for over 25 million students. Generic learning platforms fail to deliver board-specific precision.",
+      "Apex Fusion combines multimodal AI, live digital classrooms, authentic board syllabi, and transparent parental oversight.",
+      "Our tech stack was chosen for sub-second page loads, strict TypeScript type safety, responsive design, and enterprise-grade security.",
+      "Unlike generic ChatGPT text responses, Gemini AI on Apex Fusion formats answers exactly like a CBSE/ICSE answer key with step-by-step marking rubrics.",
+      "Mentors can upload video files directly from their laptop or paste a Google Drive link, which is automatically converted into an embedded player.",
+      "Every user is protected by role-based access guards. Parents strictly see their connected child, and tutors retain full pedagogical tools.",
+      "These credentials can be used for live demonstrations or evaluated using the 1-click credential buttons inside the login screen.",
+      "Thank you for your time. Apex Fusion is fully prepared and ready for production deployment."
+    ];
+
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let showNotes = false;
+
+    function update() {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === current);
+      });
+      document.getElementById('slideCounter').textContent = `Slide ${current + 1} of ${total}`;
+      document.getElementById('notesContent').textContent = notesData[current];
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').disabled = current === total - 1;
+
+      // Update dots
+      const dots = document.getElementById('dotsContainer');
+      dots.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = `h-2 rounded-full transition-all ${i === current ? 'w-8 bg-sky-400' : 'w-2 bg-white/20 hover:bg-white/40'}`;
+        dot.onclick = () => { current = i; update(); };
+        dots.appendChild(dot);
+      }
+    }
+
+    function nextSlide() { if (current < total - 1) { current++; update(); } }
+    function prevSlide() { if (current > 0) { current--; update(); } }
+    function toggleNotes() {
+      showNotes = !showNotes;
+      document.getElementById('notesBox').classList.toggle('hidden', !showNotes);
+      document.getElementById('notesStatus').textContent = showNotes ? 'ON' : 'OFF';
+    }
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    update();
+  </script>
+</body>
+</html>
