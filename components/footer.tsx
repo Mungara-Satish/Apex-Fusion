@@ -1,8 +1,18 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { GraduationCap, Heart, BookOpen, ShieldCheck, Award } from 'lucide-react';
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Remove footer on login page
+  if (pathname?.startsWith('/login')) {
+    return null;
+  }
+
   return (
     <footer className="border-t border-border bg-card/60 text-muted-foreground text-xs py-10 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">

@@ -34,6 +34,11 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
+  // Remove header on login page
+  if (pathname?.startsWith('/login')) {
+    return null;
+  }
+
   const activeBoard = currentBoard || currentUser?.board || 'CBSE';
 
   // Dynamic role-tailored navigation links
