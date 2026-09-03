@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store';
 import { SAMPLE_TUTORS, SAMPLE_LIVE_SESSIONS, SUBJECTS, CURRENT_STUDENT } from '@/lib/mock-data';
-import { TutorProfile, LiveClassSession } from '@/lib/types';
+import { TutorProfile, LiveClassSession, Board } from '@/lib/types';
 import {
   Users,
   Star,
@@ -28,7 +28,161 @@ import {
   Sunset,
   Moon,
   Sunrise,
+  Play,
+  Plus,
+  Film,
+  Download,
+  Share2,
+  ThumbsUp,
+  Eye,
+  FileText,
+  Volume2,
+  Maximize2,
+  RotateCcw,
+  UploadCloud,
+  CheckCheck,
 } from 'lucide-react';
+
+export interface RecordedVideoItem {
+  id: string;
+  title: string;
+  subjectName: string;
+  subjectCategory: string;
+  board: Board;
+  mentorName: string;
+  mentorRole: string;
+  mentorAvatar: string;
+  thumbnail: string;
+  videoUrl: string;
+  duration: string;
+  recordedDate: string;
+  viewsCount: number;
+  likesCount: number;
+  description: string;
+  keyTopics: string[];
+  pdfNotesUrl?: string;
+  isPopular?: boolean;
+}
+
+const INITIAL_RECORDED_VIDEOS: RecordedVideoItem[] = [
+  {
+    id: 'rec-1',
+    title: 'Light: Ray Optics, Sign Conventions & 5-Mark Mirror Formula Proofs',
+    subjectName: 'Science: Physics',
+    subjectCategory: 'Science',
+    board: 'CBSE',
+    mentorName: 'Dr. Priya Raman',
+    mentorRole: 'Senior Physics Faculty (IIT Delhi)',
+    mentorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/physics_optics_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    duration: '58:30 mins',
+    recordedDate: '2nd Sep 2026',
+    viewsCount: 1420,
+    likesCount: 384,
+    description: 'Complete interactive whiteboard breakdown of Cartesian sign conventions, focal length proofs, and magnification formulas with CBSE 2024-2025 PYQ numerical step-by-step solving.',
+    keyTopics: ['Cartesian Sign Conventions for Mirrors', '1/f = 1/v + 1/u Derivation', 'Magnification m = -v/u', '3 Step Ray Diagram Rules'],
+    pdfNotesUrl: '/resources/physics-optics-notes.pdf',
+    isPopular: true,
+  },
+  {
+    id: 'rec-2',
+    title: 'Trigonometric Identities & 4-Mark Proofs (Selina & NCERT Exemplar)',
+    subjectName: 'Mathematics',
+    subjectCategory: 'Math',
+    board: 'CBSE',
+    mentorName: 'Prof. Rajesh Verma',
+    mentorRole: '15+ Years Board Exam Master Faculty',
+    mentorAvatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/math_trig_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    duration: '64:15 mins',
+    recordedDate: '1st Sep 2026',
+    viewsCount: 2180,
+    likesCount: 612,
+    description: 'Master the top 10 most frequently asked 4-mark Trigonometric Identity proofs in CBSE and ICSE exams, including LCM conversion shortcuts and conjugates.',
+    keyTopics: ['sin²θ + cos²θ = 1 Applications', 'LHS to RHS Conjugate Multiplication', 'Height & Distance Double Angle Proofs'],
+    pdfNotesUrl: '/resources/math-trig-formula-sheet.pdf',
+    isPopular: true,
+  },
+  {
+    id: 'rec-3',
+    title: 'Carbon and its Compounds: IUPAC Naming & Homologous Series',
+    subjectName: 'Science: Chemistry',
+    subjectCategory: 'Science',
+    board: 'CBSE',
+    mentorName: 'Dr. Priya Raman',
+    mentorRole: 'Senior Chemistry Mentor',
+    mentorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/chem_molecules_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    duration: '52:00 mins',
+    recordedDate: '30th Aug 2026',
+    viewsCount: 980,
+    likesCount: 245,
+    description: 'Structural isomerism of Pentane and Hexane, functional group identification (Aldehydes, Ketones, Carboxylic acids), and Saponification reaction mechanisms.',
+    keyTopics: ['Tetravalency & Catenation', 'IUPAC Naming Rules', 'Esterification vs Saponification'],
+    pdfNotesUrl: '/resources/chem-carbon-reactions.pdf',
+  },
+  {
+    id: 'rec-4',
+    title: 'Life Processes: Double Circulation & Nephron Filtration Architecture',
+    subjectName: 'Science: Biology',
+    subjectCategory: 'Science',
+    board: 'CBSE',
+    mentorName: 'Dr. Ananya Mukherjee',
+    mentorRole: 'Biology Lead Mentor (Ex-AIIMS Researcher)',
+    mentorAvatar: 'https://images.unsplash.com/photo-1594824813511-78c7b8971f4b?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/bio_heart_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    duration: '47:45 mins',
+    recordedDate: '28th Aug 2026',
+    viewsCount: 1650,
+    likesCount: 420,
+    description: 'High-scoring 5-mark board exam diagram techniques: Drawing human heart internal valves and Bowman capsule filtration pathways with precision.',
+    keyTopics: ['Systemic vs Pulmonary Circulation', 'Nephron Ultrafiltration & Reabsorption', 'Respiration ATP Energy Balance'],
+    pdfNotesUrl: '/resources/bio-life-processes.pdf',
+    isPopular: true,
+  },
+  {
+    id: 'rec-5',
+    title: 'State Board Physical Science: Chemical Reactions & Speed Equation Balancing',
+    subjectName: 'Physical Science',
+    subjectCategory: 'Science',
+    board: 'STATE',
+    mentorName: 'Suresh Babu M.Sc.',
+    mentorRole: '12+ Years State Board Faculty',
+    mentorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/chem_acids_metal_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    duration: '50:30 mins',
+    recordedDate: '25th Aug 2026',
+    viewsCount: 890,
+    likesCount: 195,
+    description: 'Algebraic method for quick chemical equation balancing, displacement series reactivity tricks, and redox identification for State Board candidates.',
+    keyTopics: ['Algebraic Balancing Method', 'Exothermic vs Endothermic Graphs', 'Redox Reactions'],
+    pdfNotesUrl: '/resources/state-ps-reactions.pdf',
+  },
+  {
+    id: 'rec-6',
+    title: 'Social Science: Nationalism in India — Map Pointing & 5-Mark Analysis',
+    subjectName: 'Social Studies: History',
+    subjectCategory: 'Social Studies',
+    board: 'CBSE',
+    mentorName: 'Vikram Sengupta M.A.',
+    mentorRole: 'Senior Humanities Educator',
+    mentorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+    thumbnail: '/concepts/sst_history_geo_3d.jpg',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4',
+    duration: '45:10 mins',
+    recordedDate: '22nd Aug 2026',
+    viewsCount: 1120,
+    likesCount: 310,
+    description: 'Chronological roadmap of Non-Cooperation Movement, Civil Disobedience, Salt Satyagraha, and essential board map locations (Champaran, Kheda, Dandi, Amritsar).',
+    keyTopics: ['Non-Cooperation Movement Stages', 'Poona Pact 1932', 'Compulsory Board Map Items'],
+    pdfNotesUrl: '/resources/sst-nationalism-maps.pdf',
+  },
+];
 
 export default function TutorsPage() {
   const {
@@ -45,13 +199,36 @@ export default function TutorsPage() {
   const [selectedTiming, setSelectedTiming] = useState<string>('ALL');
   const [bookingModalTutor, setBookingModalTutor] = useState<TutorProfile | null>(null);
 
-  // Modal form state
+  // Modal form state for 1-on-1 booking
   const [bookingTopic, setBookingTopic] = useState<string>('');
   const [bookingSubjectId, setBookingSubjectId] = useState<string>(SUBJECTS[0].id);
   const [bookingSlot, setBookingSlot] = useState<string>('');
   const [bookingNotes, setBookingNotes] = useState<string>('');
   const [bookingSuccess, setBookingSuccess] = useState<boolean>(false);
   const [enrollToast, setEnrollToast] = useState<string | null>(null);
+
+  // --- RECORDED VIDEOS STATE ---
+  const [recordedVideos, setRecordedVideos] = useState<RecordedVideoItem[]>(INITIAL_RECORDED_VIDEOS);
+  const [selectedVideoSubject, setSelectedVideoSubject] = useState<string>('ALL');
+  const [selectedVideoBoard, setSelectedVideoBoard] = useState<string>('ALL');
+  const [showAddVideoModal, setShowAddVideoModal] = useState<boolean>(false);
+  const [activeVideoPlayer, setActiveVideoPlayer] = useState<RecordedVideoItem | null>(null);
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+  const [likedVideoIds, setLikedVideoIds] = useState<Record<string, boolean>>({});
+
+  // Add Video Form State
+  const [newVideoTitle, setNewVideoTitle] = useState('');
+  const [newVideoSubject, setNewVideoSubject] = useState('Science: Physics');
+  const [newVideoCategory, setNewVideoCategory] = useState('Science');
+  const [newVideoBoard, setNewVideoBoard] = useState<Board>(currentBoard || 'CBSE');
+  const [newVideoMentor, setNewVideoMentor] = useState('Dr. Priya Raman');
+  const [newVideoMentorRole, setNewVideoMentorRole] = useState('Senior Physics Faculty');
+  const [newVideoUrl, setNewVideoUrl] = useState('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+  const [newVideoThumbnail, setNewVideoThumbnail] = useState('/concepts/physics_optics_3d.jpg');
+  const [newVideoDuration, setNewVideoDuration] = useState('55:00 mins');
+  const [newVideoDesc, setNewVideoDesc] = useState('');
+  const [newVideoTopics, setNewVideoTopics] = useState('');
+  const [newVideoPdfNotes, setNewVideoPdfNotes] = useState('');
 
   // Filter Live Sessions
   const filteredLiveSessions = SAMPLE_LIVE_SESSIONS.filter((session) => {
@@ -73,6 +250,19 @@ export default function TutorsPage() {
       : SAMPLE_TUTORS.filter((t) =>
           t.subjectsTaught.some((s) => s.toLowerCase().includes(selectedSubject.toLowerCase()))
         );
+
+  // Filter Recorded Videos
+  const filteredRecordedVideos = recordedVideos.filter((v) => {
+    const matchesSub =
+      selectedVideoSubject === 'ALL' ||
+      v.subjectCategory.toLowerCase() === selectedVideoSubject.toLowerCase() ||
+      v.subjectName.toLowerCase().includes(selectedVideoSubject.toLowerCase());
+
+    const matchesBoard =
+      selectedVideoBoard === 'ALL' || v.board === selectedVideoBoard;
+
+    return matchesSub && matchesBoard;
+  });
 
   const handleOpenBooking = (tutor: TutorProfile) => {
     setBookingModalTutor(tutor);
@@ -113,8 +303,64 @@ export default function TutorsPage() {
     setTimeout(() => setEnrollToast(null), 4000);
   };
 
+  const handleToggleLike = (videoId: string) => {
+    const isLiked = likedVideoIds[videoId];
+    setLikedVideoIds((prev) => ({ ...prev, [videoId]: !isLiked }));
+    setRecordedVideos((prev) =>
+      prev.map((v) =>
+        v.id === videoId ? { ...v, likesCount: v.likesCount + (isLiked ? -1 : 1) } : v
+      )
+    );
+  };
+
+  const handleAddRecordedVideo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newVideoTitle.trim()) return;
+
+    const topicsArray = newVideoTopics
+      ? newVideoTopics.split(',').map((t) => t.trim()).filter(Boolean)
+      : ['Comprehensive Chapter Walkthrough', 'Board Exam PYQ Solving', 'Formula Application'];
+
+    const newRec: RecordedVideoItem = {
+      id: `rec-${Date.now()}`,
+      title: newVideoTitle.trim(),
+      subjectName: newVideoSubject,
+      subjectCategory: newVideoCategory,
+      board: newVideoBoard,
+      mentorName: newVideoMentor,
+      mentorRole: newVideoMentorRole,
+      mentorAvatar:
+        newVideoMentor.includes('Priya')
+          ? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
+          : newVideoMentor.includes('Rajesh')
+          ? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80'
+          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+      thumbnail: newVideoThumbnail,
+      videoUrl: newVideoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      duration: newVideoDuration || '45:00 mins',
+      recordedDate: 'Just now',
+      viewsCount: 1,
+      likesCount: 1,
+      description: newVideoDesc || 'Complete high-definition recorded masterclass with step-by-step whiteboard derivations and board exam question solving.',
+      keyTopics: topicsArray,
+      pdfNotesUrl: newVideoPdfNotes || '/resources/physics-optics-notes.pdf',
+      isPopular: true,
+    };
+
+    setRecordedVideos([newRec, ...recordedVideos]);
+    setShowAddVideoModal(false);
+
+    // Reset Form
+    setNewVideoTitle('');
+    setNewVideoDesc('');
+    setNewVideoTopics('');
+
+    setEnrollToast(`🎉 Recorded video "${newRec.title}" successfully added to Masterclass Vault!`);
+    setTimeout(() => setEnrollToast(null), 4000);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
       {/* Toast Notification */}
       {enrollToast && (
         <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-emerald-600 text-white font-bold text-xs shadow-2xl flex items-center gap-3 animate-in slide-in-from-bottom-5">
@@ -140,7 +386,7 @@ export default function TutorsPage() {
               All Live Classes & Timings are 100% Free with Your Subscription
             </h2>
             <p className="text-xs text-purple-200/90 leading-relaxed max-w-2xl">
-              As an enrolled subscription holder, you get unlimited free access (₹0 fee) to all morning, afternoon, evening, and night live whiteboard classes and doubt clinics!
+              As an enrolled subscription holder, you get unlimited free access (₹0 fee) to all morning, afternoon, evening, and night live whiteboard classes, recorded video masterclasses, and doubt clinics!
             </p>
           </div>
         </div>
@@ -161,8 +407,207 @@ export default function TutorsPage() {
         </div>
       </div>
 
-      {/* SECTION 1: LIVE CLASSES TIMETABLE & SCHEDULE */}
-      <div className="space-y-6">
+      {/* ========================================================================= */}
+      {/* SECTION 1: RECORDED VIDEO MASTERCLASSES & VAULT (NEW FEATURE)            */}
+      {/* ========================================================================= */}
+      <div id="recorded-classes" className="space-y-6 pt-2">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">
+              <Film className="w-4 h-4" /> On-Demand Masterclass Library & Replays
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+              Recorded Video Lectures & Whiteboard Masterclasses
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Missed a live session? Stream full recorded masterclasses, formula derivations, and PYQ solving drills anytime.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            {/* + Add Recorded Video Button */}
+            <button
+              onClick={() => setShowAddVideoModal(true)}
+              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-sky-500/25 transition-all hover:scale-105"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Add Recorded Video</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Filter Pills for Recorded Videos */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+            <span className="text-xs font-bold text-muted-foreground mr-1 flex items-center gap-1 shrink-0">
+              <Filter className="w-3.5 h-3.5" /> Subject:
+            </span>
+            {['ALL', 'Math', 'Science', 'Social Studies'].map((sub) => (
+              <button
+                key={sub}
+                onClick={() => setSelectedVideoSubject(sub)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
+                  selectedVideoSubject === sub
+                    ? 'bg-sky-600 text-white shadow-sm'
+                    : 'bg-muted text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {sub === 'ALL' ? 'All Subjects' : sub}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+            <span className="text-xs font-bold text-muted-foreground mr-1 shrink-0">Board:</span>
+            {['ALL', 'CBSE', 'ICSE', 'STATE'].map((b) => (
+              <button
+                key={b}
+                onClick={() => setSelectedVideoBoard(b)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
+                  selectedVideoBoard === b
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'bg-muted text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {b === 'ALL' ? 'All Boards' : b}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Recorded Videos Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredRecordedVideos.map((video) => (
+            <div
+              key={video.id}
+              className="rounded-3xl border border-border bg-card overflow-hidden hover:border-sky-500/50 transition-all duration-300 hover:shadow-xl flex flex-col justify-between group"
+            >
+              <div>
+                {/* Video Thumbnail & Play Button Overlay */}
+                <div className="relative h-48 overflow-hidden bg-slate-950 cursor-pointer" onClick={() => setActiveVideoPlayer(video)}>
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Play Button Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-13 h-13 rounded-full bg-sky-500/90 text-white flex items-center justify-center shadow-lg shadow-sky-500/50 group-hover:scale-110 transition-transform duration-300 border-2 border-white/40">
+                      <Play className="w-6 h-6 fill-white ml-0.5" />
+                    </div>
+                  </div>
+
+                  {/* Badges Overlay */}
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
+                    <span className="px-2.5 py-1 rounded-md bg-black/60 backdrop-blur text-[10px] font-black uppercase text-white border border-white/20">
+                      {video.board} 10th
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-sky-500/80 backdrop-blur text-[10px] font-bold text-white">
+                      {video.subjectName}
+                    </span>
+                  </div>
+
+                  <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-md bg-black/70 backdrop-blur text-white text-[11px] font-bold">
+                    <Clock className="w-3.5 h-3.5 text-sky-400" />
+                    <span>{video.duration}</span>
+                  </div>
+                </div>
+
+                {/* Content Details */}
+                <div className="p-5 space-y-3">
+                  <h3
+                    onClick={() => setActiveVideoPlayer(video)}
+                    className="font-bold text-base text-foreground leading-snug hover:text-sky-500 transition-colors cursor-pointer line-clamp-2"
+                  >
+                    {video.title}
+                  </h3>
+
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                    {video.description}
+                  </p>
+
+                  {/* Key Topics Covered Chips */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {video.keyTopics.slice(0, 2).map((t, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-[10px] font-medium border border-border"
+                      >
+                        ✓ {t}
+                      </span>
+                    ))}
+                    {video.keyTopics.length > 2 && (
+                      <span className="text-[10px] text-muted-foreground self-center font-bold">
+                        +{video.keyTopics.length - 2} more
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Mentor Info */}
+                  <div className="flex items-center justify-between pt-3 border-t border-border/60">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={video.mentorAvatar}
+                        alt={video.mentorName}
+                        className="w-8 h-8 rounded-full object-cover border border-sky-400/40"
+                      />
+                      <div className="text-xs">
+                        <div className="font-bold text-foreground">{video.mentorName}</div>
+                        <div className="text-[10px] text-muted-foreground">{video.mentorRole}</div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Eye className="w-3.5 h-3.5 text-muted-foreground" /> {video.viewsCount}
+                      </span>
+                      <button
+                        onClick={() => handleToggleLike(video.id)}
+                        className={`flex items-center gap-1 hover:text-rose-500 transition-colors ${
+                          likedVideoIds[video.id] ? 'text-rose-500 font-bold' : ''
+                        }`}
+                      >
+                        <ThumbsUp className="w-3.5 h-3.5" /> {video.likesCount}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="p-5 pt-0 flex items-center gap-2">
+                <button
+                  onClick={() => setActiveVideoPlayer(video)}
+                  className="flex-1 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm shadow-sky-500/20 transition-all"
+                >
+                  <Play className="w-3.5 h-3.5 fill-white" />
+                  <span>Watch Recording</span>
+                </button>
+
+                {video.pdfNotesUrl && (
+                  <button
+                    onClick={() => {
+                      setEnrollToast(`📥 PDF Formula Notes & Board Solutions downloaded for "${video.title}"`);
+                      setTimeout(() => setEnrollToast(null), 3000);
+                    }}
+                    className="p-2.5 rounded-xl border border-border bg-card hover:bg-muted text-foreground text-xs font-semibold transition-colors"
+                    title="Download Lecture Notes PDF"
+                  >
+                    <Download className="w-4 h-4 text-sky-500" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* SECTION 2: LIVE CLASSES TIMETABLE & SCHEDULE                              */}
+      {/* ========================================================================= */}
+      <div className="space-y-6 pt-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">
@@ -204,7 +649,7 @@ export default function TutorsPage() {
           </div>
         </div>
 
-        {/* Live Class Schedule Grid */}
+        {/* Live Classes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredLiveSessions.map((session) => {
             const isEnrolled = enrolledLiveSessionIds.includes(session.id);
@@ -213,38 +658,28 @@ export default function TutorsPage() {
             return (
               <div
                 key={session.id}
-                className={`rounded-3xl border transition-all flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl ${
+                className={`rounded-3xl border bg-card transition-all duration-300 hover:shadow-xl flex flex-col justify-between overflow-hidden ${
                   isLive
-                    ? 'border-rose-500/40 bg-gradient-to-b from-rose-500/5 via-card to-card ring-1 ring-rose-500/20'
-                    : 'border-border bg-card'
+                    ? 'border-rose-500/60 shadow-lg shadow-rose-500/10 ring-1 ring-rose-500/30'
+                    : 'border-border'
                 }`}
               >
                 <div className="p-6 space-y-4">
                   {/* Top Status & Timing Row */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      {isLive ? (
-                        <span className="px-2.5 py-1 rounded-full bg-rose-500 text-white font-extrabold text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-sm">
-                          <Radio className="w-3 h-3 animate-pulse" /> Live Right Now
-                        </span>
-                      ) : session.status === 'STARTING_SOON' ? (
-                        <span className="px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 font-bold text-[10px] uppercase tracking-wider border border-amber-500/30">
-                          ⏳ Starting Soon
-                        </span>
-                      ) : (
-                        <span className="px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold text-[10px] uppercase tracking-wider border border-indigo-500/20">
-                          📅 Scheduled
-                        </span>
-                      )}
-                      <span className="px-2 py-0.5 rounded-md bg-muted text-foreground text-[10px] font-bold">
-                        {session.subjectName}
-                      </span>
-                    </div>
-
-                    {/* Free with Subscription Badge */}
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black text-[10px] border border-emerald-500/30">
-                      ₹0 Free Pass
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                      {session.subjectName}
                     </span>
+
+                    {isLive ? (
+                      <span className="px-2.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px] font-black tracking-wider uppercase flex items-center gap-1.5 animate-pulse">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white" /> LIVE RIGHT NOW
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground text-[10px] font-bold">
+                        Upcoming {session.timingCategory} Batch
+                      </span>
+                    )}
                   </div>
 
                   {/* Timing & Day Pill */}
@@ -320,7 +755,7 @@ export default function TutorsPage() {
                           </>
                         ) : (
                           <>
-                            <Calendar className="w-3.5 h-3.5" />
+                            <Sparkles className="w-3.5 h-3.5" />
                             <span>Reserve Free Seat</span>
                           </>
                         )}
@@ -342,7 +777,9 @@ export default function TutorsPage() {
         </div>
       </div>
 
-      {/* SECTION 2: 1-ON-1 SPECIALIST TUTORS WITH CUSTOM TIMINGS */}
+      {/* ========================================================================= */}
+      {/* SECTION 3: 1-ON-1 SPECIALIST TUTORS WITH CUSTOM TIMINGS                   */}
+      {/* ========================================================================= */}
       <div className="space-y-6 pt-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-border">
           <div className="space-y-1">
@@ -380,23 +817,21 @@ export default function TutorsPage() {
           {filteredTutors.map((tutor) => (
             <div
               key={tutor.id}
-              className="flex flex-col justify-between rounded-3xl border border-border bg-card p-6 shadow-sm hover:shadow-xl transition-all space-y-6"
+              className="rounded-3xl border border-border bg-card p-6 shadow-sm hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col justify-between space-y-6"
             >
               <div className="space-y-4">
-                {/* Tutor Profile Header */}
+                {/* Tutor Header */}
                 <div className="flex items-start gap-4">
                   <img
                     src={tutor.avatar}
                     alt={tutor.name}
-                    className="w-16 h-16 rounded-2xl object-cover border-2 border-primary/30 shadow-xs"
+                    className="w-16 h-16 rounded-2xl object-cover border-2 border-primary/20 shadow-sm"
                   />
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-base font-extrabold text-foreground">{tutor.name}</h3>
+                      <h3 className="font-extrabold text-base text-foreground">{tutor.name}</h3>
                       {tutor.verified && (
-                        <span title="Verified Educator">
-                          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                        </span>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                       )}
                     </div>
                     <div className="flex items-center gap-2 text-xs">
@@ -480,7 +915,358 @@ export default function TutorsPage() {
         </div>
       </div>
 
-      {/* 1-on-1 Booking Modal */}
+      {/* ========================================================================= */}
+      {/* MODAL 1: ADD RECORDED VIDEO MASTERCLASS MODAL                            */}
+      {/* ========================================================================= */}
+      {showAddVideoModal && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-in fade-in">
+          <div className="w-full max-w-xl bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 my-8 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-border shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
+                  <Film className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-foreground">
+                    Add Recorded Video Lecture
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    Link or upload on-demand whiteboard masterclass recordings for students.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setShowAddVideoModal(false)}
+                className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddRecordedVideo} className="space-y-4 text-xs overflow-y-auto pr-1 flex-1">
+              {/* Video Title */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-foreground">Lecture / Masterclass Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Ray Optics - Complete Mirror Formula & 5-Mark Numerical Proofs"
+                  value={newVideoTitle}
+                  onChange={(e) => setNewVideoTitle(e.target.value)}
+                  className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                />
+              </div>
+
+              {/* Subject & Category Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="font-bold text-foreground">Subject Name</label>
+                  <select
+                    value={newVideoSubject}
+                    onChange={(e) => {
+                      setNewVideoSubject(e.target.value);
+                      if (e.target.value.includes('Math')) setNewVideoCategory('Math');
+                      else if (e.target.value.includes('Social') || e.target.value.includes('History')) setNewVideoCategory('Social Studies');
+                      else setNewVideoCategory('Science');
+                    }}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  >
+                    <option value="Science: Physics">Science: Physics (Optics & Electricity)</option>
+                    <option value="Science: Chemistry">Science: Chemistry (Carbon & Reactions)</option>
+                    <option value="Science: Biology">Science: Biology (Life Processes & Genetics)</option>
+                    <option value="Mathematics">Mathematics (Trig, Algebra & Geometry)</option>
+                    <option value="Physical Science">State Board Physical Science</option>
+                    <option value="Social Studies: History">Social Studies: History & Civics</option>
+                    <option value="English Literature">English Language & Literature</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="font-bold text-foreground">Target Board</label>
+                  <select
+                    value={newVideoBoard}
+                    onChange={(e) => setNewVideoBoard(e.target.value as Board)}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  >
+                    <option value="CBSE">CBSE Class 10</option>
+                    <option value="ICSE">ICSE Class 10</option>
+                    <option value="STATE">State Board Class 10</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Mentor Name & Role */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="font-bold text-foreground">Faculty / Mentor Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Dr. Priya Raman"
+                    value={newVideoMentor}
+                    onChange={(e) => setNewVideoMentor(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="font-bold text-foreground">Mentor Designation</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Senior Physics Faculty (IIT Delhi)"
+                    value={newVideoMentorRole}
+                    onChange={(e) => setNewVideoMentorRole(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
+                </div>
+              </div>
+
+              {/* Video Stream URL & Duration */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="font-bold text-foreground">Video Stream URL (MP4 / WebM / Cloud)</label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="https://.../lecture-video.mp4"
+                    value={newVideoUrl}
+                    onChange={(e) => setNewVideoUrl(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="font-bold text-foreground">Duration</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 55:00 mins"
+                    value={newVideoDuration}
+                    onChange={(e) => setNewVideoDuration(e.target.value)}
+                    className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  />
+                </div>
+              </div>
+
+              {/* 3D Concept Thumbnail Preset */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-foreground">3D Concept Artwork Thumbnail</label>
+                <select
+                  value={newVideoThumbnail}
+                  onChange={(e) => setNewVideoThumbnail(e.target.value)}
+                  className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                >
+                  <option value="/concepts/physics_optics_3d.jpg">Physics: Ray Optics & Prisms (3D)</option>
+                  <option value="/concepts/physics_elec_3d.jpg">Physics: Electric Circuits & Magnetic Coils (3D)</option>
+                  <option value="/concepts/math_trig_3d.jpg">Math: Trigonometry & Heights (3D)</option>
+                  <option value="/concepts/math_algebra_3d.jpg">Math: Quadratic & Algebraic Graphs (3D)</option>
+                  <option value="/concepts/chem_molecules_3d.jpg">Chemistry: Carbon & Hydrocarbons (3D)</option>
+                  <option value="/concepts/chem_acids_metal_3d.jpg">Chemistry: Acids & Metallurgy (3D)</option>
+                  <option value="/concepts/bio_heart_3d.jpg">Biology: Human Heart & Nephron (3D)</option>
+                  <option value="/concepts/bio_genetics_3d.jpg">Biology: DNA & Heredity (3D)</option>
+                  <option value="/concepts/sst_history_geo_3d.jpg">Social Studies: History & Indian Soil Maps (3D)</option>
+                  <option value="/concepts/eng_lit_3d.jpg">English: Prose & Grammar (3D)</option>
+                </select>
+              </div>
+
+              {/* Key Topics */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-foreground">Key Topics Covered (Comma Separated)</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Mirror formula derivation, Cartesian sign rules, 5-Mark PYQ solving"
+                  value={newVideoTopics}
+                  onChange={(e) => setNewVideoTopics(e.target.value)}
+                  className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-foreground">Masterclass Description</label>
+                <textarea
+                  rows={2}
+                  placeholder="Write key takeaways, board exam marking schemes, and worked examples covered..."
+                  value={newVideoDesc}
+                  onChange={(e) => setNewVideoDesc(e.target.value)}
+                  className="w-full p-2.5 rounded-xl border border-border bg-background text-foreground text-xs focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-border flex items-center justify-end gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setShowAddVideoModal(false)}
+                  className="px-4 py-2 rounded-xl border border-border hover:bg-muted text-foreground text-xs font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-extrabold text-xs shadow-md shadow-sky-500/25 flex items-center gap-1.5 transition-all"
+                >
+                  <UploadCloud className="w-3.5 h-3.5" />
+                  <span>Publish Recorded Video</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 2: INTERACTIVE VIDEO PLAYER MODAL                                   */}
+      {/* ========================================================================= */}
+      {activeVideoPlayer && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in">
+          <div className="w-full max-w-4xl bg-card border border-border rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 my-6 max-h-[92vh] flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-border shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500">
+                  <Play className="w-5 h-5 fill-sky-500" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-foreground line-clamp-1">
+                    {activeVideoPlayer.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="font-bold text-sky-600 dark:text-sky-400">{activeVideoPlayer.board} 10th</span>
+                    <span>•</span>
+                    <span>Mentor: {activeVideoPlayer.mentorName}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {activeVideoPlayer.duration}</span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setActiveVideoPlayer(null)}
+                className="p-2 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Video Player Box */}
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10 shrink-0">
+              <video
+                ref={(el) => {
+                  if (el) el.playbackRate = playbackSpeed;
+                }}
+                src={activeVideoPlayer.videoUrl}
+                controls
+                autoPlay
+                className="w-full h-full object-contain"
+              />
+            </div>
+
+            {/* Video Controls & Chapter Timestamps */}
+            <div className="space-y-4 overflow-y-auto pr-1 flex-1 text-xs">
+              {/* Playback Speed & Actions Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-muted/40 border border-border">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-foreground flex items-center gap-1 text-[11px]">
+                    <Zap className="w-3.5 h-3.5 text-amber-500" /> Speed:
+                  </span>
+                  {[0.75, 1, 1.25, 1.5, 2].map((spd) => (
+                    <button
+                      key={spd}
+                      onClick={() => setPlaybackSpeed(spd)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all ${
+                        playbackSpeed === spd
+                          ? 'bg-sky-600 text-white shadow-sm'
+                          : 'bg-background hover:bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      {spd}x
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleToggleLike(activeVideoPlayer.id)}
+                    className={`px-3 py-1.5 rounded-xl border border-border hover:bg-muted flex items-center gap-1.5 transition-colors ${
+                      likedVideoIds[activeVideoPlayer.id] ? 'bg-rose-500/10 text-rose-500 border-rose-500/30' : 'text-foreground'
+                    }`}
+                  >
+                    <ThumbsUp className="w-3.5 h-3.5" />
+                    <span className="font-bold">{activeVideoPlayer.likesCount}</span>
+                  </button>
+
+                  {activeVideoPlayer.pdfNotesUrl && (
+                    <button
+                      onClick={() => {
+                        setEnrollToast(`📥 Downloaded Lecture Formula PDF for "${activeVideoPlayer.title}"!`);
+                        setTimeout(() => setEnrollToast(null), 3000);
+                      }}
+                      className="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold flex items-center gap-1.5 transition-all shadow-sm"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download PDF Notes</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Key Topics & Chapter Markers */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-foreground flex items-center gap-1.5">
+                  <BookOpen className="w-4 h-4 text-sky-500" /> Chapter Highlights & Topics Covered:
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {activeVideoPlayer.keyTopics.map((topic, i) => (
+                    <div
+                      key={i}
+                      className="p-2.5 rounded-xl bg-card border border-border flex items-center gap-2 text-foreground font-medium"
+                    >
+                      <span className="w-5 h-5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 font-black text-[10px] flex items-center justify-center shrink-0">
+                        {i + 1}
+                      </span>
+                      <span className="line-clamp-1">{topic}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mentor Contact Strip */}
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-sky-500/5 via-primary/5 to-purple-500/5 border border-sky-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={activeVideoPlayer.mentorAvatar}
+                    alt={activeVideoPlayer.mentorName}
+                    className="w-12 h-12 rounded-2xl object-cover border border-sky-500/40"
+                  />
+                  <div>
+                    <div className="font-bold text-foreground text-sm flex items-center gap-1">
+                      {activeVideoPlayer.mentorName}
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    </div>
+                    <div className="text-xs text-muted-foreground">{activeVideoPlayer.mentorRole}</div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const tutor = SAMPLE_TUTORS.find((t) => t.name?.includes(activeVideoPlayer.mentorName)) || SAMPLE_TUTORS[0];
+                    setActiveVideoPlayer(null);
+                    handleOpenBooking(tutor);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-primary text-primary-foreground font-bold text-xs hover:bg-primary/90 flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Book 1-on-1 Class with Mentor (₹0 Free)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 3: 1-ON-1 LIVE CLASS BOOKING MODAL                                  */}
+      {/* ========================================================================= */}
       {bookingModalTutor && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl border border-border bg-card shadow-2xl p-6 sm:p-8 space-y-6">
