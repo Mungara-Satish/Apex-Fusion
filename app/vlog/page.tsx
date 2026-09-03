@@ -176,10 +176,10 @@ export default function PlatformOverviewPage() {
           <div className="space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/20 text-primary-foreground border border-primary/30 text-xs font-extrabold tracking-wide uppercase">
               <Sparkles className="w-4 h-4 text-amber-300" />
-              <span>EduTen Platform Overview & Admissions Hub</span>
+              <span>Apex Fusion Platform Overview & Admissions Hub</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-              All Details About EduTen — Modern 10th-Grade Board Preparation
+              All Details About Apex Fusion — Modern 10th-Grade Board Preparation
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
               Explore the complete ecosystem built for Class 10 board toppers: Google Gemini Multimodal AI Doubt Solver, authentic CBSE/ICSE/State Board curricula, 3D Pixar-style concept models, live multi-slot classrooms, parent oversight, and early admission registration.

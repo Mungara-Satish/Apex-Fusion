@@ -223,7 +223,7 @@ function LoginContent() {
           <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white shadow-md shadow-primary/30">
             <GraduationCap className="w-4 h-4" />
           </div>
-          <span>EduTen</span>
+          <span>Apex Fusion</span>
         </div>
       </div>
 
@@ -237,7 +237,7 @@ function LoginContent() {
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
-            Sign In to EduTen
+            Sign In to Apex Fusion
           </h1>
           <p className="text-xs text-muted-foreground max-w-xs mx-auto">
             Choose your account role below to access your tailored dashboard.

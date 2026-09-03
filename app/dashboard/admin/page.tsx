@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
               <Shield className="w-4 h-4" /> Root Superuser Security Console
             </div>
             <h1 className="text-3xl font-extrabold text-foreground tracking-tight">
-              EduTen Administration & Access Control Hub
+              Apex Fusion Administration & Access Control Hub
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground">
               Only Administrators have full master privileges across students, parents, tutors, and financial transactions.

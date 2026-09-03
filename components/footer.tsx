@@ -23,7 +23,7 @@ export function Footer() {
               <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center text-white">
                 <GraduationCap className="h-4 w-4" />
               </div>
-              <span>EduTen</span>
+              <span>Apex Fusion</span>
             </div>
             <p className="text-muted-foreground leading-relaxed">
               The purpose-built 10th-grade learning platform for CBSE, ICSE, and State Board exam excellence. Live classes, doubt clearance, and adaptive mock tests.
@@ -71,7 +71,7 @@ export function Footer() {
         </div>
 
         <div className="pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
-          <p>© {new Date().getFullYear()} EduTen - 10th Grade Online Tutoring & Board Prep Platform. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Apex Fusion - 10th Grade Online Tutoring & Board Prep Platform. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-muted-foreground">
               Designed for 10th-grade board toppers <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />

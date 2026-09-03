@@ -9,7 +9,7 @@ import { Footer } from '@/components/footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'EduTen | Modern 10th-Grade Online Tutoring & Board Prep Platform',
+  title: 'Apex Fusion | Modern 10th-Grade Online Tutoring & Board Prep Platform',
   description:
     'Comprehensive 10th Grade online tutoring platform covering Mathematics, Science (Physics, Chemistry, Biology), Social Studies, and English for CBSE, ICSE, and State Boards. Live interactive whiteboard classes, doubt clearance, and auto-graded mock tests.',
 };

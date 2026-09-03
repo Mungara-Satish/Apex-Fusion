@@ -445,7 +445,7 @@ export default function DirectoryPage() {
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary-foreground border border-primary/30 text-xs font-bold tracking-wide uppercase">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>EduTen Administrative Directory & Access Control Hub</span>
+              <span>Apex Fusion Administrative Directory & Access Control Hub</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
               Students, Parents & Tutors Information
@@ -2068,7 +2068,7 @@ export default function DirectoryPage() {
                 </div>
                 <div>
                   <h2 className="text-xl font-extrabold text-foreground flex items-center gap-2">
-                    <span>EduTen All Login Credentials Sheet</span>
+                    <span>Apex Fusion All Login Credentials Sheet</span>
                     <span className="text-xs px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-bold">
                       {directoryUsers.length} Accounts
                     </span>

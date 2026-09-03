@@ -114,7 +114,7 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="leading-none flex items-center gap-1.5">
-                EduTen{' '}
+                Apex Fusion{' '}
                 <span className={`text-[10px] uppercase font-extrabold tracking-wider px-1.5 py-0.5 rounded ${
                   activeBoard === 'ICSE'
                     ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
