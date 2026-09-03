@@ -76,24 +76,23 @@ export function Navbar() {
 
     if (currentRole === 'TUTOR') {
       return [
-        { name: 'Tutor Dashboard', href: '/dashboard/tutor', icon: Users, badge: 'Live Class' },
-        { name: 'Students & Directory', href: '/directory', icon: Users },
-        { name: 'Platform Overview', href: '/vlog', icon: Sparkles, badge: 'Details' },
+        { name: 'Tutor Dashboard', href: '/dashboard/tutor', icon: Users, badge: 'Live' },
+        { name: 'Directory', href: '/directory', icon: Users },
         { name: 'AI Doubt Assistant', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI' },
         { name: 'Doubt Queue', href: '/doubts', icon: HelpCircle },
         { name: 'Syllabus Hub', href: '/subjects', icon: BookOpen },
-        { name: 'Board Passes', href: '/pricing', icon: CreditCard },
+        { name: 'Passes', href: '/pricing', icon: CreditCard },
       ];
     }
 
     if (currentRole === 'ADMIN') {
       return [
-        { name: 'Admin Console', href: '/dashboard/admin', icon: HeartHandshake, badge: 'Root Access' },
-        { name: 'Students, Parents & Tutors', href: '/directory', icon: Users, badge: 'Credentials' },
-        { name: 'Platform Overview', href: '/vlog', icon: Sparkles, badge: 'Details' },
+        { name: 'Admin Console', href: '/dashboard/admin', icon: HeartHandshake, badge: 'Root' },
+        { name: 'Directory', href: '/directory', icon: Users, badge: 'Users' },
         { name: 'AI Doubt Solver', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI' },
         { name: 'Subjects', href: '/subjects', icon: BookOpen },
         { name: 'Tutors & Ops', href: '/tutors', icon: Users },
+        { name: 'Overview', href: '/vlog', icon: Sparkles },
       ];
     }
 
@@ -129,18 +128,18 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 gap-4">
         {/* Logo with Dynamic Board Name */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg sm:text-xl tracking-tight text-foreground">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-primary flex items-center justify-center text-white shadow-md shadow-primary/25">
-              <GraduationCap className="h-5 w-5" />
+        <div className="flex items-center gap-4 xl:gap-6 shrink-0 min-w-max">
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg sm:text-xl tracking-tight text-foreground shrink-0 whitespace-nowrap">
+            <div className="h-9 w-9 shrink-0 rounded-xl bg-gradient-to-tr from-indigo-600 to-primary flex items-center justify-center text-white shadow-md shadow-primary/25">
+              <GraduationCap className="h-5 w-5 shrink-0" />
             </div>
-            <div className="flex flex-col">
-              <span className="leading-none flex items-center gap-1.5">
-                Apex Fusion{' '}
+            <div className="flex flex-col shrink-0 min-w-max justify-center">
+              <div className="leading-tight flex items-center gap-1.5 whitespace-nowrap font-bold">
+                <span>Apex Fusion</span>
                 {showBoardBadge && logoBoard && (
-                  <span className={`text-[10px] uppercase font-extrabold tracking-wider px-1.5 py-0.5 rounded ${
+                  <span className={`text-[10px] uppercase font-extrabold tracking-wider px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ${
                     logoBoard === 'ICSE'
                       ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30'
                       : logoBoard === 'STATE'
@@ -150,13 +149,15 @@ export function Navbar() {
                     {logoBoard} 10
                   </span>
                 )}
+              </div>
+              <span className="text-[10px] text-muted-foreground font-normal leading-tight whitespace-nowrap">
+                {logoSubtitle}
               </span>
-              <span className="text-[10px] text-muted-foreground font-normal">{logoSubtitle}</span>
             </div>
           </Link>
 
           {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1 shrink-0">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
@@ -164,7 +165,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'bg-primary/10 text-primary font-bold'
                       : link.highlight
@@ -172,10 +173,10 @@ export function Navbar() {
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted/60'
                   }`}
                 >
-                  <Icon className="h-3.5 w-3.5" />
-                  {link.name}
+                  <Icon className="h-3.5 w-3.5 shrink-0" />
+                  <span>{link.name}</span>
                   {link.badge && (
-                    <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-extrabold ${
+                    <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-extrabold shrink-0 ${
                       link.badge === 'Gemini AI'
                         ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm animate-pulse'
                         : 'bg-rose-500 text-white'
