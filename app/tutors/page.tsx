@@ -186,6 +186,8 @@ const INITIAL_RECORDED_VIDEOS: RecordedVideoItem[] = [
 
 export default function TutorsPage() {
   const {
+    currentRole,
+    currentUser,
     addBooking,
     currentBoard,
     hasActiveSubscription,
@@ -193,7 +195,11 @@ export default function TutorsPage() {
     setSubscription,
     enrolledLiveSessionIds,
     enrollInLiveSession,
+    recordedVideos,
+    addRecordedVideo,
   } = useAppStore();
+
+  const isTutorOrAdmin = currentRole === 'TUTOR' || currentRole === 'ADMIN';
 
   const [selectedSubject, setSelectedSubject] = useState<string>('ALL');
   const [selectedTiming, setSelectedTiming] = useState<string>('ALL');
@@ -208,7 +214,6 @@ export default function TutorsPage() {
   const [enrollToast, setEnrollToast] = useState<string | null>(null);
 
   // --- RECORDED VIDEOS STATE ---
-  const [recordedVideos, setRecordedVideos] = useState<RecordedVideoItem[]>(INITIAL_RECORDED_VIDEOS);
   const [selectedVideoSubject, setSelectedVideoSubject] = useState<string>('ALL');
   const [selectedVideoBoard, setSelectedVideoBoard] = useState<string>('ALL');
   const [showAddVideoModal, setShowAddVideoModal] = useState<boolean>(false);
@@ -306,11 +311,6 @@ export default function TutorsPage() {
   const handleToggleLike = (videoId: string) => {
     const isLiked = likedVideoIds[videoId];
     setLikedVideoIds((prev) => ({ ...prev, [videoId]: !isLiked }));
-    setRecordedVideos((prev) =>
-      prev.map((v) =>
-        v.id === videoId ? { ...v, likesCount: v.likesCount + (isLiked ? -1 : 1) } : v
-      )
-    );
   };
 
   const handleAddRecordedVideo = (e: React.FormEvent) => {
@@ -321,8 +321,7 @@ export default function TutorsPage() {
       ? newVideoTopics.split(',').map((t) => t.trim()).filter(Boolean)
       : ['Comprehensive Chapter Walkthrough', 'Board Exam PYQ Solving', 'Formula Application'];
 
-    const newRec: RecordedVideoItem = {
-      id: `rec-${Date.now()}`,
+    addRecordedVideo({
       title: newVideoTitle.trim(),
       subjectName: newVideoSubject,
       subjectCategory: newVideoCategory,
@@ -334,20 +333,16 @@ export default function TutorsPage() {
           ? 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80'
           : newVideoMentor.includes('Rajesh')
           ? 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80'
-          : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+          : currentUser?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
       thumbnail: newVideoThumbnail,
       videoUrl: newVideoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       duration: newVideoDuration || '45:00 mins',
-      recordedDate: 'Just now',
-      viewsCount: 1,
-      likesCount: 1,
       description: newVideoDesc || 'Complete high-definition recorded masterclass with step-by-step whiteboard derivations and board exam question solving.',
       keyTopics: topicsArray,
       pdfNotesUrl: newVideoPdfNotes || '/resources/physics-optics-notes.pdf',
       isPopular: true,
-    };
+    });
 
-    setRecordedVideos([newRec, ...recordedVideos]);
     setShowAddVideoModal(false);
 
     // Reset Form
@@ -355,7 +350,7 @@ export default function TutorsPage() {
     setNewVideoDesc('');
     setNewVideoTopics('');
 
-    setEnrollToast(`🎉 Recorded video "${newRec.title}" successfully added to Masterclass Vault!`);
+    setEnrollToast(`🎉 Recorded video "${newVideoTitle.trim()}" successfully published to Masterclass Vault!`);
     setTimeout(() => setEnrollToast(null), 4000);
   };
 
@@ -424,16 +419,18 @@ export default function TutorsPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-            {/* + Add Recorded Video Button */}
-            <button
-              onClick={() => setShowAddVideoModal(true)}
-              className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-sky-500/25 transition-all hover:scale-105"
-            >
-              <Plus className="w-4 h-4" />
-              <span>+ Add Recorded Video</span>
-            </button>
-          </div>
+          {/* + Add Recorded Video Button (Only visible for Tutors & Admins, removed for Students) */}
+          {isTutorOrAdmin && (
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+              <button
+                onClick={() => setShowAddVideoModal(true)}
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-sky-500/25 transition-all hover:scale-105"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Add Recorded Video</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Filter Pills for Recorded Videos */}

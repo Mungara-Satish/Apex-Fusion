@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Role, Board, ChapterStatus, Booking, Doubt, DoubtReply, MockTest, StudyResource, User, InterestedCandidate } from './types';
+import { Role, Board, ChapterStatus, Booking, Doubt, DoubtReply, MockTest, StudyResource, User, InterestedCandidate, RecordedVideoItem } from './types';
 import {
   CURRENT_STUDENT,
   CURRENT_TUTOR,
@@ -12,6 +12,7 @@ import {
   SAMPLE_TUTORS,
   SAMPLE_DIRECTORY_USERS,
   SAMPLE_INTERESTED_CANDIDATES,
+  SAMPLE_RECORDED_VIDEOS,
   BADGES,
   getChaptersForBoard,
 } from './mock-data';
@@ -136,6 +137,11 @@ interface AppState {
   isCamMuted: boolean;
   toggleMic: () => void;
   toggleCam: () => void;
+
+  // Recorded Video Masterclasses
+  recordedVideos: RecordedVideoItem[];
+  addRecordedVideo: (video: Omit<RecordedVideoItem, 'id' | 'viewsCount' | 'likesCount' | 'recordedDate'>) => void;
+  deleteRecordedVideo: (videoId: string) => void;
 }
 
 // Helper to get initial stored role safely on client
@@ -481,4 +487,25 @@ export const useAppStore = create<AppState>((set, get) => ({
   isCamMuted: false,
   toggleMic: () => set((state) => ({ isMicMuted: !state.isMicMuted })),
   toggleCam: () => set((state) => ({ isCamMuted: !state.isCamMuted })),
+
+  // Recorded Video Masterclasses
+  recordedVideos: SAMPLE_RECORDED_VIDEOS,
+  addRecordedVideo: (videoData) =>
+    set((state) => ({
+      recordedVideos: [
+        {
+          ...videoData,
+          id: `rec-${Date.now()}`,
+          viewsCount: 1,
+          likesCount: 1,
+          recordedDate: 'Just now',
+          isPopular: true,
+        },
+        ...state.recordedVideos,
+      ],
+    })),
+  deleteRecordedVideo: (videoId) =>
+    set((state) => ({
+      recordedVideos: state.recordedVideos.filter((v) => v.id !== videoId),
+    })),
 }));

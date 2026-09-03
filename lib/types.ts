@@ -352,3 +352,24 @@ export interface Badge {
   unlocked?: boolean;
   unlockedAt?: string;
 }
+
+export interface RecordedVideoItem {
+  id: string;
+  title: string;
+  subjectName: string;
+  subjectCategory: string;
+  board: Board;
+  mentorName: string;
+  mentorRole: string;
+  mentorAvatar: string;
+  thumbnail: string;
+  videoUrl: string;
+  duration: string;
+  recordedDate: string;
+  viewsCount: number;
+  likesCount: number;
+  description: string;
+  keyTopics: string[];
+  pdfNotesUrl?: string;
+  isPopular?: boolean;
+}
