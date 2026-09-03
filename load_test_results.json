@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-09-03T10:00:01.532Z",
+  "results": [
+    {
+      "stageName": "Stage 1: Warm-up",
+      "concurrency": 50,
+      "totalRequests": 50,
+      "successful": 50,
+      "failed": 0,
+      "failureRatePercent": "0.00",
+      "rps": "736.4",
+      "stats": {
+        "min": 37.31270000000001,
+        "med": 55.1657,
+        "p90": 58.39459999999998,
+        "p95": 58.92920000000001,
+        "p99": 59.18530000000001,
+        "max": 59.18530000000001,
+        "avg": 51.429716000000006
+      },
+      "stageDurationSec": "0.07",
+      "heapMb": "13.1"
+    },
+    {
+      "stageName": "Stage 2: Ramp-up",
+      "concurrency": 250,
+      "totalRequests": 250,
+      "successful": 250,
+      "failed": 0,
+      "failureRatePercent": "0.00",
+      "rps": "1191.4",
+      "stats": {
+        "min": 89.59530000000001,
+        "med": 146.565,
+        "p90": 181.0651,
+        "p95": 181.9971,
+        "p99": 183.72289999999998,
+        "max": 183.89700000000002,
+        "avg": 151.28243319999993
+      },
+      "stageDurationSec": "0.21",
+      "heapMb": "22.1"
+    },
+    {
+      "stageName": "Stage 3: High Load",
+      "concurrency": 500,
+      "totalRequests": 500,
+      "successful": 500,
+      "failed": 0,
+      "failureRatePercent": "0.00",
+      "rps": "1228.8",
+      "stats": {
+        "min": 137.5288,
+        "med": 322.75010000000003,
+        "p90": 370.0298,
+        "p95": 370.29540000000003,
+        "p99": 370.54909999999995,
+        "max": 370.7724,
+        "avg": 286.9026552000002
+      },
+      "stageDurationSec": "0.41",
+      "heapMb": "38.3"
+    },
+    {
+      "stageName": "Stage 4: Peak Stress (1,000 VUs)",
+      "concurrency": 1000,
+      "totalRequests": 1000,
+      "successful": 1000,
+      "failed": 0,
+      "failureRatePercent": "0.00",
+      "rps": "1666.7",
+      "stats": {
+        "min": 332.38530000000014,
+        "med": 334.09979999999996,
+        "p90": 550.7568,
+        "p95": 551.0622,
+        "p99": 553.0776999999999,
+        "max": 553.1895000000001,
+        "avg": 429.55526359999965
+      },
+      "stageDurationSec": "0.60",
+      "heapMb": "76.0"
+    }
+  ],
+  "passedOverall": true
+}
