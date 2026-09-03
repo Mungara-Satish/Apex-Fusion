@@ -9,7 +9,7 @@ export function Footer() {
   const pathname = usePathname();
 
   // Remove footer on login page
-  if (pathname?.startsWith('/login')) {
+  if (pathname === '/' || pathname?.startsWith('/login')) {
     return null;
   }
 

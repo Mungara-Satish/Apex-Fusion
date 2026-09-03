@@ -122,7 +122,7 @@ export function Navbar() {
   };
 
   // Remove header on login page (AFTER all hooks have executed)
-  if (pathname?.startsWith('/login')) {
+  if (pathname === '/' || pathname?.startsWith('/login')) {
     return null;
   }
 
@@ -131,7 +131,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 gap-4">
         {/* Logo with Dynamic Board Name */}
         <div className="flex items-center gap-4 xl:gap-6 shrink-0 min-w-max">
-          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg sm:text-xl tracking-tight text-foreground shrink-0 whitespace-nowrap">
+          <Link href={dashboardUrl} className="flex items-center gap-2.5 font-bold text-lg sm:text-xl tracking-tight text-foreground shrink-0 whitespace-nowrap">
             <div className="h-9 w-9 shrink-0 rounded-xl bg-gradient-to-tr from-indigo-600 to-primary flex items-center justify-center text-white shadow-md shadow-primary/25">
               <GraduationCap className="h-5 w-5 shrink-0" />
             </div>
