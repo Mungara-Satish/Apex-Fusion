@@ -42,7 +42,6 @@ export function Navbar() {
       return [
         { name: 'Parent Oversight', href: '/dashboard/parent', icon: HeartHandshake, badge: 'Active' },
         { name: 'CCE Report Card', href: '/parent/report-card', icon: FileCheck2 },
-        { name: 'Students & Tutors', href: '/directory', icon: Users },
         { name: 'Platform Overview', href: '/vlog', icon: Sparkles, badge: 'Details' },
         { name: 'AI Doubt Insights', href: '/ai-doubt-solver', icon: Bot, badge: 'Gemini AI', highlight: true },
         { name: 'Syllabus & Notes', href: '/subjects', icon: BookOpen },
