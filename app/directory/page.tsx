@@ -126,6 +126,11 @@ export default function DirectoryPage() {
   const [editLinkedStudent, setEditLinkedStudent] = useState('');
   const [editSchoolOrSubject, setEditSchoolOrSubject] = useState('');
 
+  // --- Modal State for Credentials Sheet View ---
+  const [showCredentialsSheetModal, setShowCredentialsSheetModal] = useState(false);
+  const [sheetSearch, setSheetSearch] = useState('');
+  const [sheetRoleFilter, setSheetRoleFilter] = useState<'ALL' | 'STUDENT' | 'PARENT' | 'TUTOR' | 'ADMIN'>('ALL');
+
   const isAdmin = currentRole === 'ADMIN';
 
   const showNotification = (msg: string) => {
@@ -646,6 +651,16 @@ export default function DirectoryPage() {
               >
                 <Plus className="w-4 h-4" />
                 <span>+ Add Tutor</span>
+              </button>
+
+              {/* View All Credentials Sheet Modal Button */}
+              <button
+                onClick={() => setShowCredentialsSheetModal(true)}
+                className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all"
+                title="View and copy all user login credentials in a complete spreadsheet"
+              >
+                <FileSpreadsheet className="w-4 h-4" />
+                <span>📋 Credentials Sheet</span>
               </button>
 
               {/* Quick Grant All Pending */}
@@ -2037,6 +2052,208 @@ export default function DirectoryPage() {
                 </div>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL 3: MASTER CREDENTIALS SPREADSHEET VIEW & CSV EXPORT --- */}
+      {showCredentialsSheetModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="w-full max-w-6xl bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 my-6 max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                  <FileSpreadsheet className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-extrabold text-foreground flex items-center gap-2">
+                    <span>EduTen All Login Credentials Sheet</span>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-bold">
+                      {directoryUsers.length} Accounts
+                    </span>
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    Complete master record of active credentials for Students, Parents, Tutors, and Administrators.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const csvRows = [
+                      ['Role', 'Full Name', 'Board', 'Username', 'Email', 'Password', 'Status', 'Pass Tier'].join(','),
+                      ...directoryUsers.map((u) =>
+                        [
+                          u.role,
+                          `"${u.name}"`,
+                          u.board,
+                          u.username || u.email.split('@')[0],
+                          u.email,
+                          `"${u.tempPassword || 'Password@2026'}"`,
+                          u.credentialStatus || 'APPROVED',
+                          `"${u.subscriptionPass || 'Super Pass'}"`,
+                        ].join(',')
+                      ),
+                    ].join('\n');
+                    navigator.clipboard.writeText(csvRows);
+                    showNotification('📋 Complete Credentials CSV copied to clipboard!');
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-muted hover:bg-muted/80 text-foreground text-xs font-bold border border-border flex items-center gap-1.5 transition-all"
+                >
+                  <Copy className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Copy Full Sheet CSV</span>
+                </button>
+
+                <button
+                  onClick={() => setShowCredentialsSheetModal(false)}
+                  className="p-2 rounded-xl hover:bg-muted text-muted-foreground"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+              <div className="relative w-full sm:w-80">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search by name, username, email, or roll..."
+                  value={sheetSearch}
+                  onChange={(e) => setSheetSearch(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-muted/50 border border-border text-xs focus:outline-none focus:ring-2 focus:ring-primary/40"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-muted/60 border border-border text-xs w-full sm:w-auto">
+                {(['ALL', 'STUDENT', 'PARENT', 'TUTOR', 'ADMIN'] as const).map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setSheetRoleFilter(r)}
+                    className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${
+                      sheetRoleFilter === r
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {r === 'ALL' ? 'All Roles' : r.charAt(0) + r.slice(1).toLowerCase() + 's'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Scrollable Spreadsheet Table */}
+            <div className="flex-1 overflow-auto rounded-2xl border border-border shadow-inner bg-card">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead className="bg-muted/70 text-muted-foreground uppercase text-[10px] font-extrabold sticky top-0 border-b border-border z-10">
+                  <tr>
+                    <th className="py-3 px-3.5">Role</th>
+                    <th className="py-3 px-3.5">Full Name</th>
+                    <th className="py-3 px-3.5">Board</th>
+                    <th className="py-3 px-3.5">Username / Login ID</th>
+                    <th className="py-3 px-3.5">Email Address</th>
+                    <th className="py-3 px-3.5">Password</th>
+                    <th className="py-3 px-3.5">Status</th>
+                    <th className="py-3 px-3.5">Pass / Access Plan</th>
+                    <th className="py-3 px-3.5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/60 font-medium text-foreground">
+                  {directoryUsers
+                    .filter((u) => {
+                      const matchesRole = sheetRoleFilter === 'ALL' || u.role === sheetRoleFilter;
+                      const matchesSearch =
+                        u.name.toLowerCase().includes(sheetSearch.toLowerCase()) ||
+                        u.email.toLowerCase().includes(sheetSearch.toLowerCase()) ||
+                        (u.username && u.username.toLowerCase().includes(sheetSearch.toLowerCase())) ||
+                        (u.rollNumber && u.rollNumber.toLowerCase().includes(sheetSearch.toLowerCase()));
+                      return matchesRole && matchesSearch;
+                    })
+                    .map((u) => {
+                      const isApproved = u.credentialStatus === 'APPROVED' || !u.credentialStatus;
+                      const isPending = u.credentialStatus === 'PENDING';
+                      const isSuspended = u.credentialStatus === 'SUSPENDED';
+
+                      const roleBadgeClass =
+                        u.role === 'STUDENT'
+                          ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30'
+                          : u.role === 'PARENT'
+                          ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30'
+                          : u.role === 'TUTOR'
+                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                          : 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30';
+
+                      return (
+                        <tr key={u.id} className="hover:bg-muted/30 transition-colors">
+                          <td className="py-3 px-3.5">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${roleBadgeClass}`}>
+                              {u.role}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3.5 font-bold">{u.name}</td>
+                          <td className="py-3 px-3.5">
+                            <span className="px-2 py-0.5 rounded bg-muted text-[10px] font-extrabold uppercase">
+                              {u.board}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3.5 font-mono text-[11px] text-primary font-bold">
+                            {u.username || u.email.split('@')[0]}
+                          </td>
+                          <td className="py-3 px-3.5 text-muted-foreground">{u.email}</td>
+                          <td className="py-3 px-3.5 font-mono text-[11px] bg-muted/40 font-bold">
+                            {u.tempPassword || 'Password@2026'}
+                          </td>
+                          <td className="py-3 px-3.5">
+                            <span
+                              className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                isApproved
+                                  ? 'bg-emerald-500/10 text-emerald-600'
+                                  : isPending
+                                  ? 'bg-amber-500/10 text-amber-600 animate-pulse'
+                                  : 'bg-rose-500/10 text-rose-600'
+                              }`}
+                            >
+                              {isApproved ? 'Active' : isPending ? 'Pending' : 'Suspended'}
+                            </span>
+                          </td>
+                          <td className="py-3 px-3.5 text-[11px] text-muted-foreground truncate max-w-[150px]">
+                            {u.subscriptionPass || 'Super Pass'}
+                          </td>
+                          <td className="py-3 px-3.5 text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleCopyCredentials(u)}
+                              className="px-2.5 py-1 rounded-lg bg-primary text-white text-[11px] font-bold hover:bg-primary/90 transition-all inline-flex items-center gap-1 shadow-sm"
+                              title="Copy login details for this user"
+                            >
+                              {copiedId === u.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                              <span>{copiedId === u.id ? 'Copied' : 'Copy'}</span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Footer Summary */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground pt-2 border-t border-border shrink-0">
+              <div>
+                Showing <strong>{directoryUsers.length} total members</strong>. To change credentials, use the Edit button on any card in the main directory.
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCredentialsSheetModal(false)}
+                className="px-4 py-2 rounded-xl bg-primary text-white font-bold text-xs hover:bg-primary/90 transition-all"
+              >
+                Close Sheet
+              </button>
+            </div>
           </div>
         </div>
       )}
