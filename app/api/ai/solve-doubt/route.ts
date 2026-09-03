@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { solveDoubtWithGemini } from '@/lib/gemini';
 
+// Network-Centric Edge Runtime: executes at the closest global edge node
+export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

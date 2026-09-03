@@ -5,6 +5,7 @@ import 'katex/dist/katex.min.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { NetworkStatusBadge } from '@/components/network-status-badge';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
+          <NetworkStatusBadge />
         </ThemeProvider>
       </body>
     </html>
