@@ -99,7 +99,7 @@ export default function PlatformOverviewPage() {
   // Google Form Link & Mode State
   const [activeFormMode, setActiveFormMode] = useState<'SMART' | 'EMBED'>('SMART');
   const [isEditingFormUrl, setIsEditingFormUrl] = useState(false);
-  const [customUrlInput, setCustomUrlInput] = useState(googleFormUrl || 'https://forms.gle/EduTen2026BoardPrep');
+  const [customUrlInput, setCustomUrlInput] = useState(googleFormUrl || 'https://docs.google.com/forms/d/e/1FAIpQLSci3j7AKjJ11-HzIyE5P7HcjfJJjsMQok446SQWJK8d2P8vVQ/viewform?usp=publish-editor');
   const [copiedFormUrl, setCopiedFormUrl] = useState(false);
   const [urlSaveMsg, setUrlSaveMsg] = useState(false);
 
@@ -674,8 +674,9 @@ export default function PlatformOverviewPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    setCustomUrlInput('https://forms.gle/EduTen2026BoardPrep');
-                    setGoogleFormUrl('https://forms.gle/EduTen2026BoardPrep');
+                    const defaultUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSci3j7AKjJ11-HzIyE5P7HcjfJJjsMQok446SQWJK8d2P8vVQ/viewform?usp=publish-editor';
+                    setCustomUrlInput(defaultUrl);
+                    setGoogleFormUrl(defaultUrl);
                     setIsEditingFormUrl(false);
                     setUrlSaveMsg(true);
                     setTimeout(() => setUrlSaveMsg(false), 3000);

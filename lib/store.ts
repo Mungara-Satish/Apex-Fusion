@@ -377,7 +377,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   // Interested Candidates & Registration Leads
   interestedCandidates: SAMPLE_INTERESTED_CANDIDATES,
-  googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe_EduTenRegistration2026/viewform',
+  googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSci3j7AKjJ11-HzIyE5P7HcjfJJjsMQok446SQWJK8d2P8vVQ/viewform?usp=publish-editor',
   setGoogleFormUrl: (url: string) => set({ googleFormUrl: url }),
   addInterestedCandidate: (candData) =>
     set((state) => {
